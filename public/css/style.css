@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Azaret';
+    src: url('../fonts/AzeretMono-VariableFont_wght.ttf') format('truetype');
+  }
+  
+  body {
+    font-family: 'Azaret';
+  
+  }
