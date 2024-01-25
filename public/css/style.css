@@ -16,7 +16,7 @@
   height: 120px; /* Adjust the height as needed */
   display: flex;
   align-items: flex-start;
- padding-left: 10px;
+  padding: 60px;
 }
 
 .Title{
