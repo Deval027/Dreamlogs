@@ -1,3 +1,4 @@
+
 @font-face {
     font-family: 'Azaret';
     src: url('../fonts/AzeretMono-VariableFont_wght.ttf') format('truetype');
@@ -11,12 +12,9 @@
   }
 
 .head{
-  background-color: rgb(38, 19, 99); /* Replace with your desired background color */
-  width: 120%;
-  height: 120px; /* Adjust the height as needed */
   display: flex;
-  align-items: flex-start;
-  padding: 60px;
+  justify-content: start;
+  padding: 10px;
 }
 
 .Title{
