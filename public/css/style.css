@@ -1,4 +1,3 @@
-
 @font-face {
     font-family: 'Azaret';
     src: url('../fonts/AzeretMono-VariableFont_wght.ttf') format('truetype');
@@ -12,22 +11,27 @@
   }
 
 .head{
+  position: relative;
+  z-index: 1;
   float: right;
   margin-right: 20%;
   display: flex;
   justify-content: start;
   padding: 10px;
-  margin-right: 600px;
+  margin-right: 615px;
   width: 65%;
 }
 
 .Title{
+  z-index: 1;
   padding-top: 25px;
   margin: 0;
   color: rgb(151, 136, 200);
+  font-size: 40px;
 }
 .sidebar{
-  position: static;
+  z-index: -1;
+  position: fixed;
   width: 15%;
   height: 100vh;
   background: #312450;
@@ -42,43 +46,153 @@
   font-weight: bold;
 }
 a {
+  position: relative;
   color: rgb(151, 136, 200);
   line-height: 5em;
   text-transform: uppercase;
   text-decoration: none;
   letter-spacing: 0.4em;
+  font-size: 15px;
 
-  color: rgba(#FFF, 0.35);
-  display: block;
-  transition: all ease-out 300ms;
-}
-&.active a {
-  color: white;
-}
-
-&:not(.active)::after {
-  opacity: 0.2;
-}
-
-&:not(.active):hover a {
-  color: rgba(#FFF, 0.75);
-}
-
-&::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 0.2em;
-  background: black;
-  left: 0;
-  bottom: 0;
-  background-image: linear-gradient(to right, #5e42a6, #b74e91)
 }
 .nav ul {
   list-style: none;
   
   li {
+    margin-right: 20px;
+    display: inline-block;
     position: relative;
     margin: 3.2em 0;
   }
+}
+.main{
+  position: relative;
+  float: right;
+  margin: 0;
+  display: grid;
+  gap: 50px;
+  grid-template-columns: auto auto;
+  padding: 10px;
+  width: 1200px;
+  height: 650px;
+  box-sizing: border-box;
+  margin: 0;
+  left: -200px;
+  bottom: -100px;
+   
+}
+.box{
+  color: rgb(151, 136, 200);
+  background-color: rgb(58, 38, 124);
+  position: relative;
+  border: 2px solid #312450;
+  border-radius: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 19px;
+  transition: .5s;
+}
+.left_top{
+  position: absolute;
+  top: 40px;
+  left: 40px;
+}
+.right_top{
+  position: absolute;
+  top: 40px;
+  right: 40px;
+}
+.left_bottom{
+  position: absolute;
+  left: 40px;
+  bottom: 50px;
+}
+.right_bottom{
+  position: absolute;
+  bottom: 50px;
+  right: 40px;
+}
+.adition{
+  text-align: center;
+  border: none;
+  background-color: rgb(58, 38, 124);
+  color: rgb(151, 136, 200);
+  display: inline-block;
+  font-size: 22px;
+  cursor:pointer;
+  margin: 4px 2px;
+  height: 50px;
+  width: 500px;
+  transition: all 0.5s;
+  border-radius: 20px;
+}
+
+
+.add{
+  margin-top: 90px;
+  position: fixed;
+  margin-left: 44%;
+}
+
+.adition span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.adition span:after {
+  content: '+';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.adition:hover span {
+  padding-right: 25px;
+}
+
+.adition:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+/* sidebar hover */
+.box::before{
+  content: '';
+  background: rgb(151, 136, 200);
+  transition: .5s;
+  transform: scale(.9);
+  z-index: -1;
+}
+.box:hover::before{
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgb(151, 136, 200);
+}
+.box:hover{
+  color: rgb(151, 136, 200);
+  box-shadow: 0 0 5px rgb(151, 136, 200);
+  text-shadow: 0 0 5px rgb(151, 136, 200);
+}
+/**/
+/* sidebar hover */
+
+a::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background-color: rgb(151, 136, 200);
+  bottom: -6px;
+  left: 0;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform .3s ease-in-out;
+}
+
+li:hover a::before {
+  transform-origin: left;
+  transform: scaleX(1);
 }
