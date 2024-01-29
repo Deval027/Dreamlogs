@@ -21,8 +21,54 @@
                 </ul>
               </nav>                   
         </aside>
-    <!-- The true desire for me is empty-->    
+    <!-- The true desire for me is something empty-->    
     <div class="add"><button class="adition"><span>Write new dream</span></button></div>
+    <div class="LogEntry">
+        <div>
+        <form action="">
+            <label for="Name_input">Dream title
+            <input class="Name_input" name="Name_input" type="text" placeholder="Enter title">
+            </label>
+            <label for="dayInput">Dream date (dd/mm/yyyy)
+            <input type="number" class="dayInput" name="dayInput"  placeholder="day" oninput="validateDayFormat(this)">
+                <select select class="monthInput" onchange="validateMonthFormat(this)">
+  <option value="01">January</option>
+  <option value="02">February</option>
+  <option value="03">March</option>
+  <option value="04">April</option>
+  <option value="05">May</option>
+  <option value="06">June</option>
+  <option value="07">July</option>
+  <option value="08">August</option>
+  <option value="09">September</option>
+  <option value="10">October</option>
+  <option value="11">November</option>
+  <option value="12">December</option>
+                </select>
+            <input type="text" id="yearInput" maxlength="4" placeholder="year" oninput="validateYearFormat(this)"><br>
+            <label for="typeD">Type of dream</label>
+            <select name="typeD" id="typeD" class=typeD>
+            <option value="0">Normal dream</option>
+            <option value="1">Lucid dream</option>
+            <option value="2">Nightmare</option>
+            </select>
+            <label for="clarity">Clarity
+            <select name="clarity" id="clarity" class="clarity">Clarity
+            <option value="0">0%-25%</option>
+            <option value="1">25%-50%</option>
+            <option value="2">50%-75%</option>
+            <option value="3">75%-100%</option>
+            </select>
+            </label>
+            <br>
+            <label for="DreamDescription">Dream Description <br>
+            <textarea name="DreamDescription" rows="4" cols="50" placeholder="Enter dream description"></textarea>
+            </label>
+
+            <input type="submit" placeholder="guardar">
+        </form>
+        </div>
+    </div>
     <Div class="main">
         <button class="box">
             <span class="left_top">Dream name:</span>
@@ -49,6 +95,7 @@
             <span class="right_bottom">Clarity</span>
         </button>
     </Div>
-
+<script src="../functions/windows.js" type="text/javascript"></script>
+<script src="../inputs/windows.js" type="text/javascript"></script>
 </body>
 </html>
