@@ -66,7 +66,6 @@ a {
   }
 }
 .main{
-  z-index: 1;
   position: relative;
   float: right;
   margin: 0;
@@ -130,7 +129,6 @@ a {
 
 
 .add{
-  z-index: 1;
   margin-top: 90px;
   position: fixed;
   margin-left: 44%;
@@ -218,10 +216,14 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 .LogEntry{
+  position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   display: grid;
   place-items: center;
   width: 70%;
-  z-index: 3;
+  z-index: 1;
   border: solid 1px rgb(58, 38, 124); 
   background-color: #312450;
   color: rgb(151, 136, 200);
