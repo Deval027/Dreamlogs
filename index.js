@@ -8,7 +8,11 @@ const db = require('./database');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const path = require('path');
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'views')));
 app.get('/', (req, res) => {
   fs.readFile('views/login.html', 'utf8', (err, data) => {
     if (err) {
@@ -28,7 +32,7 @@ app.use(session({
   secret: 'session',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 } //1 week
+  cookie: { maxAge: 60000 }  
 }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -100,6 +104,9 @@ app.post('/login', (req, res) => {
           // If the passwords match, save the user ID in the session
           req.session.userId = user.id;
           console.log('User logged in');
+          res.redirect('/home.html');
+          console.log(req.session.userId);
+          console.log(req.cookies.userId);
         } else {
           // If the passwords don't match, send an error message
           console.log('Invalid username or password');
@@ -112,12 +119,3 @@ app.post('/login', (req, res) => {
   });
 });
 
-app.get('/dashboard', (req, res) => {
-  // Check if user is logged in
-  if (req.session.userId) {
-    // User is logged in, display dashboard
-  } else {
-    // User is not logged in, redirect to login page
-    res.redirect('/login');
-  }
-});
