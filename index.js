@@ -4,6 +4,7 @@ const app = express();
 const port = 3000;
 const bodyParser = require('body-parser');
 let formData = {};
+const db = require('./database');
 app.use(express.static('public'));
 app.get('/', (req, res) => {
     fs.readFile('views/login.html', 'utf8', (err, data) => {

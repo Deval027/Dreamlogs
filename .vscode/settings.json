@@ -1,0 +1,25 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled",
+                "ssl": {
+                    "rejectUnauthorized": false
+                }
+                
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "MySQL Local",
+            "database": "DreamLogs",
+            "username": "root",
+            "password": "admin",
+            "pooling": {
+                "maxIdleTime": 50000
+            }
+        }
+    ]
+}
