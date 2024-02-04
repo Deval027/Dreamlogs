@@ -80,10 +80,36 @@ db.query(selectQuery, [username], (err, results) => {
 });
 app.post('/login', (req, res) => {
   // Authenticate user
-  // ...
+  const username = req.body.username;
+  const password = req.body.password;
+  // Retrieve user from the database
+  const sql = 'SELECT * FROM users WHERE username = ?';
+  db.query(sql, [username], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send();
+    } else if (results.length > 0) {
+      const user = results[0];
 
-  // If authenticated, save user ID in session
-  req.session.userId = user.id;
+      // Compare the provided password with the hashed password in the database
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send();
+        } else if (result) {
+          // If the passwords match, save the user ID in the session
+          req.session.userId = user.id;
+          console.log('User logged in');
+        } else {
+          // If the passwords don't match, send an error message
+          console.log('Invalid username or password');
+        }
+      });
+    } else {
+      // If the user doesn't exist, send an error message
+      console.log('Invalid username or password');
+    }
+  });
 });
 
 app.get('/dashboard', (req, res) => {
