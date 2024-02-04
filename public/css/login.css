@@ -34,3 +34,8 @@ form {
 input[type="email"], input[type="password"] {
     margin: 10px 0;
 }
+span{
+    color: red;
+    font-size: 12px;
+    margin: 5px 0;
+}

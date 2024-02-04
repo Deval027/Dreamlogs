@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form id="loginForm">
+    <form action="/check-username" id="loginForm" method="post">
         <h2>Login</h2>
         <label for="loginEmail">Email:</label><br>
         <input type="email" id="loginEmail" name="loginEmail" required><br>
@@ -16,7 +16,7 @@
         <input type="submit" value="Login">
     </form>
     <!-- Registration Form -->
-    <form id="registrationForm">
+    <form id="registrationForm" action="register" method="post">
         <h2>Register</h2>
         <label for="registerUsername">Username:</label><br>
         <input type="text" id="registerUsername" name="registerUsername" required><br>
@@ -26,7 +26,9 @@
         <input type="password" id="registerPassword" name="registerPassword" required><br>
         <label for="confirmPassword">Confirm Password:</label><br>
         <input type="password" id="confirmPassword" name="confirmPassword" required><br>
-        <input type="submit" value="Register">
+        <div id="message"></div>
+        <input type="submit" value="register">
     </form>
+    <script src="../js/validation.js" type="text/javascript"></script>
 </body>
 </html>
