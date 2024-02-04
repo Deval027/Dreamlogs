@@ -303,3 +303,42 @@ option {
   transition: 0.5s;
   text-decoration: none;
 }
+.close2{
+  border: none;
+  font-family: 'Azaret';
+  background-color: rgb(80, 60, 145);
+  color: rgb(151, 136, 200);
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+  text-decoration: none;
+}
+.reader{
+  border: solid 1px;
+  position: absolute;
+  display: flex;
+  display: none;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  z-index: 1;
+  border: solid 1px rgb(58, 38, 124); 
+  background-color: #312450;
+  color: rgb(151, 136, 200);
+  text-align: center;
+}
+.definition{
+  display: block;
+  width: 80%;
+  margin: 20px; /* Adjust as needed */
+  text-align: left;
+  padding: 10px;
+  background-color: rgb(80, 60, 145);
+  color: rgb(151, 136, 200);
+}
+.content{
+  display: inline-block;
+}
