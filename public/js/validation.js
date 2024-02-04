@@ -1,10 +1,25 @@
 const form = document.getElementById('registrationForm');
 form.addEventListener('submit', function(event) {
-    // Get form values
-    const username = document.getElementById('registerUsername').value;
-    const password = document.getElementById('registerPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const email = document.getElementById('registerEmail').value;
+  event.preventDefault();
+
+  fetch('/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      username: event.target.registerUsername.value,
+      password: event.target.registerPassword.value,
+      email: event.target.registerEmail.value
+    })
+  });
+});
+form.addEventListener('submit', function(event) {
+  const username = document.getElementById('registerUsername').value;
+  const password = document.getElementById('registerPassword').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  const email = document.getElementById('registerEmail').value;
+  event.preventDefault();
     // Remove old error message
     const oldErrorMessage = document.getElementById('errorMessage');
     if (oldErrorMessage) {
@@ -57,6 +72,7 @@ form.addEventListener('submit', function(event) {
       } else if (data.success) {
         // Handle successful registration
         alert('Registration successful');
+        location.reload(false);
       } else {
         // Handle registration error
         alert('Registration failed');
@@ -72,7 +88,6 @@ form.addEventListener('submit', function(event) {
       });
     
       // Print JSON data to console
-      console.log(jsonData);
     
       // Send data to server
       fetch('/register', {

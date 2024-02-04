@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 let formData = {};
 const db = require('./database');
 const session = require('express-session');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 app.use(express.static('public'));
 app.get('/', (req, res) => {
   fs.readFile('views/login.html', 'utf8', (err, data) => {
@@ -26,7 +28,7 @@ app.use(session({
   secret: 'session',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 60000 } // Cookie expires after 60000 milliseconds = 1 minute
+  cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 } //1 week
 }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,40 +47,36 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 app.post('/register', (req, res) => {
-  const username = req.body.username;
-  const selectQuery = 'SELECT * FROM users WHERE username = ?';
-  db.query(selectQuery, [username], (err, results) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send();
-    } else if (results.length > 0) {
-      res.json({ usernameExists: true });
-      console.log('Username already exists');
-    } else {
-      // Convert data to JSON and write to a file
-      const data = JSON.stringify(req.body, null, 2);
-      fs.writeFile('user.json', data, (err) => {
-        if (err) {
-          console.error(err);
-          res.json({ success: false });
-        } else {
-          console.log('Data written to file');
-          
-          // Insert data into database
-          const sql = 'INSERT INTO users (username, password, email) VALUES (?, ?, ?)';
-          db.query(sql, [req.body.username, req.body.password, req.body.email], (err, result) => {
-            if (err) {
-              console.error(err);
-              res.json({ success: false });
-            } else {
-              console.log('Data inserted into database');
-              res.json({ success: true });
-            }
-          });
-        }
-      });
-    }
-  });
+const username = req.body.username;
+const selectQuery = 'SELECT * FROM users WHERE username = ?';
+db.query(selectQuery, [username], (err, results) => {
+  if (err) {
+    console.error(err);
+    res.status(500).send();
+  } else if (results.length > 0) {
+    res.json({ usernameExists: true });
+    console.log('Username already exists');
+    res.redirect('/login');
+  } else {
+    bcrypt.hash(req.body.password, saltRounds, (err, hashedPassword) => {
+      if (err) {
+        console.error(err);
+        res.json({ success: false });
+      } else {
+        const sql = 'INSERT INTO users (username, password, email) VALUES (?, ?, ?)';
+        db.query(sql, [req.body.username, hashedPassword, req.body.email], (err, result) => {
+          if (err) {
+            console.error(err);
+            res.json({ success: false });
+          } else {
+            console.log('Data inserted into database');
+            res.json({ success: true });
+          }
+        });
+      }
+    });
+  };
+});
 });
 app.post('/login', (req, res) => {
   // Authenticate user
