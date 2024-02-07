@@ -1,3 +1,9 @@
+@media (max-width: 768px) {
+  .sidebar, .main {
+    width: 100%;
+    float: none;
+  }
+}
 @font-face {
     font-family: 'Azaret';
     src: url('../fonts/AzeretMono-VariableFont_wght.ttf') format('truetype');

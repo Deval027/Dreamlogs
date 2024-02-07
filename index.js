@@ -14,7 +14,7 @@ app.use(cookieParser());
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'views')));
 app.get('/', (req, res) => {
-  fs.readFile('views/login.html', 'utf8', (err, data) => {
+  fs.readFile('views/home.html', 'utf8', (err, data) => {
     if (err) {
       console.error(err);
       res.status(500).send('Error reading file');
@@ -83,7 +83,6 @@ db.query(selectQuery, [username], (err, results) => {
 });
 });
 app.post('/login', (req, res) => {
-  // Authenticate user
   const username = req.body.username;
   const password = req.body.password;
   // Retrieve user from the database
@@ -106,7 +105,6 @@ app.post('/login', (req, res) => {
           console.log('User logged in');
           res.redirect('/home.html');
           console.log(req.session.userId);
-          console.log(req.cookies.userId);
         } else {
           // If the passwords don't match, send an error message
           console.log('Invalid username or password');
