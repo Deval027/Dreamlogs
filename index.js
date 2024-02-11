@@ -143,9 +143,8 @@ app.post('/login', (req, res) => {
 });
 app.post('/dreampost', (req, res) => {
   const { NameInput, dayInput, monthInput, yearInput, typeD, clarity, DreamDescription, userId } = req.body;
-  const query = 'INSERT INTO dreams (title, date, type, clarity, description, userId) VALUES (?, ?, ?, ?, ?, ?)';
+  const query = 'INSERT INTO dreams (dream_name, date, type_of_dream, clarity, userid, description) VALUES (?, ?, ?, ?, ?, ?, ?)';
   const date = `${dayInput}-${monthInput}-${yearInput}`;
-
   db.query(query, [NameInput, date, typeD, clarity, DreamDescription, userId], (err, result) => {
     if (err) throw err;
     const dreamId = result.insertId;
