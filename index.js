@@ -10,31 +10,61 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const { defaultMaxListeners } = require('events');
 app.use(cookieParser());
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'views')));
+//user session for testing and devlopment remove when finished
+const MySQLStore = require('connect-mysql')(session);
+const options = {
+  config: {
+    user: 'root',
+    password: 'admin',
+    database: 'dreamlogs'
+  }
+};
+app.use(session({
+  secret: 'session',
+  resave: false,
+  saveUninitialized: true,
+  store: new MySQLStore(options),
+  cookie: { maxAge: 60000 }  
+}));
+//user session for testing and devlopment remove when finished
 app.get('/', (req, res) => {
-  fs.readFile('views/home.html', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error reading file');
-    } else {
-      res.send(data);
-    }
-  });
+  if (req.session.userId) {
+    res.redirect('/home');
+  } else {
+    fs.readFile('views/login.html', 'utf8', (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error reading file');
+      } else {
+        res.send(data);
+      }
+    });
+  }
+});
+
+app.get('/home', (req, res) => {
+  // If the user is not logged in, redirect them to the login page
+  if (!req.session.userId) {
+    res.redirect('/');
+  } else {
+    fs.readFile('views/home.html', 'utf8', (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error reading file');
+      } else {
+        res.send(data);
+      }
+    });
+  }
 });
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
-
-app.use(session({
-  secret: 'session',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 60000 }  
-}));
-
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/submit', (req, res) => {
@@ -85,7 +115,6 @@ db.query(selectQuery, [username], (err, results) => {
 app.post('/login', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  // Retrieve user from the database
   const sql = 'SELECT * FROM users WHERE username = ?';
   db.query(sql, [username], (err, results) => {
     if (err) {
@@ -93,27 +122,35 @@ app.post('/login', (req, res) => {
       res.status(500).send();
     } else if (results.length > 0) {
       const user = results[0];
-
-      // Compare the provided password with the hashed password in the database
       bcrypt.compare(password, user.password, (err, result) => {
         if (err) {
           console.error(err);
           res.status(500).send();
         } else if (result) {
-          // If the passwords match, save the user ID in the session
-          req.session.userId = user.id;
+          const userId = user.id;
+          req.session.userId = userId;
           console.log('User logged in');
           res.redirect('/home.html');
-          console.log(req.session.userId);
+          console.log(userId);
         } else {
-          // If the passwords don't match, send an error message
           console.log('Invalid username or password');
         }
       });
     } else {
-      // If the user doesn't exist, send an error message
       console.log('Invalid username or password');
     }
   });
 });
+app.post('/dreampost', (req, res) => {
+  const { NameInput, dayInput, monthInput, yearInput, typeD, clarity, DreamDescription, userId } = req.body;
+  const query = 'INSERT INTO dreams (title, date, type, clarity, description, userId) VALUES (?, ?, ?, ?, ?, ?)';
+  const date = `${dayInput}-${monthInput}-${yearInput}`;
 
+  db.query(query, [NameInput, date, typeD, clarity, DreamDescription, userId], (err, result) => {
+    if (err) throw err;
+    const dreamId = result.insertId;
+    module.exports = dreamId;
+    // You can now use dreamId for your button id
+    res.redirect('/home'); 
+  });
+});
