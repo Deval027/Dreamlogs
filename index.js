@@ -112,6 +112,8 @@ db.query(selectQuery, [username], (err, results) => {
   };
 });
 });
+let userId; // Declare userId variable outside of the function
+
 app.post('/login', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -127,7 +129,7 @@ app.post('/login', (req, res) => {
           console.error(err);
           res.status(500).send();
         } else if (result) {
-          const userId = user.id;
+          userId = user.id; // Assign value to the global userId variable
           req.session.userId = userId;
           console.log('User logged in');
           res.redirect('/home.html');
@@ -141,9 +143,14 @@ app.post('/login', (req, res) => {
     }
   });
 });
+
+app.get('/api/userId', (req, res) => {
+  res.json({ userId }); // Return the global userId variable
+});
+
 app.post('/dreampost', (req, res) => {
   const { NameInput, dayInput, monthInput, yearInput, typeD, clarity, DreamDescription, userId } = req.body;
-  const query = 'INSERT INTO dreams (dream_name, date, type_of_dream, clarity, userid, description) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  const query = 'INSERT INTO dreams (dream_name, date, type_of_dream, clarity, userid, description) VALUES (?, ?, ?, ?, ?, ?)';
   const date = `${dayInput}-${monthInput}-${yearInput}`;
   db.query(query, [NameInput, date, typeD, clarity, DreamDescription, userId], (err, result) => {
     if (err) throw err;
