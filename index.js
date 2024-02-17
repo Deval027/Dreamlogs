@@ -145,18 +145,17 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/api/userId', (req, res) => {
-  res.json({ userId }); // Return the global userId variable
+  res.json({ userId: req.session.userId });
 });
 
 app.post('/dreampost', (req, res) => {
   const { NameInput, dayInput, monthInput, yearInput, typeD, clarity, DreamDescription, userId } = req.body;
   const query = 'INSERT INTO dreams (dream_name, date, type_of_dream, clarity, userid, description) VALUES (?, ?, ?, ?, ?, ?)';
-  const date = `${dayInput}-${monthInput}-${yearInput}`;
+  const date = `${yearInput}-${monthInput}-${dayInput}`;
   db.query(query, [NameInput, date, typeD, clarity, DreamDescription, userId], (err, result) => {
     if (err) throw err;
     const dreamId = result.insertId;
     module.exports = dreamId;
-    // You can now use dreamId for your button id
     res.redirect('/home'); 
   });
 });

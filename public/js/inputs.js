@@ -1,13 +1,7 @@
-import React, { useEffect, useState } from 'react';
+fetch('/api/userId')
+  .then(response => response.json())
+  .then(data => {
+    const userId = data.userId;
+    console.log(userId); // or do something else with the user ID
+  });
 
-const YourComponent = () => {
-  const [userId, setUserId] = useState(null);
-
-  useEffect(() => {
-    fetch('/api/user')
-      .then(response => response.json())
-      .then(data => setUserId(data.userId));
-  }, []);
-
-  // ...
-};
