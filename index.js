@@ -29,7 +29,7 @@ app.use(session({
   secret: 'session_secret_key',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true },
+  cookie: { secure: false },
   store: new MySQLStore(options)
 }));
 
@@ -165,6 +165,7 @@ app.post('/dreampost', (req, res) => {
     if (err) throw err;
     var dreamId = result.insertId;
     module.exports = dreamId;
+    console.log('Data inserted into database');
     res.redirect('/home'); 
   });
 });
