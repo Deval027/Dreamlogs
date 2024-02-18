@@ -26,14 +26,13 @@ const options = {
 
 
 app.use(session({
-  secret: 'your secret key',
+  secret: 'session_secret_key',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false },
+  cookie: { secure: true },
   store: new MySQLStore(options)
 }));
 
-//user session for testing and devlopment remove when finished
 app.get('/', (req, res) => {
   if (req.session.userId) {
     res.redirect('/home');
@@ -144,7 +143,16 @@ app.post('/login', (req, res) => {
     }
   });
 });
-
+app.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error(err);
+      res.status(500).send();
+    } else {
+      res.redirect('/'); // replace with your login page
+    }
+  });
+});
 app.get('/api/userId', (req, res) => {
   res.json({ userId: req.session.userId });
 });
@@ -155,8 +163,10 @@ app.post('/dreampost', (req, res) => {
   const date = `${yearInput}-${monthInput}-${dayInput}`;
   db.query(query, [NameInput, date, typeD, clarity, DreamDescription, userId], (err, result) => {
     if (err) throw err;
-    const dreamId = result.insertId;
+    var dreamId = result.insertId;
     module.exports = dreamId;
     res.redirect('/home'); 
   });
 });
+
+
