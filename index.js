@@ -149,7 +149,7 @@ app.get('/logout', (req, res) => {
       console.error(err);
       res.status(500).send();
     } else {
-      res.redirect('/'); // replace with your login page
+      res.redirect('/'); 
     }
   });
 });
@@ -170,4 +170,14 @@ app.post('/dreampost', (req, res) => {
   });
 });
 
-
+app.get('/api/dreams', (req, res) => {
+  const query = 'SELECT * FROM dreams WHERE userid = ? ORDER BY created_at DESC LIMIT 1';
+  db.query(query, [req.session.userId], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send();
+    } else {
+      res.json(results[0]);
+    }
+  });
+});
