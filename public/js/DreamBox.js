@@ -1,8 +1,11 @@
+let dreams = [];
+
 fetch('/api/dreams') // replace with your GET endpoint
   .then(response => response.json())
   .then(dream => {
+    dreams = dream.dreams;
+    console.log(dream);
     const mainDiv = document.getElementById('main'); // replace 'main' with the id of your div
-
     const button = document.createElement('button');
     button.className = 'box';
     button.id = dream.dreamid;  
@@ -28,5 +31,15 @@ fetch('/api/dreams') // replace with your GET endpoint
     button.appendChild(claritySpan);
 
     mainDiv.appendChild(button);
+    button.addEventListener('click', function() {
+      // Display the description of the dream in the span
+      const contentSpan = document.querySelector('.definition .content');
+      contentSpan.textContent = dream.description;
+
+      for (var i = 0; i < Log.length; i++) {
+        read[i].style.display = 'block';
+      }
+      overlay.style.display = 'block';
+    });
   })
   .catch(error => console.error('Error:', error));
