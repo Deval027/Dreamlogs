@@ -171,13 +171,26 @@ app.post('/dreampost', (req, res) => {
 });
 
 app.get('/api/dreams', (req, res) => {
-  const query = 'SELECT * FROM dreams WHERE userid = ? ORDER BY created_at DESC LIMIT 1';
+  const query = 'SELECT * FROM dreams WHERE userid = ? ORDER BY created_at DESC';
   db.query(query, [req.session.userId], (err, results) => {
     if (err) {
       console.error(err);
       res.status(500).send();
     } else {
-      res.json(results[0]);
+      res.json(results);
+    }
+  });
+});
+
+app.post('/api/deleteDream', (req, res) => {
+  const dreamId = req.body.dreamId;
+  const query = 'DELETE FROM dreams WHERE dreamid = ?';
+  db.query(query, [dreamId], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send();
+    } else {
+      res.status(200).send();
     }
   });
 });

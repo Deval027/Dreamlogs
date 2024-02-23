@@ -1,14 +1,15 @@
-let dreams = [];
+
+let overlay = document.getElementById('overlay'); // replace 'overlay' with the id of your overlay div
 
 fetch('/api/dreams') // replace with your GET endpoint
   .then(response => response.json())
-  .then(dream => {
-    dreams = dream.dreams;
-    console.log(dream);
+  .then(dreams => {
     const mainDiv = document.getElementById('main'); // replace 'main' with the id of your div
-    const button = document.createElement('button');
-    button.className = 'box';
-    button.id = dream.dreamid;  
+
+    dreams.forEach(dream => {
+      const button = document.createElement('button');
+      button.className = 'box';
+      button.id = dream.dreamid;  
     const nameSpan = document.createElement('span');
     nameSpan.className = 'left_top';
     nameSpan.textContent = 'Dream name: ' + dream.dream_name;
@@ -32,14 +33,17 @@ fetch('/api/dreams') // replace with your GET endpoint
 
     mainDiv.appendChild(button);
     button.addEventListener('click', function() {
-      // Display the description of the dream in the span
-      const contentSpan = document.querySelector('.definition .content');
-      contentSpan.textContent = dream.description;
+      // Find the description element
+      const descriptionElement = document.querySelector('.definition .content');
+
+      // Set the text content of the description element to the description of the dream
+      descriptionElement.textContent = dream.description;
 
       for (var i = 0; i < Log.length; i++) {
         read[i].style.display = 'block';
       }
       overlay.style.display = 'block';
     });
-  })
-  .catch(error => console.error('Error:', error));
+  });
+})
+.catch(error => console.error('Error:', error));
