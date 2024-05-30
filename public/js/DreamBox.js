@@ -1,54 +1,80 @@
+let overlay = document.getElementById('overlay'); // Replace 'overlay' with the id of your overlay div
 
-let overlay = document.getElementById('overlay'); // replace 'overlay' with the id of your overlay div
-
-fetch('/api/dreams') // replace with your GET endpoint
+fetch('/api/dreams') // Replace with your GET endpoint
   .then(response => response.json())
   .then(dreams => {
-    const mainDiv = document.getElementById('main'); // replace 'main' with the id of your div
+    const mainDiv = document.getElementById('main'); // Replace 'main' with the id of your div
 
     dreams.forEach(dream => {
       const button = document.createElement('button');
       button.className = 'box';
       button.id = dream.dreamid;  
-    const nameSpan = document.createElement('span');
-    nameSpan.className = 'left_top';
-    nameSpan.textContent = 'Dream name: ' + dream.dream_name;
-    
-    button.appendChild(nameSpan);
 
-    const dateSpan = document.createElement('span');
-    dateSpan.className = 'right_top';
-    dateSpan.textContent = 'Date: ' + new Date(dream.date).toISOString().slice(0, 10);
-    button.appendChild(dateSpan);
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'left_top';
+      nameSpan.textContent = 'Dream name: ' + dream.dream_name;
+      button.appendChild(nameSpan);
 
-    const typeSpan = document.createElement('span');
-    typeSpan.className = 'left_bottom';
-    typeSpan.textContent = 'Type of dream: ' + dream.type_of_dream;
-    button.appendChild(typeSpan);
+      const dateSpan = document.createElement('span');
+      dateSpan.className = 'right_top';
+      dateSpan.textContent = 'Date: ' + new Date(dream.date).toISOString().slice(0, 10);
+      button.appendChild(dateSpan);
 
-    const claritySpan = document.createElement('span');
-    claritySpan.className = 'right_bottom';
-    claritySpan.textContent = 'Clarity: ' + dream.clarity;
-    button.appendChild(claritySpan);
+      const typeSpan = document.createElement('span');
+      typeSpan.className = 'left_bottom';
+      typeSpan.textContent = 'Type of dream: ' + dream.type_of_dream;
+      button.appendChild(typeSpan);
 
-    mainDiv.appendChild(button);
-    button.addEventListener('click', function() {
-      // Find the description element
-      const descriptionElement = document.querySelector('.definition .content');
+      const claritySpan = document.createElement('span');
+      claritySpan.className = 'right_bottom';
+      claritySpan.textContent = 'Clarity: ' + dream.clarity;
+      button.appendChild(claritySpan);
 
-      // Set the text content of the description element to the description of the dream
-      descriptionElement.textContent = dream.description;
-      const readerbutton = document.getElementsByClassName('reader')[0]; // Get the first element with the class 'reader'
-      const deleteButton = document.createElement('button');
-      deleteButton.className = 'delete-button';
-      deleteButton.textContent = 'Delete';
-      if (!readerbutton.querySelector('.delete-button')) {
-        readerbutton.appendChild(deleteButton);
-    }
-   
+      mainDiv.appendChild(button);
+
+      button.addEventListener('click', function() {
+        // Find the description element
+        const descriptionElement = document.querySelector('.definition .content');
+        // Set the text content of the description element to the description of the dream
+        descriptionElement.textContent = dream.description;
+
+        const readerbutton = document.getElementsByClassName('reader')[0]; // Get the first element with the class 'reader'
+
+        // Check if a delete button already exists inside the readerbutton
+        if (!readerbutton.querySelector('.delete-button')) {
+          // Create the delete button
+          const deleteButton = document.createElement('button');
+          deleteButton.className = 'delete-button';
+          deleteButton.textContent = 'Delete';
+
+          // Append the delete button to the readerbutton element
+          readerbutton.appendChild(deleteButton);
+
+          // Add event listener to the delete button
+          deleteButton.addEventListener('click', deleteWindow);
+
+          function deleteWindow() {
+            for (let i = 0; i < read.length; i++) {
+              read[i].style.display = 'none';
+            }
+            overlay.style.display = 'none';
+          }
+        }
+
+        // Add event listeners to box elements
+        for (let i = 0; i < boxes.length; i++) {
+          boxes[i].addEventListener('click', function() {
+            for (let i = 0; i < Log.length; i++) {
+              read[i].style.display = 'block';
+            }
+            overlay.style.display = 'block';
+          });
+        }
+
         // Add an event listener to the delete button
+        const deleteButton = readerbutton.querySelector('.delete-button');
         deleteButton.addEventListener('click', function() {
-          fetch(`/api/deleteDream/${dream.dreamid}`, { // replace with your DELETE endpoint
+          fetch(`/api/deleteDream/${dream.dreamid}`, { // Replace with your DELETE endpoint
             method: 'DELETE',
           })
           .then(response => {
@@ -61,7 +87,7 @@ fetch('/api/dreams') // replace with your GET endpoint
           .catch(error => console.error('Error:', error));
         });
 
-        for (var i = 0; i < Log.length; i++) {
+        for (let i = 0; i < Log.length; i++) {
           read[i].style.display = 'block';
         }
         overlay.style.display = 'block';
