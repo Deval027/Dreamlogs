@@ -38,12 +38,34 @@ fetch('/api/dreams') // replace with your GET endpoint
 
       // Set the text content of the description element to the description of the dream
       descriptionElement.textContent = dream.description;
+      const readerbutton = document.getElementsByClassName('reader')[0]; // Get the first element with the class 'reader'
+      const deleteButton = document.createElement('button');
+      deleteButton.className = 'delete-button';
+      deleteButton.textContent = 'Delete';
+      if (!readerbutton.querySelector('.delete-button')) {
+        readerbutton.appendChild(deleteButton);
+    }
+   
+        // Add an event listener to the delete button
+        deleteButton.addEventListener('click', function() {
+          fetch(`/api/deleteDream/${dream.dreamid}`, { // replace with your DELETE endpoint
+            method: 'DELETE',
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            // Remove the dream button from the DOM
+            mainDiv.removeChild(button);
+          })
+          .catch(error => console.error('Error:', error));
+        });
 
-      for (var i = 0; i < Log.length; i++) {
-        read[i].style.display = 'block';
-      }
-      overlay.style.display = 'block';
+        for (var i = 0; i < Log.length; i++) {
+          read[i].style.display = 'block';
+        }
+        overlay.style.display = 'block';
+      });
     });
-  });
-})
-.catch(error => console.error('Error:', error));
+  })
+  .catch(error => console.error('Error:', error));

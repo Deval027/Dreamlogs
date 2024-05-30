@@ -182,8 +182,8 @@ app.get('/api/dreams', (req, res) => {
   });
 });
 
-app.post('/api/deleteDream', (req, res) => {
-  const dreamId = req.body.dreamId;
+app.delete('/api/deleteDream/:dreamId', (req, res) => {
+  const dreamId = req.params.dreamId;
   const query = 'DELETE FROM dreams WHERE dreamid = ?';
   db.query(query, [dreamId], (err, result) => {
     if (err) {
