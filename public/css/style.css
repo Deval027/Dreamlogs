@@ -34,6 +34,7 @@
   margin: 0;
   color: rgb(151, 136, 200);
   font-size: 40px;
+  position: fixed;
 }
 .sidebar{
   z-index: -1;
@@ -135,8 +136,8 @@ a {
 
 
 .add{
+  position: static;
   margin-top: 90px;
-  position: fixed;
   margin-left: 44%;
 }
 
