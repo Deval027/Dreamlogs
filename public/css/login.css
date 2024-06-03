@@ -8,8 +8,16 @@
         height: 50%;
     }
 }
-
+@font-face {
+    font-family: 'Azaret';
+    src: url('../fonts/AzeretMono-VariableFont_wght.ttf') format('truetype');
+  }
+  
 body {
+    color: rgb(151, 136, 200);
+    font-family: 'Azaret';
+    background-color: rgb(80, 60, 145);;
+    height: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -38,4 +46,31 @@ span{
     color: red;
     font-size: 12px;
     margin: 5px 0;
+}
+
+
+textarea{
+    resize: none;
+    background-color: rgb(80, 60, 145);
+    border: none;
+    font-family: 'Azaret';
+    color: rgb(151, 136, 200);
+  }
+  input{
+    padding: 1rem 4rem 1rem 1rem;
+    width: 15rem;
+    background-color: #312450;
+    color: rgb(151, 136, 200);
+    border: none;
+    font-family: 'Azaret';
+  }
+  input:focus {
+    outline: none;
+  }
+  textarea:focus{
+    outline: none;
+  }
+  .send {
+    text-align: center; /* Center the text horizontally */
+    padding: 15px 20px; /* Add padding for better visual appearance */
 }
