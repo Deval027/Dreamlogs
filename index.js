@@ -62,7 +62,20 @@ app.get('/home', (req, res) => {
     });
   }
 });
-
+app.get('/profile', (req, res) => {
+  if (!req.session.userId) {
+    res.redirect('/');
+  } else {
+    fs.readFile('views/profile.html', 'utf8', (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error reading file');
+      } else {
+        res.send(data);
+      }
+    });
+  }
+});
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
@@ -150,6 +163,7 @@ app.get('/logout', (req, res) => {
       res.status(500).send();
     } else {
       res.redirect('/'); 
+      console.log("Sesion destruida")
     }
   });
 });
