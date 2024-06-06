@@ -39,16 +39,20 @@ form {
     border: 1px solid #000;
 }
 
-input[type="email"], input[type="password"] {
+input[type="email"], input[type="password"], input[type=username], input[type='text'], input[type='send'] {
     margin: 10px 0;
+    padding: 1rem 4rem 1rem 1rem;
+    width: 15rem;
+    background-color: #312450;
+    color: rgb(151, 136, 200);
+    border: none;
+    font-family: 'Azaret';
 }
 span{
     color: red;
     font-size: 12px;
     margin: 5px 0;
 }
-
-
 textarea{
     resize: none;
     background-color: rgb(80, 60, 145);
@@ -56,14 +60,7 @@ textarea{
     font-family: 'Azaret';
     color: rgb(151, 136, 200);
   }
-  input{
-    padding: 1rem 4rem 1rem 1rem;
-    width: 15rem;
-    background-color: #312450;
-    color: rgb(151, 136, 200);
-    border: none;
-    font-family: 'Azaret';
-  }
+  
   input:focus {
     outline: none;
   }
@@ -71,6 +68,30 @@ textarea{
     outline: none;
   }
   .send {
+    cursor: pointer;
+    background-color: #312450;
+    color: rgb(151, 136, 200);
+    border: none;
+    font-family: 'Azaret';
     text-align: center; /* Center the text horizontally */
     padding: 15px 20px; /* Add padding for better visual appearance */
+}
+input {
+  border: 3px solid grey;
+  border-radius: 3px;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #312450 inset !important; /* Simulate background color */
+  box-shadow: 0 0 0px 1000px #312450 inset !important; /* Simulate background color */
+  -webkit-text-fill-color: rgb(151, 136, 200) !important; /* Change text color */
+  border: none; /* No border */
+}
+
+input:-moz-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #312450 inset !important; /* Simulate background color */
+  box-shadow: 0 0 0px 1000px #312450 inset !important; /* Simulate background color */
+  color: rgb(151, 136, 200) !important; /* Change text color */
+  border: none; /* No border */
+  font-family: 'Azaret';
 }
