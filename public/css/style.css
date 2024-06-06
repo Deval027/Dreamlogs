@@ -133,12 +133,10 @@ a {
   transition: all 0.5s;
   border-radius: 20px;
 }
-
-
 .add{
   position: static;
-  margin-top: 90px;
-  margin-left: 44%;
+  margin-top: 0px;
+  margin-left: 300%;
 }
 
 .adition span {
