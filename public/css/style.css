@@ -134,9 +134,9 @@ a {
   border-radius: 20px;
 }
 .add{
-  position: static;
+  position: relative;
   margin-top: 0px;
-  margin-left: 300%;
+  margin-left: 148%;
 }
 
 .adition span {
