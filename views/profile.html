@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css">
-    <title>Dreamlog</title>
+    <link rel="stylesheet" href="/css/profile.css">
+    <title>Dreamlogs</title>
 </head>
 <body>
     <div class="overlay" id="overlay"></div>
@@ -16,11 +17,29 @@
         <aside class="sidebar">
             <nav class="nav">
                 <ul>
-                  <li><a href="/profile">Profile</a></li>
-                  <li><a href="/home">Diary</a></li>
-                  <li><a href="/logout">Log out</a></li>
+                    <li><a href="/home">Diary</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/logout">Log out</a></li>
                 </ul>
               </nav>                   
         </aside>
+        <div class="Main">
+            <div class="Image" id="65"><img src="img/default.png" width="60px" height="60px"></div>
+            <div class="container">
+            
+            <div class="InfoP" id="40"></div><br>
+            <div class="Logs" id="60"></div> 
+            <div class="set-container">
+            <button class="set">Settings</button>
+        </div>
+            <div class="settings"> 
+                <div class="AccountDEL">Change username</div>
+                <div class="AccountDEL">Change password</div>
+                <div class="AccountDEL">Delete account</div>
+            </div>
+            </div>
+            
+        </div>
+        <script src="/js/profile.js" type="text/javascript"></script>
 </body>
 </html>

@@ -168,7 +168,17 @@ app.get('/logout', (req, res) => {
   });
 });
 app.get('/api/userId', (req, res) => {
-  res.json({ userId: req.session.userId });
+  db.query('SELECT username FROM users WHERE Id = ?', [userId], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database query failed' });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Send the userId and username to the client
+    res.json({ userId: userId, username: results[0].username });
+  });
 });
 
 app.post('/dreampost', (req, res) => {
@@ -206,5 +216,39 @@ app.delete('/api/deleteDream/:dreamId', (req, res) => {
     } else {
       res.status(200).send();
     }
+  });
+});
+app.get('/userLogs', (req, res) => {
+  const userId = req.session.userId;
+
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID not found in session' });
+  }
+
+  // Query to get the username
+  const userQuery = 'SELECT username FROM users WHERE Id = ?';
+  // Query to count the posts
+  const postCountQuery = 'SELECT COUNT(*) AS postCount FROM dreams WHERE userId = ?';
+
+  db.query(userQuery, [userId], (userErr, userResults) => {
+    if (userErr) {
+      return res.status(500).json({ error: 'Database query failed' });
+    }
+    if (userResults.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const username = userResults[0].username;
+
+    db.query(postCountQuery, [userId], (postErr, postResults) => {
+      if (postErr) {
+        return res.status(500).json({ error: 'Database query failed' });
+      }
+
+      const postCount = postResults[0].postCount;
+
+      // Send the userId, username, and postCount to the client
+      res.json({ userId: userId, username: username, postCount: postCount });
+    });
   });
 });
