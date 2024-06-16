@@ -27,3 +27,18 @@ fetch('/api/userId')
       .catch(error => {
         console.error('Error fetching user data:', error);
       });
+
+
+var SettingsVisual = document.getElementById("81")
+var Setbutton = document.getElementById("80")
+
+function OpenWindow(){
+    if (SettingsVisual.style.display === 'block') {
+      SettingsVisual.style.display = 'none' ;
+    }
+    else{
+      SettingsVisual.style.display = 'block' ;
+    }
+}
+
+Setbutton.addEventListener("click", OpenWindow);

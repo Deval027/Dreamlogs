@@ -68,4 +68,11 @@
     position: relative;
     display: inline;
     top: 80px;
+    cursor: pointer;
+    background-color: #312450;
+    color: rgb(151, 136, 200);
+    border: none;
+    font-family: 'Azaret';
+    text-align: center; /* Center the text horizontally */
+    padding: 15px 20px; /* Add padding for better visual appearance */
 }
