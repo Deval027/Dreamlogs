@@ -6,7 +6,7 @@ fetch('/api/userId')
           document.getElementById('40').innerText = 'Error: ' + data.error;
         } else {
           // Display the username in the div
-          document.getElementById('40').innerText = data.username;
+          document.getElementById('40').innerText = "Username:" + data.username;
         }
       })
       .catch(error => {
@@ -29,16 +29,15 @@ fetch('/api/userId')
       });
 
 
-var SettingsVisual = document.getElementById("81")
+var SettingsVisual = document.getElementsByClassName("accountSetting")
 var Setbutton = document.getElementById("80")
-
-function OpenWindow(){
-    if (SettingsVisual.style.display === 'block') {
-      SettingsVisual.style.display = 'none' ;
-    }
-    else{
-      SettingsVisual.style.display = 'block' ;
-    }
+function OpenWindow() {
+  for (var i = 0; i < SettingsVisual.length; i++) {
+      if (SettingsVisual[i].style.display === 'block') {
+          SettingsVisual[i].style.display = 'none';
+      } else {
+          SettingsVisual[i].style.display = 'block';
+      }
+  }
 }
-
 Setbutton.addEventListener("click", OpenWindow);

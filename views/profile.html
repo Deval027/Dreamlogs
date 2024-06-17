@@ -11,6 +11,7 @@
     <div class="overlay" id="overlay"></div>
     <header class="head">
         <div class="container">
+            
         <div class=""><h1 class="Title">Dreamlogs</h1></div>
         </div>
     </header>
@@ -24,21 +25,19 @@
               </nav>                   
         </aside>
         <div class="Main">
-
-            <div class="container">
-            
-            <div class="InfoP" id="40"></div><br>
-            <div class="Logs" id="60"></div> 
-            <div class="set-container">
-            <button class="set" id="80">Settings</button>
-        </div>
+            <Div class="item"> 
+                <div class="InfoP" id="40"></div>
+                <button class="set" id="80">Settings</button>  
+            </Div>   
+            <Div class="item"> 
+                <div class="Logs" id="60"></div>
+            </div>
             <div class="settings" id="81"> 
-                <div class="AccountDEL">Change username</div>
-                <div class="AccountDEL">Change password</div>
-                <div class="AccountDEL">Delete account</div>
+                <div class="accountSetting" id="90"><a href="/CUsername">Change username</a></div>
+                <div class="accountSetting" id="91"><a href="/CPassword">Change password</a></div>
+                <div class="accountSetting" id="92"><a href="/deleteAccount">Delete account</a></div>
             </div>
-            </div>
-            
+        <div class="item" id="95"></div>
         </div>
         <script src="/js/profile.js" type="text/javascript"></script>
 </body>

@@ -1,9 +1,21 @@
-.settings{
+.settings {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px; /* Adjust the gap as needed */
+            width: 100%;
+            max-width: 600px; /* Adjust the max-width as needed */
+            margin: 0 auto; /* Center the container horizontally */
+            text-align: left; /* Center the text inside each grid item */
+        }
+.accountSetting {
     display: none;
-    position: relative;
+    padding: 10px;
 }
-
 .Main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
     position: relative;
     float: right;
     width: 1000px;
@@ -38,6 +50,8 @@
     width: 100%;
     position: relative;
     top: 40px;
+    align-items: center;
+    align-content: center;
 }
 
 .InfoP, .Logs {
