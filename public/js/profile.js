@@ -31,6 +31,8 @@ fetch('/api/userId')
 
 var SettingsVisual = document.getElementsByClassName("accountSetting")
 var Setbutton = document.getElementById("80")
+
+var formSettings = document.getElementById("95")
 function OpenWindow() {
   for (var i = 0; i < SettingsVisual.length; i++) {
       if (SettingsVisual[i].style.display === 'block') {
@@ -39,5 +41,47 @@ function OpenWindow() {
           SettingsVisual[i].style.display = 'block';
       }
   }
+  for (var i = 0; i < formSettings.length; i++) {
+    if (formSettings[i].style.display === 'block') {
+        formSettings[i].style.display = 'none';
+    } else {
+        formSettings[i].style.display = 'block';
+    }
+}
 }
 Setbutton.addEventListener("click", OpenWindow);
+
+function showForm(formUrl) {
+  fetch(formUrl)
+      .then(response => response.text())
+      .then(html => {
+          const container = document.getElementById('95');
+          container.innerHTML = html;
+
+          const form = container.querySelector('form');
+          if (form) {
+              form.addEventListener('submit', function(event) {
+                  event.preventDefault();
+
+                  const formData = new FormData(form);
+                  fetch(form.action, {
+                      method: 'POST',
+                      body: formData
+                  })
+                  .then(response => response.text())
+                  .then(result => {
+                      console.log('Form submitted successfully:', result);
+                      container.innerHTML = result;
+                  })
+                  .catch(error => {
+                      console.error('Error submitting form:', error);
+                  });
+              });
+          } else {
+              console.error('Form not found');
+          }
+      })
+      .catch(error => {
+          console.error('Error fetching form:', error);
+      });
+}

@@ -252,3 +252,70 @@ app.get('/userLogs', (req, res) => {
     });
   });
 });
+
+app.get('/CUsername', (req, res) => {
+  res.send(`
+      <div id="form-container">
+          <h2>Change Username</h2>
+          <form id="submitForm" action="/submit-username" method="post">
+              <label for="new-username">New Username:</label>
+              <input type="text" id="new-username" name="username" required><br><br>
+              <button type="submit">Submit</button>
+          </form>
+      </div>
+  `);
+});
+
+app.get('/CPassword', (req, res) => {
+  res.send(`
+      <div id="form-container">
+          <h2>Change Password</h2>
+          <form id="submitForm" action="/submit-password" method="post">
+              <label for="new-password">New Password:</label>
+              <input type="password" id="new-password" name="password" required><br><br>
+              <button type="submit">Submit</button>
+          </form>
+      </div>
+  `);
+});
+
+app.get('/deleteAccount', (req, res) => {
+  res.send(`
+      <div id="form-container">
+          <h2>Delete Account</h2>
+          <form id="submitForm" action="/submit-delete-account" method="post">
+              <label for="confirm">Type "DELETE" to confirm:</label>
+              <input type="text" id="confirm" name="confirm" required><br><br>
+              <button type="submit">Delete</button>
+          </form>
+      </div>
+  `);
+});
+
+// Routes to handle form submissions
+app.post('/submit-username', (req, res) => {
+  const username = req.body.username;
+  console.log(`New Username: ${username}`);
+  res.send(`Username updated to: ${username}`);
+});
+
+app.post('/submit-password', (req, res) => {
+  const password = req.body.password;
+  console.log(`New Password: ${password}`);
+  res.send(`Password updated successfully.`);
+});
+
+app.post('/submit-delete-account', (req, res) => {
+  const confirmation = req.body.confirm;
+  if (confirmation === 'DELETE') {
+      console.log('Account deleted');
+      res.send('Account deleted successfully.');
+  } else {
+      res.send('Account deletion failed. Incorrect confirmation.');
+  }
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
