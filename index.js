@@ -11,6 +11,7 @@ const saltRounds = 10;
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const { defaultMaxListeners } = require('events');
+const { error } = require('console');
 app.use(cookieParser());
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'views')));
@@ -32,6 +33,16 @@ app.use(session({
   cookie: { secure: false },
   store: new MySQLStore(options)
 }));
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`);
+});
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post('/submit', (req, res) => {
+  formData = req.body;
+  console.log(formData);
+  res.redirect('/');
+});
 
 app.get('/', (req, res) => {
   if (req.session.userId) {
@@ -75,16 +86,6 @@ app.get('/profile', (req, res) => {
       }
     });
   }
-});
-app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
-});
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.post('/submit', (req, res) => {
-  formData = req.body;
-  console.log(formData);
-  res.redirect('/');
 });
 
 app.get('/getFormData', (req, res) => {
@@ -284,9 +285,8 @@ app.get('/deleteAccount', (req, res) => {
       <div id="form-container">
           <h2>Delete Account</h2>
           <form id="submitForm" action="/submit-delete-account" method="post">
-              <label for="confirm">Type "DELETE" to confirm:</label>
-              <input type="text" id="confirm" name="confirm" required><br><br>
-              <button type="submit">Delete</button>
+              <label for="confirm">Your account will be permanently deleted, are you sure?</label>
+              <a href='submit-delete-account'>Delete</a>
           </form>
       </div>
   `);
@@ -305,17 +305,53 @@ app.post('/submit-password', (req, res) => {
   res.send(`Password updated successfully.`);
 });
 
-app.post('/submit-delete-account', (req, res) => {
-  const confirmation = req.body.confirm;
-  if (confirmation === 'DELETE') {
-      console.log('Account deleted');
-      res.send('Account deleted successfully.');
-  } else {
-      res.send('Account deletion failed. Incorrect confirmation.');
-  }
-});
+app.get('/submit-delete-account', (req, res) => {
+    const userId = req.session.userId;
+    db.beginTransaction((transactionError) => {
+      if (transactionError) {
+        console.error('Transaction error:', transactionError);
+        res.status(500).send('An error occurred while starting the transaction.');
+        return;
+      }
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+      // First, delete related records from the dreams table
+      const deleteDreamsQuery = 'DELETE FROM dreams WHERE userid = ?';
+      db.query(deleteDreamsQuery, [userId], (dreamsError, dreamsResults) => {
+        if (dreamsError) {
+          db.rollback(() => {
+            console.error('Error deleting related dreams:', dreamsError);
+            res.status(500).send('An error occurred while deleting related dreams.');
+          });
+          return;
+        }
+
+        // Now, delete the user
+        const deleteUserQuery = 'DELETE FROM users WHERE id = ?';
+        db.query(deleteUserQuery, [userId], (userError, userResults) => {
+          if (userError) {
+            dbrollback(() => {
+              console.error('Error deleting account:', userError);
+              res.status(500).send('An error occurred while deleting the account.');
+            });
+          } else if (userResults.affectedRows === 0) {
+            db.rollback(() => {
+              res.status(404).send('Account not found.');
+            });
+          } else {
+            db.commit((commitError) => {
+              if (commitError) {
+                db.rollback(() => {
+                  console.error('Commit error:', commitError);
+                  res.status(500).send('An error occurred while committing the transaction.');
+                });
+              } else {
+                console.log('Account deleted');
+                res.redirect('/');
+              } 
+            });
+          }
+          ekls
+        });
+      });
+    });
 });

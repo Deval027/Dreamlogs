@@ -48,7 +48,7 @@ function OpenWindow() {
         formSettings[i].style.display = 'block';
     }
 }
-}
+} 
 Setbutton.addEventListener("click", OpenWindow);
 
 function showForm(formUrl) {
