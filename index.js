@@ -261,7 +261,7 @@ app.get('/CUsername', (req, res) => {
           <form id="submitForm" action="/submit-username" method="post">
               <label for="new-username">New Username:</label>
               <input type="text" id="new-username" name="username" required><br><br>
-              <button type="submit">Submit</button>
+              <button type="change username">Submit</button>
           </form>
       </div>
   `);
@@ -274,7 +274,7 @@ app.get('/CPassword', (req, res) => {
           <form id="submitForm" action="/submit-password" method="post">
               <label for="new-password">New Password:</label>
               <input type="password" id="new-password" name="password" required><br><br>
-              <button type="submit">Submit</button>
+              <button type="submit">Change password</button>
           </form>
       </div>
   `);
@@ -295,16 +295,45 @@ app.get('/deleteAccount', (req, res) => {
 // Routes to handle form submissions
 app.post('/submit-username', (req, res) => {
   const username = req.body.username;
-  console.log(`New Username: ${username}`);
-  res.send(`Username updated to: ${username}`);
+  const userId = req.session.userId;
+
+  if (!username || !userId) {
+    return res.status(400).send('Invalid request');
+  }
+
+  const query = 'UPDATE users SET username = ? WHERE id = ?';
+  db.query(query, [username, userId], (err, result) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      return res.status(500).send('Internal server error');
+    }
+    console.log('paswword cambiada')
+    res.redirect('/profile');
+  });
 });
 
 app.post('/submit-password', (req, res) => {
   const password = req.body.password;
-  console.log(`New Password: ${password}`);
-  res.send(`Password updated successfully.`);
+  const userId = req.session.userId;
+
+  if (!password || !userId) {
+    return res.status(400).send('Invalid request');
+  }
+
+  const query = 'UPDATE users SET password = ? WHERE id = ?';
+  db.query(query, [password, userId], (err, result) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      return res.status(500).send('Internal server error');
+    }
+    console.log('paswword cambiada')
+    res.redirect('/profile');
+  });
 });
 
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
 app.get('/submit-delete-account', (req, res) => {
     const userId = req.session.userId;
     db.beginTransaction((transactionError) => {
