@@ -379,7 +379,7 @@ app.get('/submit-delete-account', (req, res) => {
               } 
             });
           }
-          ekls
+          
         });
       });
     });
