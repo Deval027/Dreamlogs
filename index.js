@@ -315,7 +315,6 @@ app.post('/submit-username', (req, res) => {
 app.post('/submit-password', (req, res) => {
   const password = req.body.password;
   const userId = req.session.userId;
-
   if (!password || !userId) {
     return res.status(400).send('Invalid request');
   }
@@ -331,9 +330,7 @@ app.post('/submit-password', (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
+
 app.get('/submit-delete-account', (req, res) => {
     const userId = req.session.userId;
     db.beginTransaction((transactionError) => {
