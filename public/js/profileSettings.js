@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: jsonData,
           })
-          location.reload()
+          
           .then(response => response.json())
           .then(data => {
               if (data.redirect) {
@@ -122,16 +122,22 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: jsonData,
         })
-        then(response => response.json())
+
+      
+        .then(response => response.json())
           .then(data => {
               if (data.redirect) {
                   window.location.href = data.redirect; // Redirect to the new URL
+                  window.location.reload(true);
+              }
+              else{
+                window.location.reload(true);
               }
           })
           .catch(error => {
               console.error('Error:', error);
           });
-              }); 
+              });
   });
 });
 
