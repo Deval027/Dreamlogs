@@ -8,9 +8,8 @@ function getCurrentUsername() {
   const text = div.textContent;
   
   // Print the text to the console
-  console.log(text);
   user = text.replace('Username:','').trim();
-  console.log(user);   
+ 
 }
 
 
@@ -42,11 +41,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         let errorMessage = '';
           if (newUsername === '') {
-            errorMessage = 'a username is required';
+            errorMessage = 'F';
             alert('no username given putamadremevoyasuicidar')
           }
           else if (newUsername === user){
-          
+            errorMessage = 'F';
             alert("username needs to be diferent from the current one puta") 
           }
           if (errorMessage !== '') {
@@ -63,10 +62,15 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: jsonData,
           })
+          location.reload()
           .then(response => response.json())
           .then(data => {
               if (data.redirect) {
                   window.location.href = data.redirect; // Redirect to the new URL
+                  window.location.reload(true);
+              }
+              else{
+                window.location.reload(true);
               }
           })
           .catch(error => {
@@ -88,8 +92,46 @@ document.addEventListener('DOMContentLoaded', function() {
               </form>
           </div>
       `;
-
       document.getElementById('95').innerHTML = formContainer;
+       // Add form submit event listener
+       document.getElementById('submitForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        console.log('lowkey good at this point');
+        const newPassword = document.getElementById('new-password').value;
+        console.log(newPassword)
+        const oldErrorMessage = document.getElementById('errorMessage');
+        if (oldErrorMessage) {
+          oldErrorMessage.remove();
+        }
+        let errorMessage = '';
+          if (newPassword === '') {
+            errorMessage = 'F';
+            alert('no username given putamadremevoyasuicidar')
+          }
+          if (errorMessage !== '') {
+            console.log("Error")
+            return; // If there's an error, stop here and don't make the fetch call
+          }
+          const jsonData = JSON.stringify({
+            password: newPassword,
+          });
+          fetch('/submit-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: jsonData,
+        })
+        then(response => response.json())
+          .then(data => {
+              if (data.redirect) {
+                  window.location.href = data.redirect; // Redirect to the new URL
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+              }); 
   });
 });
 
@@ -106,6 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
       `;
 
       document.getElementById('95').innerHTML = formContainer;
+      
   });
   
 

@@ -284,19 +284,24 @@ app.post('/submit-username', (req, res) => {
 app.post('/submit-password', (req, res) => {
   const password = req.body.password;
   const userId = req.session.userId;
-  if (!password || !userId) {
-    return res.status(400).send('Invalid request');
-  }
 
-  const query = 'UPDATE users SET password = ? WHERE id = ?';
-  db.query(query, [password, userId], (err, result) => {
-    if (err) {
-      console.error('Error executing query:', err);
-      return res.status(500).send('Internal server error');
-    }
-    console.log('paswword cambiada')
+  bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+      if (err) {
+          console.error(err);
+          return res.status(500).json({ success: false, message: 'Internal server error' });
+      }
 
-    res.redirect('/profile');
+      const query = 'UPDATE users SET password = ? WHERE id = ?';
+      db.query(query, [hashedPassword, userId], (err, result) => {
+          if (err) {
+              console.error(err);
+              return res.status(500).json({ success: false, message: 'Internal server error' });
+          }
+          console.log('Password updated');
+          if (!res.headersSent) {
+            res.json({ redirect: '/profile' }); // Send a JSON response with the redirect URL
+        }
+      });
   });
 });
 
