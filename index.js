@@ -13,6 +13,7 @@ const cookieParser = require('cookie-parser');
 const { defaultMaxListeners } = require('events');
 const { error } = require('console');
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'views')));
 //user session for testing and devlopment remove when finished
@@ -25,7 +26,7 @@ const options = {
   }
 };
 
-
+//IHAVECLINICALDEPRESSION
 app.use(session({
   secret: 'session_secret_key',
   resave: false,
@@ -228,7 +229,7 @@ app.get('/userLogs', (req, res) => {
 
   // Query to get the username
   const userQuery = 'SELECT username FROM users WHERE Id = ?';
-  // Query to count the posts
+  // Query to count the posts       
   const postCountQuery = 'SELECT COUNT(*) AS postCount FROM dreams WHERE userId = ?';
 
   db.query(userQuery, [userId], (userErr, userResults) => {
@@ -254,63 +255,31 @@ app.get('/userLogs', (req, res) => {
   });
 });
 
-app.get('/CUsername', (req, res) => {
-  res.send(`
-      <div id="form-container">
-          <h2>Change Username</h2>
-          <form id="submitForm" action="/submit-username" method="post">
-              <label for="new-username">New Username:</label>
-              <input type="text" id="new-username" name="username" required><br><br>
-              <button type="change username">Submit</button>
-          </form>
-      </div>
-  `);
-});
-
-app.get('/CPassword', (req, res) => {
-  res.send(`
-      <div id="form-container">
-          <h2>Change Password</h2>
-          <form id="submitForm" action="/submit-password" method="post">
-              <label for="new-password">New Password:</label>
-              <input type="password" id="new-password" name="password" required><br><br>
-              <button type="submit">Change password</button>
-          </form>
-      </div>
-  `);
-});
-
-app.get('/deleteAccount', (req, res) => {
-  res.send(`
-      <div id="form-container">
-          <h2>Delete Account</h2>
-          <form id="submitForm" action="/submit-delete-account" method="post">
-              <label for="confirm">Your account will be permanently deleted, are you sure?</label>
-              <a href='submit-delete-account'>Delete</a>
-          </form>
-      </div>
-  `);
-});
-
 // Routes to handle form submissions
 app.post('/submit-username', (req, res) => {
   const username = req.body.username;
   const userId = req.session.userId;
 
+  console.log('Received username:', username);
+  console.log('Session userId:', userId);
+
   if (!username || !userId) {
-    return res.status(400).send('Invalid request');
+      return res.status(400).json({ message: 'Invalid request' });
   }
 
   const query = 'UPDATE users SET username = ? WHERE id = ?';
   db.query(query, [username, userId], (err, result) => {
-    if (err) {
-      console.error('Error executing query:', err);
-      return res.status(500).send('Internal server error');
+      if (err) {
+          console.error('Error executing query:', err);
+          return res.status(500).json({ message: 'Internal server error' });
+      }
+      console.log('Username updated');
+      if (!res.headersSent) {
+        res.json({ redirect: '/profile' }); // Send a JSON response with the redirect URL
     }
-    console.log('paswword cambiada')
-    res.redirect('/profile');
   });
 });
+
 
 app.post('/submit-password', (req, res) => {
   const password = req.body.password;
@@ -326,6 +295,7 @@ app.post('/submit-password', (req, res) => {
       return res.status(500).send('Internal server error');
     }
     console.log('paswword cambiada')
+
     res.redirect('/profile');
   });
 });
