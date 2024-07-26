@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           if (errorMessage !== '') {
             console.log("Error")
-            return; // If there's an error, stop here and don't make the fetch call
+            return; 
           }
           const jsonData = JSON.stringify({
             username: newUsername,
@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <h2>Change Password</h2>
               <form id="submitForm" action="/submit-password" method="post">
                   <label for="new-password">New Password:</label>
+                  <input type="password" id="old-password" old="password" required><br><br>
                   <input type="password" id="new-password" name="password" required><br><br>
                   <button type="submit">Change password</button>
               </form>
