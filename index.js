@@ -273,9 +273,10 @@ app.post('/submit-username', (req, res) => {
           console.error('Error executing query:', err);
           return res.status(500).json({ message: 'Internal server error' });
       }
-      console.log('Username updated');
+      
       if (!res.headersSent) {
-        res.json({ redirect: '/profile' }); // Send a JSON response with the redirect URL
+        res.json({ redirect: '/profile', message: 'Username updated successfuly' }); // Send a JSON response with the redirect URL
+        console.log('Username updated');
     }
   });
 });
@@ -331,7 +332,8 @@ app.post('/submit-password', (req, res) => {
                   }
 
                   console.log('Password updated');
-                  res.json({ success: true, redirect: '/profile' });
+                  res.json({ success: true, redirect: '/profile',message: 'Password updated succesfully' });
+                  
               });
           });
       });

@@ -55,31 +55,34 @@ document.addEventListener('DOMContentLoaded', function() {
           const jsonData = JSON.stringify({
             username: newUsername,
           });
-          fetch('/submit-password', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: jsonData,
+          fetch('/submit-username', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: jsonData,
 })
-.then(response => response.json())
-.then(data => {
-    if (data.success) {
-        if (data.redirect) {
-            window.location.href = data.redirect; // Redirect to the new URL
-        } else {
-            window.location.reload(true); // Force reload the page to ensure changes are reflected
-        }
-    } else {
-        alert(data.message); // Show an alert with the error message
-    }
-})
-.catch(error => {
-    console.error('Error:', error);
-});
-              });
+  .then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  alert(data.message); // Show an alert with the success message
+                  setTimeout(() => {
+                      if (data.redirect) {
+                          window.location.href = data.redirect; // Redirect to the new URL
+                      } else {
+                          window.location.reload(true); // Force reload the page to ensure changes are reflected
+                      }
+                  }, 10); // Delay to allow the alert to be displayed
+              } else {
+                  alert(data.message); // Show an alert with the error message
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+                });
+    });
   });
-});
 
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('91').addEventListener('click', function() {
@@ -88,9 +91,9 @@ document.addEventListener('DOMContentLoaded', function() {
               <h2>Change Password</h2>
               <form id="submitForm" action="/submit-password" method="post">
                   <label for="new-password">Current password:</label>
-                  <input type="password" id="old-password" name="oldPassword" required><br><br>
+                  <input type="password" id="oldPassword" name="oldPassword" required><br><br>
                   <label for="new-password">New password:</label>
-                  <input type="password" id="new-password" name="password" required><br><br>
+                  <input type="password" id="newPassword" name="password" required><br><br>
                   <button type="submit">Change password</button>
               </form>
           </div>
@@ -100,7 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
        document.getElementById('submitForm').addEventListener('submit', function(event) {
         event.preventDefault();
         console.log('lowkey good at this point');
-        const newPassword = document.getElementById('new-password').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const oldPassword = document.getElementById('oldPassword').value;
         console.log(newPassword)
         const oldErrorMessage = document.getElementById('errorMessage');
         if (oldErrorMessage) {
@@ -110,16 +114,17 @@ document.addEventListener('DOMContentLoaded', function() {
           if (newPassword === '') {
             errorMessage = 'F';
             alert('no username given putamadremevoyasuicidar')
-          }
+          } 
           if (errorMessage !== '') {
             console.log("Error")
             return; // If there's an error, stop here and don't make the fetch call
           }
           const jsonData = JSON.stringify({
+            oldPassword: oldPassword,
             password: newPassword,
-            
-          });
-          fetch('/submit-password', {
+        });
+        
+        fetch('/submit-password', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -129,18 +134,23 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                if (data.redirect) {
-                    window.location.href = data.redirect; // Redirect to the new URL
-                } else {
-                    window.location.reload(true); // Force reload the page to ensure changes are reflected
-                }
+                alert(data.message); // Show an alert with the success message
+                setTimeout(() => {
+                    if (data.redirect) {
+                        window.location.href = data.redirect; // Redirect to the new URL
+                    } else {
+                        window.location.reload(true); // Force reload the page to ensure changes are reflected
+                    }
+                }, 10); // Delay to allow the alert to be displayed
             } else {
                 alert(data.message); // Show an alert with the error message
             }
         })
-          .catch(error => {
-              console.error('Error:', error);
-          });
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        
+        
               });
   });
 });
