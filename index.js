@@ -283,31 +283,69 @@ app.post('/submit-username', (req, res) => {
 
 app.post('/submit-password', (req, res) => {
   const password = req.body.password;
+  const oldPassword = req.body.oldPassword;
   const userId = req.session.userId;
 
-  bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+  if (!password || !oldPassword || !userId) {
+      return res.status(400).json({ success: false, message: 'Invalid request' });
+  }
+
+  // Fetch the current hashed password from the database
+  const fetchPasswordQuery = 'SELECT password FROM users WHERE id = ?';
+  db.query(fetchPasswordQuery, [userId], (err, results) => {
       if (err) {
           console.error(err);
           return res.status(500).json({ success: false, message: 'Internal server error' });
       }
 
-      const query = 'UPDATE users SET password = ? WHERE id = ?';
-      db.query(query, [hashedPassword, userId], (err, result) => {
+      if (results.length === 0) {
+          return res.status(404).json({ success: false, message: 'User not found' });
+      }
+
+      const currentHashedPassword = results[0].password;
+
+      // Compare the provided old password with the current hashed password
+      bcrypt.compare(oldPassword, currentHashedPassword, (err, isMatch) => {
           if (err) {
               console.error(err);
               return res.status(500).json({ success: false, message: 'Internal server error' });
           }
-          console.log('Password updated');
-          if (!res.headersSent) {
-            res.json({ redirect: '/profile' }); // Send a JSON response with the redirect URL
-        }
+
+          if (!isMatch) {
+              return res.status(400).json({ success: false, message: 'Old password is incorrect' });
+          }
+
+          // Hash the new password
+          bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+              if (err) {
+                  console.error(err);
+                  return res.status(500).json({ success: false, message: 'Internal server error' });
+              }
+
+              // Update the password in the database
+              const updatePasswordQuery = 'UPDATE users SET password = ? WHERE id = ?';
+              db.query(updatePasswordQuery, [hashedPassword, userId], (err, result) => {
+                  if (err) {
+                      console.error(err);
+                      return res.status(500).json({ success: false, message: 'Internal server error' });
+                  }
+
+                  console.log('Password updated');
+                  res.json({ success: true, redirect: '/profile' });
+              });
+          });
       });
   });
 });
 
 
+
+
 app.get('/submit-delete-account', (req, res) => {
     const userId = req.session.userId;
+    const password = req.body.password;
+    
+
     db.beginTransaction((transactionError) => {
       if (transactionError) {
         console.error('Transaction error:', transactionError);

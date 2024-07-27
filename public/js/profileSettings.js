@@ -55,27 +55,28 @@ document.addEventListener('DOMContentLoaded', function() {
           const jsonData = JSON.stringify({
             username: newUsername,
           });
-          fetch('submit-username', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: jsonData,
-          })
-          
-          .then(response => response.json())
-          .then(data => {
-              if (data.redirect) {
-                  window.location.href = data.redirect; // Redirect to the new URL
-                  window.location.reload(true);
-              }
-              else{
-                window.location.reload(true);
-              }
-          })
-          .catch(error => {
-              console.error('Error:', error);
-          });
+          fetch('/submit-password', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: jsonData,
+})
+.then(response => response.json())
+.then(data => {
+    if (data.success) {
+        if (data.redirect) {
+            window.location.href = data.redirect; // Redirect to the new URL
+        } else {
+            window.location.reload(true); // Force reload the page to ensure changes are reflected
+        }
+    } else {
+        alert(data.message); // Show an alert with the error message
+    }
+})
+.catch(error => {
+    console.error('Error:', error);
+});
               });
   });
 });
@@ -86,8 +87,9 @@ document.addEventListener('DOMContentLoaded', function() {
           <div id="form-container">
               <h2>Change Password</h2>
               <form id="submitForm" action="/submit-password" method="post">
-                  <label for="new-password">New Password:</label>
-                  <input type="password" id="old-password" old="password" required><br><br>
+                  <label for="new-password">Current password:</label>
+                  <input type="password" id="old-password" name="oldPassword" required><br><br>
+                  <label for="new-password">New password:</label>
                   <input type="password" id="new-password" name="password" required><br><br>
                   <button type="submit">Change password</button>
               </form>
@@ -115,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           const jsonData = JSON.stringify({
             password: newPassword,
+            
           });
           fetch('/submit-password', {
             method: 'POST',
@@ -123,18 +126,18 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: jsonData,
         })
-
-      
         .then(response => response.json())
-          .then(data => {
-              if (data.redirect) {
-                  window.location.href = data.redirect; // Redirect to the new URL
-                  window.location.reload(true);
-              }
-              else{
-                window.location.reload(true);
-              }
-          })
+        .then(data => {
+            if (data.success) {
+                if (data.redirect) {
+                    window.location.href = data.redirect; // Redirect to the new URL
+                } else {
+                    window.location.reload(true); // Force reload the page to ensure changes are reflected
+                }
+            } else {
+                alert(data.message); // Show an alert with the error message
+            }
+        })
           .catch(error => {
               console.error('Error:', error);
           });
@@ -149,7 +152,9 @@ document.addEventListener('DOMContentLoaded', function() {
           <h2>Delete Account</h2>
           <form id="submitForm" action="/submit-delete-account" method="post">
               <label for="confirm">Your account will be permanently deleted, are you sure?</label>
-              <a href='submit-delete-account'>Delete</a>
+              <label for="password">Enter your password</label>
+              <input type="password" id="password" name="password"required><br><br>
+              <button type="submit">Delete</button>
           </form>
       </div>
       `;
