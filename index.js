@@ -343,7 +343,7 @@ app.post('/submit-password', (req, res) => {
 
 
 
-app.get('/submit-delete-account', (req, res) => {
+app.post('/submit-delete-account', (req, res) => {
     const userId = req.session.userId;
     const password = req.body.password;
     
