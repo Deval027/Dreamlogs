@@ -159,23 +159,61 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('92').addEventListener('click', function() {
       const formContainer = `
           <div id="form-container">
-          <h2>Delete Account</h2>
-          <form id="submitForm" action="/submit-delete-account" method="post">
-              <label for="confirm">Your account will be permanently deleted, are you sure?</label>
-              <label for="password">Enter your password</label>
-              <input type="password" id="password" name="password"required><br><br>
-              <button type="submit">Delete</button>
-          </form>
-      </div>
+              <h2>Delete Account</h2>
+              <form id="submitForm" action="/submit-delete-account" method="post">
+                  <label for="confirm">Your account will be permanently deleted, are you sure?</label><br><br>
+                  <label for="password">Enter your password for confirmation:</label><br>
+                  <input type="password" id="password" name="password" required><br><br>
+                  <button type="submit">Delete</button>
+              </form>
+          </div>
       `;
 
       document.getElementById('95').innerHTML = formContainer;
-      
-  });
-  
 
-  
+      document.getElementById('submitForm').addEventListener('submit', function(event) {
+          event.preventDefault();
+
+          const password = document.getElementById('password').value;
+
+          if (password === '') {
+              alert('Password cannot be empty');
+              return;
+          }
+
+          const jsonData = JSON.stringify({
+              password: password
+          });
+
+          fetch('/submit-delete-account', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: jsonData,
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  alert(data.message); // Show an alert with the success message
+                  setTimeout(() => {
+                      if (data.redirect) {
+                          window.location.href = data.redirect; // Redirect to the new URL
+                      } else {
+                          window.location.reload(true); // Force reload the page to ensure changes are reflected
+                      }
+                  }, 100); // Delay to allow the alert to be displayed
+              } else {
+                  alert(data.message); // Show an alert with the error message
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+      });
+  });
 });
+
 
 fetch('/api/userId')
       .then(response => response.json())

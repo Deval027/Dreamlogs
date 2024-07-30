@@ -347,6 +347,29 @@ app.get('/submit-delete-account', (req, res) => {
     const userId = req.session.userId;
     const password = req.body.password;
     
+    const fetchPasswordQuery = 'SELECT password FROM users WHERE id = ?';
+  db.query(fetchPasswordQuery, [userId], (err, results) => {
+      if (err) {
+          console.error(err);
+          return res.status(500).json({ success: false, message: 'Internal server error' });
+      }
+
+      if (results.length === 0) {
+          return res.status(404).json({ success: false, message: 'User not found' });
+      }
+
+      const currentHashedPassword = results[0].password;
+
+      // Compare the provided old password with the current hashed password
+      bcrypt.compare(password, currentHashedPassword, (err, isMatch) => {
+          if (err) {
+              console.error(err);
+              return res.status(500).json({ success: false, message: 'Internal server error' });
+          }
+
+          if (!isMatch) {
+              return res.status(400).json({ success: false, message: 'Old password is incorrect' });
+          }
 
     db.beginTransaction((transactionError) => {
       if (transactionError) {
@@ -395,4 +418,6 @@ app.get('/submit-delete-account', (req, res) => {
         });
       });
     });
+  })
+  })
 });
