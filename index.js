@@ -170,6 +170,11 @@ app.get('/logout', (req, res) => {
   });
 });
 app.get('/api/userId', (req, res) => {
+  const userId = req.session.userId;
+  if (!userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
   db.query('SELECT username FROM users WHERE Id = ?', [userId], (err, results) => {
     if (err) {
       return res.status(500).json({ error: 'Database query failed' });
@@ -182,6 +187,7 @@ app.get('/api/userId', (req, res) => {
     res.json({ userId: userId, username: results[0].username });
   });
 });
+
 
 app.post('/dreampost', (req, res) => {
   const { NameInput, dayInput, monthInput, yearInput, typeD, clarity, DreamDescription, userId } = req.body;
