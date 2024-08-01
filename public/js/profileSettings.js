@@ -195,16 +195,16 @@ document.addEventListener('DOMContentLoaded', function() {
           .then(response => response.json())
           .then(data => {
               if (data.success) {
-                  alert(data.message); // Show an alert with the success message
+                  alert(data.message); 
                   setTimeout(() => {
                       if (data.redirect) {
-                          window.location.href = data.redirect; // Redirect to the new URL
+                          window.location.href = data.redirect;
                       } else {
-                          window.location.reload(true); // Force reload the page to ensure changes are reflected
+                          window.location.reload(true); 
                       }
-                  }, 100); // Delay to allow the alert to be displayed
+                  }, 100); 
               } else {
-                  alert(data.message); // Show an alert with the error message
+                  alert(data.message); 
               }
           })
           .catch(error => {
@@ -219,10 +219,8 @@ fetch('/api/userId')
       .then(response => response.json())
       .then(data => {
         if (data.error) {
-          // Handle error if any
           document.getElementById('40').innerText = 'Error: ' + data.error;
         } else {
-          // Display the username in the div
           document.getElementById('40').innerText = "Username:" + data.username;
         }
       })
@@ -234,10 +232,8 @@ fetch('/api/userId')
       .then(response => response.json())
       .then(data => {
         if (data.error) {
-          // Handle error if any
           document.getElementById('60').innerText = 'Error: ' + data.error;
         } else {
-          // Display the username and post count in the div
           document.getElementById('60').innerText = 'Logs: ' + data.postCount;
         }
       })

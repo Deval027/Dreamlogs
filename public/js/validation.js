@@ -7,13 +7,11 @@ form.addEventListener('submit', function(event) {
   const confirmPassword = document.getElementById('confirmPassword').value;
   const email = document.getElementById('registerEmail').value;
 
-  // Remove old error message
   const oldErrorMessage = document.getElementById('errorMessage');
   if (oldErrorMessage) {
     oldErrorMessage.remove();
   }
 
-  // Validate form values
   let errorMessage = '';
   if (username === '' || password === '') {
     errorMessage = 'Username and password are required';
@@ -24,29 +22,26 @@ form.addEventListener('submit', function(event) {
   }
 
   if (errorMessage !== '') {
-    // Create new error message
     const errorElement = document.createElement('span');
     errorElement.id = 'errorMessage';
     errorElement.style.color = 'red';
     errorElement.textContent = errorMessage;
 
-    // Append error message to form
     form.appendChild(errorElement);
-    return; // If there's an error, stop here and don't make the fetch call
+
+    return; 
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    // Show error message
     const errorElement = document.createElement('span');
     errorElement.style.color = 'red';
     errorElement.textContent = 'Invalid email format';
 
-    // Append error message to form
+   
     form.appendChild(errorElement);
 
-    // Prevent form submission
-    return; // If there's an error, stop here and don't make the fetch call
+    return; 
   }
 
   const jsonData = JSON.stringify({
@@ -55,7 +50,6 @@ form.addEventListener('submit', function(event) {
     email: email,
   });
 
-  // Send data to server
   fetch('/register', {
     method: 'POST',
     headers: {
@@ -68,11 +62,9 @@ form.addEventListener('submit', function(event) {
     if (data.usernameExists) {
       alert('Username already exists');
     } else if (data.success) {
-      // Registration was successful
       alert('Registration successful');
       location.reload(false);
     } else {
-      // Registration failed
       alert('Registration failed');
     }
   })

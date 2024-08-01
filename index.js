@@ -16,6 +16,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'views')));
+
 //user session for testing and devlopment remove when finished
 const MySQLStore = require('connect-mysql')(session);
 const options = {
@@ -26,7 +27,6 @@ const options = {
   }
 };
 
-//IHAVECLINICALDEPRESSION
 app.use(session({
   secret: 'session_secret_key',
   resave: false,
@@ -38,7 +38,7 @@ app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
 app.use(bodyParser.urlencoded({ extended: true }));
-
+//IHAVECLINICALDEPRESSION
 app.post('/submit', (req, res) => {
   formData = req.body;
   console.log(formData);
@@ -183,11 +183,9 @@ app.get('/api/userId', (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // Send the userId and username to the client
     res.json({ userId: userId, username: results[0].username });
   });
 });
-
 
 app.post('/dreampost', (req, res) => {
   const { NameInput, dayInput, monthInput, yearInput, typeD, clarity, DreamDescription, userId } = req.body;
@@ -226,6 +224,7 @@ app.delete('/api/deleteDream/:dreamId', (req, res) => {
     }
   });
 });
+
 app.get('/userLogs', (req, res) => {
   const userId = req.session.userId;
 
@@ -233,9 +232,7 @@ app.get('/userLogs', (req, res) => {
     return res.status(400).json({ error: 'User ID not found in session' });
   }
 
-  // Query to get the username
-  const userQuery = 'SELECT username FROM users WHERE Id = ?';
-  // Query to count the posts       
+  const userQuery = 'SELECT username FROM users WHERE Id = ?';     
   const postCountQuery = 'SELECT COUNT(*) AS postCount FROM dreams WHERE userId = ?';
 
   db.query(userQuery, [userId], (userErr, userResults) => {
@@ -252,16 +249,12 @@ app.get('/userLogs', (req, res) => {
       if (postErr) {
         return res.status(500).json({ error: 'Database query failed' });
       }
-
       const postCount = postResults[0].postCount;
-
-      // Send the userId, username, and postCount to the client
       res.json({ userId: userId, username: username, postCount: postCount });
     });
   });
 });
 
-// Routes to handle form submissions
 app.post('/submit-username', (req, res) => {
   const username = req.body.username;
   const userId = req.session.userId;
@@ -287,18 +280,16 @@ app.post('/submit-username', (req, res) => {
   });
 });
 
-
 app.post('/submit-password', (req, res) => {
   const password = req.body.password;
   const oldPassword = req.body.oldPassword;
   const userId = req.session.userId;
-
   if (!password || !oldPassword || !userId) {
       return res.status(400).json({ success: false, message: 'Invalid request' });
   }
 
-  // Fetch the current hashed password from the database
   const fetchPasswordQuery = 'SELECT password FROM users WHERE id = ?';
+
   db.query(fetchPasswordQuery, [userId], (err, results) => {
       if (err) {
           console.error(err);
@@ -311,7 +302,6 @@ app.post('/submit-password', (req, res) => {
 
       const currentHashedPassword = results[0].password;
 
-      // Compare the provided old password with the current hashed password
       bcrypt.compare(oldPassword, currentHashedPassword, (err, isMatch) => {
           if (err) {
               console.error(err);
@@ -321,15 +311,11 @@ app.post('/submit-password', (req, res) => {
           if (!isMatch) {
               return res.status(400).json({ success: false, message: 'Old password is incorrect' });
           }
-
-          // Hash the new password
           bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
               if (err) {
                   console.error(err);
                   return res.status(500).json({ success: false, message: 'Internal server error' });
               }
-
-              // Update the password in the database
               const updatePasswordQuery = 'UPDATE users SET password = ? WHERE id = ?';
               db.query(updatePasswordQuery, [hashedPassword, userId], (err, result) => {
                   if (err) {
@@ -346,36 +332,31 @@ app.post('/submit-password', (req, res) => {
   });
 });
 
-
-
-
 app.post('/submit-delete-account', (req, res) => {
     const userId = req.session.userId;
     const password = req.body.password;
-    
     const fetchPasswordQuery = 'SELECT password FROM users WHERE id = ?';
-  db.query(fetchPasswordQuery, [userId], (err, results) => {
-      if (err) {
-          console.error(err);
-          return res.status(500).json({ success: false, message: 'Internal server error' });
-      }
+    db.query(fetchPasswordQuery, [userId], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ success: false, message: 'Internal server error' });
+        }
 
-      if (results.length === 0) {
-          return res.status(404).json({ success: false, message: 'User not found' });
-      }
+        if (results.length === 0) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
 
-      const currentHashedPassword = results[0].password;
+        const currentHashedPassword = results[0].password;
 
-      // Compare the provided old password with the current hashed password
-      bcrypt.compare(password, currentHashedPassword, (err, isMatch) => {
-          if (err) {
-              console.error(err);
-              return res.status(500).json({ success: false, message: 'Internal server error' });
-          }
+        bcrypt.compare(password, currentHashedPassword, (err, isMatch) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ success: false, message: 'Internal server error' });
+            }
 
-          if (!isMatch) {
-              return res.status(400).json({ success: false, message: 'Old password is incorrect' });
-          }
+            if (!isMatch) {
+                return res.status(400).json({ success: false, message: 'Old password is incorrect' });
+            }
 
     db.beginTransaction((transactionError) => {
       if (transactionError) {
@@ -384,7 +365,6 @@ app.post('/submit-delete-account', (req, res) => {
         return;
       }
 
-      // First, delete related records from the dreams table
       const deleteDreamsQuery = 'DELETE FROM dreams WHERE userid = ?';
       db.query(deleteDreamsQuery, [userId], (dreamsError, dreamsResults) => {
         if (dreamsError) {
@@ -395,7 +375,6 @@ app.post('/submit-delete-account', (req, res) => {
           return;
         }
 
-        // Now, delete the user
         const deleteUserQuery = 'DELETE FROM users WHERE id = ?';
         db.query(deleteUserQuery, [userId], (userError, userResults) => {
           if (userError) {
