@@ -60,6 +60,9 @@ app.get('/', (req, res) => {
   }
 });
 
+
+
+
 app.get('/home', (req, res) => {
   if (!req.session.userId) {
     res.redirect('/');
@@ -405,4 +408,18 @@ app.post('/submit-delete-account', (req, res) => {
     });
   })
   })
+});
+
+
+
+//Mail verification Testing
+app.get('/mail', (req, res) => {
+  fs.readFile('views/emailtest.html', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error reading file');
+    } else {
+      res.send(data);
+    }
+  });
 });

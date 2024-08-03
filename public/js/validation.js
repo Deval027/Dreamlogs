@@ -37,10 +37,7 @@ form.addEventListener('submit', function(event) {
     const errorElement = document.createElement('span');
     errorElement.style.color = 'red';
     errorElement.textContent = 'Invalid email format';
-
-   
-    form.appendChild(errorElement);
-
+    form.appendChild(errorElement);f
     return; 
   }
 
@@ -72,3 +69,4 @@ form.addEventListener('submit', function(event) {
     console.error('Error:', error);
   });
 });
+
