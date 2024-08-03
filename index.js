@@ -423,3 +423,8 @@ app.get('/mail', (req, res) => {
     }
   });
 });
+
+app.post('/mailValidation', (req, res) => {
+
+
+})
