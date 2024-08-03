@@ -19,6 +19,3 @@ the page cons of many layers and functions
 
 
 
-#Back-end architecture
-
-![Uploading Diagram.png…]()
