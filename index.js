@@ -12,6 +12,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const { defaultMaxListeners } = require('events');
 const { error } = require('console');
+const { checkDomain } = require('./mailChecker'); 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -410,8 +411,6 @@ app.post('/submit-delete-account', (req, res) => {
   })
 });
 
-
-
 //Mail verification Testing
 app.get('/mail', (req, res) => {
   fs.readFile('views/emailtest.html', 'utf8', (err, data) => {
@@ -423,32 +422,6 @@ app.get('/mail', (req, res) => {
     }
   });
 });
-const SmtpClient = require('smtp-client').SMTPClient;
-const dns = require('dns');
-
-async function verifyEmail(email) {
-  const domain = email.split('@')[1];
-  const client = new SmtpClient({ host: 'smtp.' + domain });
-
-  try {
-    await client.connect();
-    await client.send({ from: 'sky@example.com', to: email });
-    console.log('Email exists');
-    await client.quit();
-  } catch (error) {
-    console.log('Email does not exist');
-  }
-
-function checkDomain(email, callback) {
-  const domain = email.split('@')[1];
-  dns.resolveMx(domain, (err, addresses) => {
-    if (err || addresses.length === 0) {
-      callback('Invalid email domain');
-    } else {
-      callback('Valid email domain');
-    }
-  });
-}
 
 app.post('/mailValidation', (req, res) => {
   const email = req.body.email;
@@ -460,6 +433,11 @@ app.post('/mailValidation', (req, res) => {
   checkDomain(email, (result) => {
     res.json({ success: true, result });
     console.log(result)
+    if (result === 'Valid email domain'){
+    }
+    else {
+
+    }
   });
   
 });
