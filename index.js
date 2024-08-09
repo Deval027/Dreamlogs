@@ -11,8 +11,10 @@ const saltRounds = 10;
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const { defaultMaxListeners } = require('events');
+require('dotenv').config();
 const { error } = require('console');
 const { checkDomain } = require('./mailChecker'); 
+const { sendEmail } = require('./mailService');
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -430,14 +432,21 @@ app.post('/mailValidation', (req, res) => {
     return res.status(400).json({ error: 'Email is required' });
   }
 
-  checkDomain(email, (result) => {
-    res.json({ success: true, result });
-    console.log(result)
-    if (result === 'Valid email domain'){
-    }
-    else {
-
+  checkDomain(email, async (result) => {
+    if (result === 'Valid email domain') {
+      try {
+        const response = await sendEmail(
+          'homeroand6@gmail.com',
+          'Sending Email using Node.js',
+          'That was easy!'
+        );
+        res.json({ success: true, result: response });
+      } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ error: 'Failed to send email' });
+      }
+    } else {
+      res.json({ success: false, result });
     }
   });
-  
 });
