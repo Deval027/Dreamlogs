@@ -431,22 +431,25 @@ app.post('/mailValidation', (req, res) => {
   if (!email) {
     return res.status(400).json({ error: 'Email is required' });
   }
-
+  
   checkDomain(email, async (result) => {
     if (result === 'Valid email domain') {
-      try {
-        const response = await sendEmail(
-          'homeroand6@gmail.com',
-          'Sending Email using Node.js',
-          'That was easy!'
-        );
-        res.json({ success: true, result: response });
-      } catch (error) {
-        console.error('Error sending email:', error);
-        res.status(500).json({ error: 'Failed to send email' });
-      }
-    } else {
-      res.json({ success: false, result });
-    }
+      const selectQuery = 'SELECT * FROM users WHERE username = ?';
+      db.query(selectQuery, [username], (err, results) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send();
+        } else if (results.length > 0) {
+          res.json({ emailExists: true });
+          console.log('email already exists');
+          res.redirect('/login');
+        } else {
+          res.json({ success: true, result: response });
+          console.error('Error sending email:', error);
+          res.status(500).json({ error: 'Failed to send email' });
+          res.json({ success: false, result });
+        }    
+      })
+    }   
   });
 });
