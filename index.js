@@ -261,7 +261,7 @@ app.get('/CUsername', (req, res) => {
           <form id="submitForm" action="/submit-username" method="post">
               <label for="new-username">New Username:</label>
               <input type="text" id="new-username" name="username" required><br><br>
-              <button type="submit">Submit</button>
+              <button type="change username">Submit</button>
           </form>
       </div>
   `);
@@ -274,7 +274,7 @@ app.get('/CPassword', (req, res) => {
           <form id="submitForm" action="/submit-password" method="post">
               <label for="new-password">New Password:</label>
               <input type="password" id="new-password" name="password" required><br><br>
-              <button type="submit">Submit</button>
+              <button type="submit">Change password</button>
           </form>
       </div>
   `);
