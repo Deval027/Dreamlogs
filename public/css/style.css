@@ -1,9 +1,17 @@
+:root {
+  --boxes: #7734e7;
+  --background: #fffeff
+  
+}
+
 @media (max-width: 768px) {
   .sidebar, .main {
     width: 100%;
     float: none;
   }
 }
+
+
 @font-face {
     font-family: 'Azaret';
     src: url('../fonts/AzeretMono-VariableFont_wght.ttf') format('truetype');
@@ -11,7 +19,7 @@
   
   body {
     font-family: 'Azaret';
-    background-color: rgb(80, 60, 145);;
+    background-color: var(--background);
     height: 100%;
     
   }
@@ -41,7 +49,7 @@
   position: fixed;
   width: 15%;
   height: 100vh;
-  background: #312450;
+  background: var(--boxes);
   font-size: 0.65em;
 }
 .nav {
