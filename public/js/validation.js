@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const form = document.getElementById('registrationForm');
 form.addEventListener('submit', function(event) {
   event.preventDefault();
@@ -81,7 +80,7 @@ form.addEventListener('submit', function(event) {
     console.error('Error:', error);
   });
 });
-=======
+
 const form = document.getElementById('registrationForm');
 form.addEventListener('submit', function(event) {
   event.preventDefault();

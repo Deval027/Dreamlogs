@@ -1,7 +1,10 @@
 :root {
   --boxes: #7734e7;
-  --background: #fffeff
-  
+  --background: #fffeff;
+  --Text: #010101;
+  --gray: #7f7f7f;
+  --pinkish: #cd79f5;
+
 }
 
 @media (max-width: 768px) {
@@ -40,7 +43,7 @@
   z-index: 1;
   padding-top: 25px;
   margin: 0;
-  color: rgb(151, 136, 200);
+  color: var(--gray);
   font-size: 40px;
   position: fixed;
 }
@@ -94,8 +97,8 @@ a {
   bottom: -100px;
 }
 .box{
-  color: rgb(151, 136, 200);
-  background-color: rgb(58, 38, 124);
+  color: var(--Text);
+  background-color: var(--boxes);
   position: relative;
   height: 300px; /* Fixed height for each box */
   width: 500px;
@@ -105,7 +108,6 @@ a {
   cursor: pointer;
   font-size: 19px;
   transition: .5s;
-  
 }
 .left_top{
   position: absolute;

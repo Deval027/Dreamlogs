@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-
 var CreateLog = document.getElementsByClassName('adition');
 var CloseTab = document.getElementsByClassName('close');
 var CloseTab2 = document.getElementsByClassName('close2');
@@ -83,7 +80,6 @@ CreateLog[0].addEventListener("click", OpenWindow);
 CloseTab[0].addEventListener("click", CloseWIndow);
 CloseTab2[0].addEventListener("click", CloseRead);
 
-=======
 var CreateLog = document.getElementsByClassName('adition');
 var CloseTab = document.getElementsByClassName('close');
 var CloseTab2 = document.getElementsByClassName('close2');
@@ -161,4 +157,3 @@ CreateLog[0].addEventListener("click", OpenWindow);
 CloseTab[0].addEventListener("click", CloseWIndow);
 CloseTab2[0].addEventListener("click", CloseRead);
 
->>>>>>> origin/main
