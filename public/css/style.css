@@ -4,7 +4,11 @@
   --Text: #010101;
   --gray: #7f7f7f;
   --pinkish: #cd79f5;
-
+  
+  --arrow-bg: rgb(255, 255, 255, 0);
+  --arrow-icon: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg);
+  --option-bg: white;
+  --select-bg: rgba(255, 255, 255, 0);
 }
 
 @media (max-width: 768px) {
@@ -43,7 +47,7 @@
   z-index: 1;
   padding-top: 25px;
   margin: 0;
-  color: var(--gray);
+  color: var(--background);
   font-size: 40px;
   position: fixed;
 }
@@ -65,7 +69,7 @@
 }
 a {
   position: relative;
-  color: rgb(151, 136, 200);
+  color: var(--background);
   line-height: 5em;
   text-transform: uppercase;
   text-decoration: none;
@@ -226,12 +230,19 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 70%;
   z-index: 1;
   border: solid 1px rgb(58, 38, 124); 
-  background-color: #312450;
-  color: rgb(151, 136, 200);
   text-align: center; 
 }
 .LogEntry form {
   display: inline-block; 
+}
+
+.LogEntry .inputs {
+  background-color: var(--boxes); /* Background color for the form area */
+}
+
+.LogEntry select {
+  background-color: var(--background); /* Ensure labels have a transparent background */
+  color: var(--Text)
 }
 .overlay {
   position: fixed;
@@ -245,10 +256,10 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 textarea{
   resize: none;
-  background-color: rgb(80, 60, 145);
+  background-color: white;
   border: none;
   font-family: 'Azaret';
-  color: rgb(151, 136, 200);
+  color: var(--gray)
 }
 input{
   padding: 1rem 4rem 1rem 1rem;
@@ -266,44 +277,37 @@ textarea:focus{
 }
 select{
   padding: 5px;
-  background-color: rgb(80, 60, 145);
+  background-color: var(--boxes);
   border: none;
-  color: rgb(151, 136, 200);
+  color: var(--background);
   font-family: 'Azaret';
 }
 select:focus{
   outline: none;
 }
-:root {
-  --arrow-bg: rgb(255, 255, 255, 0);
-  --arrow-icon: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg);
-  --option-bg: white;
-  --select-bg: rgba(255, 255, 255, 0);
-}
+
 select {
-  /* Reset */
   appearance: none;
   border: 0;
   outline: 0;
   font: inherit;
-  /* Personalize */
   width: 20rem;
   padding: 1rem 4rem 1rem 1rem;
   background: var(--arrow-icon) no-repeat right 0.8em center / 1.4em,
-    linear-gradient(to left, var(--arrow-bg) 3em, var(--select-bg) 3em);
-  color: rgb(151, 136, 200);
+  linear-gradient(to left, var(--arrow-bg) 3em, var(--select-bg) 3em);
+  color: var(--background);
   border-radius: 0.25em;
   box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  /* Remove IE arrow */
+ 
   &::-ms-expand {
     display: none;
   }
-  /* Remove focus outline */
+  
   &:focus {
     outline: none;
-  }
-  /* <option> colors */
+ 
+}
 }
 option {
   background-color: #312450;
@@ -332,8 +336,8 @@ option {
 }
 .reader{
   border: solid 1px rgb(58, 38, 124);
-  position: fixed; /* Change to fixed to keep it centered while scrolling */
-  display: none; /* Initially hidden */
+  position: fixed; 
+  display: none; 
   justify-content: center;
   top: 50%;
   left: 50%;
@@ -348,7 +352,7 @@ option {
 .definition{
   display: block;
   width: 80%;
-  margin: 20px; /* Adjust as needed */
+  margin: 20px; 
   text-align: left;
   padding: 10px;
   background-color: rgb(80, 60, 145);
