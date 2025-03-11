@@ -1,5 +1,4 @@
 //TODO: fix error when submitting dream if spaces are empty it crashes the server
-//TODO: Close button out of div
 const express = require('express');
 const fs = require('fs');
 const app = express();

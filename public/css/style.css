@@ -5,9 +5,9 @@
   --gray: #7f7f7f;
   --pinkish: #cd79f5;
   
-  --arrow-bg: rgb(255, 255, 255, 0);
-  --arrow-icon: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg);
-  --option-bg: white;
+  --arrow-bg: rgba(0, 0, 0, 0);
+  --arrow-icon: url('https://upload.wikimedia.org/wikipedia/commons/9/9a/Caret_down_font_awesome.svg');
+  --option-bg: rgb(0, 0, 0);
   --select-bg: rgba(255, 255, 255, 0);
 }
 
@@ -28,7 +28,6 @@
     font-family: 'Azaret';
     background-color: var(--background);
     height: 100%;
-    
   }
 
 .head{
@@ -194,8 +193,9 @@ a {
   box-shadow: 0 0 5px rgb(151, 136, 200);
   text-shadow: 0 0 5px rgb(151, 136, 200);
 }
-/**/
-/* sidebar hover */
+
+
+
 
 a::before {
   content: '';
@@ -222,14 +222,16 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 .LogEntry{
+  margin-top: 1%;
   display: none;
-  position: absolute;
+  position:fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 70%;
   z-index: 1;
   border: solid 1px rgb(58, 38, 124); 
+  border-radius: 0.50em;
   text-align: center; 
 }
 .LogEntry form {
@@ -237,12 +239,12 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .LogEntry .inputs {
-  background-color: var(--boxes); /* Background color for the form area */
+  background-color: var(--boxes); 
 }
 
 .LogEntry select {
-  background-color: var(--background); /* Ensure labels have a transparent background */
-  color: var(--Text)
+  background-color: var(--background);
+  color: black;
 }
 .overlay {
   position: fixed;
@@ -259,16 +261,19 @@ textarea{
   background-color: white;
   border: none;
   font-family: 'Azaret';
-  color: var(--gray)
+  color: var(--gray);
 }
-input{
+.NameInput{
+  background-color: var(--background);
   padding: 1rem 4rem 1rem 1rem;
   width: 20rem;
-  background-color: rgb(80, 60, 145);
-  color: rgb(151, 136, 200);
+  color: var(--gray);
   border: none;
   font-family: 'Azaret';
+  text-align: center;
+  border-radius: 0.25em;
 }
+
 input:focus {
   outline: none;
 }
@@ -309,8 +314,28 @@ select {
  
 }
 }
+
+.save{
+  padding: 1rem 4rem 1rem 1rem;
+  width: 20rem;
+  border: none;
+  text-decoration: none;
+  padding: 1rem 4rem 1rem 1rem;
+  width: 20rem;
+  color: var(--gray);
+  border: none;
+  font-family: 'Azaret';
+  text-align: center;
+  border-radius: 0.25em;
+}
 option {
   background-color: #312450;
+}
+.closebtn{
+  width: 50px;
+  display: flex;
+  float: right;
+  display: inline-flex;
 }
 .close{
   border: none;
@@ -322,18 +347,75 @@ option {
   position: relative;
   transition: 0.5s;
   text-decoration: none;
+  z-index: 1;
+}
+.close::before,
+.close::after {
+  content: '';
+  position: absolute;
+  top:15px;
+  width: 27px;
+  height: 5px;
+  background-color: black;
+  transform-origin: center;
+}
+
+.close::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.close:hover::before,
+.close:hover::after {
+  background-color: red; /* Optional: Changes color when hovered */
 }
 .close2{
   border: none;
   font-family: 'Azaret';
-  background-color: rgb(80, 60, 145);
-  color: rgb(151, 136, 200);
+  background-color: transparent;
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
   text-decoration: none;
+  z-index: 1;
 }
+.close2{
+  width: 50px;
+  display: flex;
+  float: right;
+  display: inline-flex;
+}
+.close2::before,
+.close2::after {
+  content: '';
+  position: absolute;
+  top:15px;
+  width: 27px;
+  height: 5px;
+  background-color: black;
+  transform-origin: center;
+}
+
+.close2::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close2::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.close2:hover::before,
+.close2:hover::after {
+  background-color: red; /* Optional: Changes color when hovered */
+}
+
+
+
+
 .reader{
   border: solid 1px rgb(58, 38, 124);
   position: fixed; 

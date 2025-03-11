@@ -30,10 +30,12 @@
         </aside>
     <!-- The true desire for me is empty-->    
     <div class="LogEntry">
+        
         <div class="inputs">
+            <div class="closebtn"><button class="close" aria-label="Close"><span></span></button></div>
         <form action="/dreampost" method="post">
             <label for="NameInput">Dream title</label><br>
-            <input class="NameInput" id="NameInput" name="NameInput" type="text" placeholder="Enter title"><br>
+            <input class="NameInput" id="NameInput" name="NameInput" type="text" placeholder="Dream title"><br>
             <label for="dayInput">Dream date (dd/mm/yyyy)</label><br>
             <select class="dayInput" name="dayInput" id="dayInput"  placeholder="day">
                 <option value="01">01</option>
@@ -106,18 +108,18 @@
             </select>
             <br>
             <label for="DreamDescription">Dream Description</label> <br>
-            <textarea name="DreamDescription" id="DreamDescription" rows="35" cols="120" placeholder="Enter dream description"></textarea>
+            <textarea name="DreamDescription" id="DreamDescription" rows="30" cols="110" placeholder="Enter dream description"></textarea>
             <input type="hidden" id="userId" name="userId">
-            <input type="submit" placeholder="guardar">
+            <input type="submit" class="save" placeholder="guardar">
             </form>
         </div>
-        <div class="closebtn"><button class="close"><span>Close</span></button></div>
+        
     </div>
     <div class="reader">
         <div class="definition">
             <span class="content"></span>
         </div>
-        <div class="closebtn"><button class="close2">Close</button></div>
+        <div class="closebtn"><button class="close2" aria-label="Close"><span></span></button></div>
     </div>
     <Div class="main" id="main">
          <!--<button class="box">

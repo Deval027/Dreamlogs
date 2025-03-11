@@ -8,15 +8,27 @@
         height: 50%;
     }
 }
+
+:root {
+  --boxes: #7734e7;
+  --background: #fffeff;
+  --Text: #010101;
+  --gray: #7f7f7f;
+  --pinkish: #cd79f5;
+  --arrow-bg: rgba(0, 0, 0, 0);
+  --arrow-icon: url('https://upload.wikimedia.org/wikipedia/commons/9/9a/Caret_down_font_awesome.svg');
+  --option-bg: rgb(0, 0, 0);
+  --select-bg: rgba(255, 255, 255, 0);
+}
 @font-face {
     font-family: 'Azaret';
     src: url('../fonts/AzeretMono-VariableFont_wght.ttf') format('truetype');
   }
   
 body {
-    color: rgb(151, 136, 200);
+    color: var(--background);
     font-family: 'Azaret';
-    background-color: rgb(80, 60, 145);;
+    background-color: var(--background);
     height: 100%;
     display: flex;
     justify-content: space-around;
@@ -43,8 +55,8 @@ input[type="email"], input[type="password"], input[type=username], input[type='t
     margin: 10px 0;
     padding: 1rem 4rem 1rem 1rem;
     width: 15rem;
-    background-color: #312450;
-    color: rgb(151, 136, 200);
+    background-color: var(--boxes);
+    color: var(--Text);
     border: none;
     font-family: 'Azaret';
 }
@@ -55,10 +67,10 @@ span{
 }
 textarea{
     resize: none;
-    background-color: rgb(80, 60, 145);
+    background-color: var(--background);
     border: none;
     font-family: 'Azaret';
-    color: rgb(151, 136, 200);
+    color: var(--Text)
   }
   
   input:focus {
@@ -69,8 +81,8 @@ textarea{
   }
   .send {
     cursor: pointer;
-    background-color: #312450;
-    color: rgb(151, 136, 200);
+    background-color: var(--boxes);
+    color: var(--Text);
     border: none;
     font-family: 'Azaret';
     text-align: center; /* Center the text horizontally */
@@ -94,4 +106,7 @@ input:-moz-autofill {
   color: rgb(151, 136, 200) !important; /* Change text color */
   border: none; /* No border */
   font-family: 'Azaret';
+}
+.register{
+  color: var(--Text);
 }

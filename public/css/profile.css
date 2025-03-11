@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .settings {
             display: grid;
             grid-template-columns: 1fr;
@@ -91,8 +90,9 @@
     text-align: center; /* Center the text horizontally */
     padding: 15px 20px; /* Add padding for better visual appearance */
 }   
-=======
-.settings {
+
+.settings { 
+            color: #000;
             display: grid;
             grid-template-columns: 1fr;
             gap: 10px; /* Adjust the gap as needed */
@@ -102,10 +102,10 @@
             text-align: left; /* Center the text inside each grid item */
         }
 .accountSetting {
-
+    
     display: none;
     padding: 10px;
-    color: rgb(151, 136, 200);
+    color: rgb(0, 0, 0);
     line-height: 5em;
     text-transform: uppercase;
     text-decoration: none;
@@ -192,4 +192,6 @@
     text-align: center; /* Center the text horizontally */
     padding: 15px 20px; /* Add padding for better visual appearance */
 }   
->>>>>>> origin/main
+.setting{
+    color: #000;
+}
