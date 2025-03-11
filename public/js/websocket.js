@@ -12,9 +12,18 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
     event.preventDefault(); 
 
     const formData = new FormData(event.target);
+    
+    const loginData = {};
+    formData.forEach((value, key) => {
+        loginData[key] = value;
+    });
+
     const response = await fetch('/login', {
         method: 'POST',
-        body: formData
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData),
     });
 
     const result = await response.json(); 

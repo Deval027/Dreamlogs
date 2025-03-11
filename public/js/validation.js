@@ -81,3 +81,29 @@ form.addEventListener('submit', function(event) {
   });
 });
 
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent the form from submitting the traditional way
+
+  // Get the values from the input fields
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  // Prepare the payload for the request
+  const loginData = {
+      username: username,
+      password: password
+  };
+
+
+  fetch('/login', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginData),
+  })
+  .then(response => {
+    return response.json();
+})
+
+});

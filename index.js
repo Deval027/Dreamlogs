@@ -18,6 +18,7 @@ app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'views')));
 const WebSocket = require('ws');
 //websockets
+
 const wss = new WebSocket.Server({ port: 8080 });
 const clients = new Set(); 
 wss.on('connection', (ws) => {
@@ -34,7 +35,8 @@ const options = {
   config: {
     user: 'root',
     password: 'admin',
-    database: 'dreamlogs'
+    database: 'dreamlogs',
+    ssl: false
   }
 };
 
@@ -144,41 +146,45 @@ db.query(selectQuery, [username], (err, results) => {
 app.post('/login', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
+
+  console.log(`Login attempt: Username = ${username}, Password = ${password}`);
+
   const sql = 'SELECT * FROM users WHERE username = ?';
 
   db.query(sql, [username], (err, results) => {
       if (err) {
-          console.error(err);
+          console.error('Database error:', err);
           return res.status(500).json({ success: false, error: 'Server error' });
       }
-
+      console.log('Database results:', results); 
       if (results.length > 0) {
           const user = results[0];
+          console.log('User found:', user);
+
           bcrypt.compare(password, user.password, (err, match) => {
               if (err) {
-                  console.error(err);
+                  console.error('Bcrypt error:', err);
                   return res.status(500).json({ success: false, error: 'Server error' });
               }
 
+              console.log('Password match:', match);
+
               if (match) {
                   req.session.userId = user.id;
-                  console.log('User logged in:', user.id);
-                  return res.json({ success: true, redirect: '/home.html' }); // ✅ Return success
+                  console.log('User logged in successfully:', user.id);
+                  return res.json({ success: true, redirect: '/home.html' });
               } else {
-                  console.log('Invalid username or password');
-                  sendReloadMessage();
-                  return res.json({ success: false }); // ❌ Login failed
+                  console.log('Incorrect password');
+                  return res.json({ success: false, reload: true });
               }
           });
       } else {
-          console.log('Invalid username or password');
-          sendReloadMessage();
-          return res.json({ success: false }); // ❌ User not found
+          console.log('Invalid username: User not found');
+          return res.json({ success: false, reload: true });
       }
   });
 });
 
-// Function to send a reload message to all connected WebSocket clients
 function sendReloadMessage() {
   clients.forEach((ws) => {
       if (ws.readyState === WebSocket.OPEN) {

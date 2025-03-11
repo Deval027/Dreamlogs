@@ -3,18 +3,14 @@
         {
             "mysqlOptions": {
                 "authProtocol": "default",
-                "enableSsl": "Disabled",
-                "ssl": {
-                    "rejectUnauthorized": false
-                }
-                
+                "enableSsl": "Disabled"
             },
             "previewLimit": 50,
             "server": "localhost",
             "port": 3306,
             "driver": "MySQL",
             "name": "MySQL Local",
-            "database": "DreamLogs",
+            "database": "dreamlogs",
             "username": "root",
             "password": "admin",
             "pooling": {
