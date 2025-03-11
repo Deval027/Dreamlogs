@@ -14,6 +14,7 @@
   --background: #fffeff;
   --Text: #010101;
   --gray: #7f7f7f;
+  --lesgray: #e0e0e0;
   --pinkish: #cd79f5;
   --arrow-bg: rgba(0, 0, 0, 0);
   --arrow-icon: url('https://upload.wikimedia.org/wikipedia/commons/9/9a/Caret_down_font_awesome.svg');
@@ -56,7 +57,7 @@ input[type="email"], input[type="password"], input[type=username], input[type='t
     padding: 1rem 4rem 1rem 1rem;
     width: 15rem;
     background-color: var(--boxes);
-    color: var(--Text);
+    color: var(--lesgray);
     border: none;
     font-family: 'Azaret';
 }
