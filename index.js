@@ -1,4 +1,4 @@
-//TODO: fix error when submitting dream if spaces are empty it crashes the server
+//TODO Fix userid not defined when new page is loaded
 const express = require('express');
 const fs = require('fs');
 const app = express();
@@ -221,14 +221,34 @@ app.get('/api/userId', (req, res) => {
 
 app.post('/dreampost', (req, res) => {
   const { NameInput, dayInput, monthInput, yearInput, typeD, clarity, DreamDescription, userId } = req.body;
-  const query = 'INSERT INTO dreams (dream_name, date, type_of_dream, clarity, description, userid) VALUES (?, ?, ?, ?, ?, ?)';
+
+  if (!NameInput || !dayInput || !monthInput || !yearInput || !typeD || !clarity || !DreamDescription || !userId) {
+    return res.redirect('/home');
+  }
   const date = `${yearInput}-${monthInput}-${dayInput}`;
+  if (isNaN(new Date(date))) {
+    return res.status(400).json({ error: 'Invalid date format' });
+  }
+
+  // Validate userId to ensure it's a valid integer (assuming userId is an integer)
+  if (isNaN(userId) || userId <= 0) {
+    return res.status(400).json({ error: 'Invalid userId' });
+  }
+
+  const query = 'INSERT INTO dreams (dream_name, date, type_of_dream, clarity, description, userid) VALUES (?, ?, ?, ?, ?, ?)';
+  
   db.query(query, [NameInput, date, typeD, clarity, DreamDescription, userId], (err, result) => {
-    if (err) throw err;
-    var dreamId = result.insertId;
-    module.exports = dreamId;
-    console.log('Data inserted into database');
-    res.redirect('/home'); 
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Failed to save dream' });
+    }
+
+    // Assuming you want to use the inserted `dreamId`
+    const dreamId = result.insertId;
+    console.log('Data inserted into database with dreamId:', dreamId);
+
+    // Redirect to home page
+    res.redirect('/home');
   });
 });
 

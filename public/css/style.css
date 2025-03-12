@@ -221,19 +221,21 @@ input[type="number"]::-webkit-outer-spin-button {
   appearance: none;
   margin: 0;
 }
-.LogEntry{
+.LogEntry {
   margin-top: 1%;
+  margin-bottom: 3%;
   display: none;
-  position:fixed;
-  top: 50%;
-  left: 50%;
+  position: fixed;
+  top: 48%; /* Adjust this value to move the element higher */
+  left: 52%;
   transform: translate(-50%, -50%);
   width: 70%;
   z-index: 1;
-  border: solid 1px rgb(58, 38, 124); 
+  border: solid 1px rgb(58, 38, 124);
   border-radius: 0.50em;
-  text-align: center; 
+  text-align: center;
 }
+
 .LogEntry form {
   display: inline-block; 
 }
