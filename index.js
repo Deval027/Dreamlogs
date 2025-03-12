@@ -206,6 +206,11 @@ app.get('/logout', (req, res) => {
   });
 });
 app.get('/api/userId', (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+
+  const userId = req.session.userId; 
   db.query('SELECT username FROM users WHERE Id = ?', [userId], (err, results) => {
     if (err) {
       return res.status(500).json({ error: 'Database query failed' });
@@ -214,10 +219,10 @@ app.get('/api/userId', (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // Send the userId and username to the client
     res.json({ userId: userId, username: results[0].username });
   });
 });
+
 
 app.post('/dreampost', (req, res) => {
   const { NameInput, dayInput, monthInput, yearInput, typeD, clarity, DreamDescription, userId } = req.body;
