@@ -348,7 +348,7 @@ app.get('/deleteAccount', (req, res) => {
           <h2>Delete Account</h2>
           <form id="submitForm" action="/submit-delete-account" method="post">
               <label for="confirm">Your account will be permanently deleted, are you sure?</label>
-              <a href='submit-delete-account'>Delete</a>
+              <a class='delete' href='submit-delete-account'>Delete</a>
           </form>
       </div>
   `);
