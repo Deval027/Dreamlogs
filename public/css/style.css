@@ -412,36 +412,77 @@ option {
 
 .close2:hover::before,
 .close2:hover::after {
-  background-color: red; /* Optional: Changes color when hovered */
+  background-color: var(--pinkish)
 }
 
 
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: white;
+}
 
-
-.reader{
-  border: solid 1px rgb(58, 38, 124);
-  position: fixed; 
-  display: none; 
+.reader {
+  border: solid 2px rgb(58, 38, 124);
+  position: fixed;
+  display: none;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 70%;
-  z-index: 1;
+  width: auto;
+  max-width: 80%;
+  min-width: 300px;
+  z-index: 10;
   background-color: #312450;
   color: rgb(151, 136, 200);
   text-align: center;
   padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  padding-bottom: 46px;
 }
-.definition{
-  display: block;
-  width: 80%;
-  margin: 20px; 
-  text-align: left;
-  padding: 10px;
+
+.definition {
+  width: 100%; /* Ensure it fits inside .reader */
+  max-width: 100%; /* Prevents overflow */
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 15px;
   background-color: rgb(80, 60, 145);
-  color: rgb(151, 136, 200);
+  color: rgb(200, 190, 255);
+  border-radius: 8px;
+  text-align: left;
+  white-space: normal;
+  box-sizing: border-box; /* Ensures padding doesn’t make it overflow */
 }
 .content{
-  display: inline-block;
+  display: block;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 100%; /* Prevents the text from overflowing */
+}
+.delete-button{
+  background-color: var(--pinkish); /* A nice red */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.delete-button:hover {
+  background-color: var(--pinkish); /* Darker red on hover */
+
 }
