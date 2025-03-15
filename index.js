@@ -271,14 +271,15 @@ app.get('/api/dreams', (req, res) => {
 
 app.delete('/api/deleteDream/:dreamId', (req, res) => {
   const dreamId = req.params.dreamId;
+
   const query = 'DELETE FROM dreams WHERE dreamid = ?';
   db.query(query, [dreamId], (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send();
-    } else {
-      res.status(200).send();
-    }
+      if (err) {
+          console.error(err);
+          res.status(500).send();
+      } else {
+          res.status(200).send();
+      }
   });
 });
 app.get('/userLogs', (req, res) => {

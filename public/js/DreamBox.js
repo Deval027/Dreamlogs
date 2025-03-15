@@ -1,3 +1,4 @@
+
 let overlay = document.getElementById('overlay'); 
 
 fetch('/api/dreams') 
@@ -32,67 +33,77 @@ fetch('/api/dreams')
 
       mainDiv.appendChild(button);
 
+      // **Click event for opening dream reader**
       button.addEventListener('click', function() {
-       
         const descriptionElement = document.querySelector('.definition .content');
-       
+        const readerbutton = document.getElementsByClassName('reader')[0];
+        const readerTitle = document.querySelector('.reader .title');
+        readerTitle.textContent = dream.dream_name;
+        // Assign the dream ID
+        readerbutton.dataset.dreamId = dream.dreamid;
         descriptionElement.textContent = dream.description;
 
-        const readerbutton = document.getElementsByClassName('reader')[0]; 
-
-        
-        if (!readerbutton.querySelector('.delete-button')) {
-          
-          const deleteButton = document.createElement('button');
-          deleteButton.className = 'delete-button';
-          deleteButton.textContent = 'Delete';
-
-         
-          readerbutton.appendChild(deleteButton);
-
-          
-          deleteButton.addEventListener('click', deleteWindow);
-
-          function deleteWindow() {
-            for (let i = 0; i < read.length; i++) {
-              read[i].style.display = 'none';
-            }
-            overlay.style.display = 'none';
-          }
+        // Remove existing delete button (if any)
+        let existingDeleteButton = readerbutton.querySelector('.delete-button');
+        if (existingDeleteButton) {
+          existingDeleteButton.remove();
         }
 
-        
-        for (let i = 0; i < boxes.length; i++) {
-          boxes[i].addEventListener('click', function() {
-            for (let i = 0; i < Log.length; i++) {
-              read[i].style.display = 'block';
-            }
-            overlay.style.display = 'block';
-          });
-        }
+        // Create delete button
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'delete-button';
+        deleteButton.textContent = 'Delete';
+        deleteButton.dataset.dreamId = dream.dreamid;
 
-       
-        const deleteButton = readerbutton.querySelector('.delete-button');
+        // **Click event for deleting the dream**
         deleteButton.addEventListener('click', function() {
-          fetch(`/api/deleteDream/${dream.dreamid}`, { 
-            method: 'DELETE',
-          })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-           
-            mainDiv.removeChild(button);
-          })
-          .catch(error => console.error('Error:', error));
+          const dreamIdToDelete = deleteButton.dataset.dreamId;
+          
+          fetch(`/api/deleteDream/${dreamIdToDelete}`, { method: 'DELETE' })
+            .then(response => {
+              if (response.ok) {
+                console.log(`Deleted dream with ID: ${dreamIdToDelete}`);
+                
+                // Hide reader box
+                readerbutton.style.display = 'none';
+
+                // Remove dream box from main container
+                const dreamBox = document.getElementById(dreamIdToDelete);
+                if (dreamBox) {
+                  dreamBox.remove();
+                }
+              } else {
+                console.error('Failed to delete dream.');
+              }
+            })
+            .catch(error => console.error('Error:', error));
         });
 
-        for (let i = 0; i < Log.length; i++) {
-          read[i].style.display = 'block';
-        }
-        overlay.style.display = 'block';
+        // Append delete button to the reader
+        readerbutton.appendChild(deleteButton);
+
+        // Show the reader
+        readerbutton.style.display = 'flex';
       });
     });
   })
-  .catch(error => console.error('Error:', error));
+  .catch(error => console.error('Error fetching dreams:', error));
+
+
+       
+        
+
+
+
+
+function deleteWindow() {
+  for (let i = 0; i < read.length; i++) {
+    read[i].style.display = 'none';
+  }
+  overlay.style.display = 'none';
+}
+
+
+
+
 
