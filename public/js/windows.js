@@ -31,9 +31,6 @@ function CloseWIndow(){
 }
 function CloseRead(){
     closeReader()
-    for (let i = 0; i < read.length; i++) {
-        read[i].style.display = 'none';
-    }
     overlay.style.display = 'none';
 }
 for (let i = 0; i < boxes.length; i++) {
@@ -44,17 +41,21 @@ for (let i = 0; i < boxes.length; i++) {
         overlay.style.display = 'block';
     });
 }
+
 function closeReader() {
-    read.animate(
+    const reader = document.querySelector('.reader');
+  
+    reader.animate(
       [
-        { opacity: 1, transform: 'scale(1)' },
-        { opacity: 0, transform: 'scale(0.9)' }
+        { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
+        { opacity: 0, transform: 'translate(-50%, -50%) scale(0.9)' }
       ],
       { duration: 300, easing: 'ease-in-out' }
     ).onfinish = () => {
-      read.style.display = 'none'; 
+      reader.style.display = 'none'; 
     };
   }
+
 function deleteWindow(){
   for (let i = 0; i < read.length; i++) {
     read[i].style.display = 'none';

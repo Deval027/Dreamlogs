@@ -109,8 +109,9 @@ function deleteWindow() {
 
 function openReader() {
   const reader = document.querySelector('.reader');
+  const displayer = document.querySelector('.overlay')
   reader.style.display = 'flex'; // Make it visible before animating
-
+  displayer.style.display = "block"
   reader.animate(
     [
       { opacity: 0, transform: 'translate(-50%, -50%) scale(0.9)' }, // Start small but centered
