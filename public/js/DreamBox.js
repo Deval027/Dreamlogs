@@ -91,12 +91,6 @@ fetch('/api/dreams')
   .catch(error => console.error('Error fetching dreams:', error));
 
 
-       
-        
-
-
-
-
 function deleteWindow() {
   for (let i = 0; i < read.length; i++) {
     read[i].style.display = 'none';
@@ -115,8 +109,15 @@ function openReader() {
       { opacity: 0, transform: 'translate(-50%, -50%) scale(0.9)' }, 
       { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' } 
     ],
-    { duration: 300, easing: 'ease-in-out', fill: 'forwards' }
+    { duration: 320, easing: 'ease-in-out', fill: 'forwards' }
   );
+  displayer.animate(
+    [
+      {opacity: 0},
+      {opacity: 1}
+    ],
+    {duration: 320, easing: 'ease-in-out'}
+  )
 }
 
 function HideOverlay(){
