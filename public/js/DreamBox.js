@@ -35,6 +35,8 @@ fetch('/api/dreams')
 
       // **Click event for opening dream reader**
       button.addEventListener('click', function() {
+        console.log("Open")
+        openReader()
         const descriptionElement = document.querySelector('.definition .content');
         const readerbutton = document.getElementsByClassName('reader')[0];
         const readerTitle = document.querySelector('.reader .title');
@@ -105,5 +107,15 @@ function deleteWindow() {
 
 
 
+function openReader() {
+  const reader = document.querySelector('.reader');
+  reader.style.display = 'flex'; // Make it visible before animating
 
-
+  reader.animate(
+    [
+      { opacity: 0, transform: 'translate(-50%, -50%) scale(0.9)' }, // Start small but centered
+      { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' } // Grow while staying centered
+    ],
+    { duration: 300, easing: 'ease-in-out', fill: 'forwards' }
+  );
+}

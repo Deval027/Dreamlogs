@@ -1,3 +1,17 @@
+:root {
+    --boxes: #7734e7;
+    --background: #fffeff;
+    --Text: #010101;
+    --gray: #7f7f7f;
+    --pinkish: #cd79f5;
+    --lesgray: #e0e0e0;
+    --arrow-bg: rgba(0, 0, 0, 0);
+    --arrow-icon: url('https://upload.wikimedia.org/wikipedia/commons/9/9a/Caret_down_font_awesome.svg');
+    --option-bg: rgb(0, 0, 0);
+    --select-bg: rgba(255, 255, 255, 0);
+  }
+
+
 .settings {
             display: grid;
             grid-template-columns: 1fr;
@@ -83,8 +97,8 @@
     display: inline;
     top: 80px;
     cursor: pointer;
-    background-color: #312450;
-    color: rgb(151, 136, 200);
+    background-color: var(--boxes);
+    color: #e0e0e0 ;
     border: none;
     font-family: 'Azaret';
     text-align: center; /* Center the text horizontally */
@@ -185,12 +199,12 @@
     display: inline;
     top: 80px;
     cursor: pointer;
-    background-color: #312450;
+    background-color: #7734e7;
     color: rgb(151, 136, 200);
     border: none;
     font-family: 'Azaret';
     text-align: center;
-    padding: 15px 20px; /* Add padding for better visual appearance */
+    padding: 15px 20px; 
 }   
 .setting{
     color: #000;

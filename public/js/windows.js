@@ -14,7 +14,7 @@ for (let i = 0; i < deleteButtons.length; i++) {
   });
 }
 function OpenWindow() {
-    // Loop through all Log elements and make them visible
+    console.log("openm")
     for (var i = 0; i < Log.length; i++) {
         Log[i].style.display = 'block';
     }
@@ -23,13 +23,14 @@ function OpenWindow() {
 
 }
 function CloseWIndow(){
-    // Loop through all Log elements and make them visible
+    console.log("open")
    for (var i = 0; i < Log.length; i++) {
         Log[i].style.display = 'none' ;
     }
     overlay.style.display = 'none';
 }
 function CloseRead(){
+    closeReader()
     for (let i = 0; i < read.length; i++) {
         read[i].style.display = 'none';
     }
@@ -43,7 +44,17 @@ for (let i = 0; i < boxes.length; i++) {
         overlay.style.display = 'block';
     });
 }
-
+function closeReader() {
+    read.animate(
+      [
+        { opacity: 1, transform: 'scale(1)' },
+        { opacity: 0, transform: 'scale(0.9)' }
+      ],
+      { duration: 300, easing: 'ease-in-out' }
+    ).onfinish = () => {
+      read.style.display = 'none'; 
+    };
+  }
 function deleteWindow(){
   for (let i = 0; i < read.length; i++) {
     read[i].style.display = 'none';
