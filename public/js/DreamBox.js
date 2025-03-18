@@ -79,17 +79,12 @@ fetch('/api/dreams')
             })
             .catch(error => console.error('Error:', error));
         });
-
-        // Append delete button to the reader
         readerbutton.appendChild(deleteButton);
-
-        // Show the reader
         readerbutton.style.display = 'flex';
       });
     });
   })
   .catch(error => console.error('Error fetching dreams:', error));
-
 
 function deleteWindow() {
   for (let i = 0; i < read.length; i++) {
@@ -119,7 +114,6 @@ function openReader() {
     {duration: 320, easing: 'ease-in-out'}
   )
 }
-
 function HideOverlay(){
   displayer.style.display = "none"
 }

@@ -7,9 +7,9 @@ var boxes = document.getElementsByClassName('box');
 var deleteButtons = document.getElementsByClassName('delete-button');
 for (let i = 0; i < deleteButtons.length; i++) {
   deleteButtons[i].addEventListener('click', function() {
-    const box = this.parentElement; // Get the box button from the delete button
+    const box = this.parentElement; 
     let dreamId = document.getElementById('id');
-    deleteDream(box.id); // Get the dream id from the box button's id
+    deleteDream(box.id); 
     console.log('dreamId:', dreamId);
   });
 }
