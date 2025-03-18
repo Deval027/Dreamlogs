@@ -14,7 +14,6 @@ for (let i = 0; i < deleteButtons.length; i++) {
   });
 }
 function OpenWindow() {
-    console.log("openm")
     for (var i = 0; i < Log.length; i++) {
         Log[i].style.display = 'block';
     }
@@ -23,14 +22,13 @@ function OpenWindow() {
 
 }
 function CloseWIndow(){
-    console.log("open")
    for (var i = 0; i < Log.length; i++) {
         Log[i].style.display = 'none' ;
     }
     overlay.style.display = 'none';
 }
 function CloseRead(){
-    closeReader()
+    closeAnimation()
     overlay.style.display = 'none';
 }
 for (let i = 0; i < boxes.length; i++) {
@@ -41,8 +39,7 @@ for (let i = 0; i < boxes.length; i++) {
         overlay.style.display = 'block';
     });
 }
-
-function closeReader() {
+function closeAnimation() {
     const reader = document.querySelector('.reader');
   
     reader.animate(
@@ -55,7 +52,7 @@ function closeReader() {
       reader.style.display = 'none'; 
     };
   }
-
+  
 function deleteWindow(){
   for (let i = 0; i < read.length; i++) {
     read[i].style.display = 'none';

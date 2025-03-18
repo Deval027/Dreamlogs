@@ -110,12 +110,12 @@ function deleteWindow() {
 function openReader() {
   const reader = document.querySelector('.reader');
   const displayer = document.querySelector('.overlay')
-  reader.style.display = 'flex'; // Make it visible before animating
+  reader.style.display = 'flex'; 
   displayer.style.display = "block"
   reader.animate(
     [
-      { opacity: 0, transform: 'translate(-50%, -50%) scale(0.9)' }, // Start small but centered
-      { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' } // Grow while staying centered
+      { opacity: 0, transform: 'translate(-50%, -50%) scale(0.9)' }, 
+      { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' } 
     ],
     { duration: 300, easing: 'ease-in-out', fill: 'forwards' }
   );
