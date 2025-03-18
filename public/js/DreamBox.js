@@ -1,6 +1,4 @@
-
-let overlay = document.getElementById('overlay'); 
-
+const displayer = document.querySelector('.overlay')
 fetch('/api/dreams') 
   .then(response => response.json())
   .then(dreams => {
@@ -73,6 +71,7 @@ fetch('/api/dreams')
                 const dreamBox = document.getElementById(dreamIdToDelete);
                 if (dreamBox) {
                   dreamBox.remove();
+                  HideOverlay()
                 }
               } else {
                 console.error('Failed to delete dream.');
@@ -109,7 +108,6 @@ function deleteWindow() {
 
 function openReader() {
   const reader = document.querySelector('.reader');
-  const displayer = document.querySelector('.overlay')
   reader.style.display = 'flex'; 
   displayer.style.display = "block"
   reader.animate(
@@ -119,4 +117,8 @@ function openReader() {
     ],
     { duration: 300, easing: 'ease-in-out', fill: 'forwards' }
   );
+}
+
+function HideOverlay(){
+  displayer.style.display = "none"
 }
