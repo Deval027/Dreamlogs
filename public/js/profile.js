@@ -27,9 +27,10 @@ fetch('/api/userId')
 
 var SettingsVisual = document.getElementsByClassName("accountSetting")
 var Setbutton = document.getElementById("80")
-
-var formSettings = document.getElementById("95")
+var form = document.getElementById("form-container")
+console.log(form)
 function OpenWindow() {
+
   for (var i = 0; i < SettingsVisual.length; i++) {
       if (SettingsVisual[i].style.display === 'block') {
           SettingsVisual[i].style.display = 'none';
@@ -37,14 +38,48 @@ function OpenWindow() {
           SettingsVisual[i].style.display = 'block';
       }
   }
-  for (var i = 0; i < formSettings.length; i++) {
-    if (formSettings[i].style.display === 'block') {
-        formSettings[i].style.display = 'none';
-    } else {
-        formSettings[i].style.display = 'block';
-    }
+
+  for (var i = 0; i < form.length; i++) {
+      if (form[i].style.display === 'block') {
+          form[i].style.display = 'none';
+      } else {
+          form[i].style.display = 'block';
+      }
+  }
+  if (form) {
+      if (form.style.display === 'block') {
+          form.style.display = 'none';
+      } else {
+          form.style.display = 'block';
+      }
+  } else {
+      console.log(''); 
+  }
 }
-} 
+
+if (form) {
+  console.log('formSettings found in the DOM on page load');
+  Setbutton.addEventListener("click", OpenWindow);
+} else {
+  console.log('formSettings not found, waiting for it to be added');
+}
+
+const observer = new MutationObserver(function(mutationsList) {
+  for (const mutation of mutationsList) {
+      if (mutation.type === 'childList') {
+          console.log('Mutation detected. Checking if formSettings is added...');
+          form = document.getElementById("95");
+          if (form) {
+              console.log('formSettings has been added to the DOM');
+              Setbutton.addEventListener("click", OpenWindow);
+              observer.disconnect(); // Stop observing once we've bound the event
+          }
+      }
+  }
+});
+
+// Start observing the document body for child elements being added
+observer.observe(document.body, { childList: true, subtree: true });
 Setbutton.addEventListener("click", OpenWindow);
 
 function showForm(formUrl) {

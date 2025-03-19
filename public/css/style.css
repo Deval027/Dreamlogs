@@ -103,6 +103,9 @@ a {
   color: var(--Text);
   background-color: var(--boxes);
   position: relative;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   height: 300px; /* Fixed height for each box */
   width: 500px;
   border: 2px solid #312450;
@@ -112,25 +115,14 @@ a {
   font-size: 19px;
   transition: .5s;
 }
-.left_top{
-  position: absolute;
-  top: 40px;
-  left: 40px;
+.box span {
+  margin: 8px 0; /* Add vertical spacing between each span */
 }
-.right_top{
-  position: absolute;
-  top: 40px;
-  right: 40px;
-}
-.left_bottom{
-  position: absolute;
-  left: 40px;
-  bottom: 50px;
-}
-.right_bottom{
-  position: absolute;
-  bottom: 50px;
-  right: 40px;
+.date,
+.name,
+.typo,
+.clarity {
+    margin: 5px 0; /* Adjust spacing between spans */
 }
 .adition{
   text-align: center;

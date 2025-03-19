@@ -1,4 +1,3 @@
-//TODO Fix userid not defined when new page is loaded
 const express = require('express');
 const fs = require('fs');
 const app = express();

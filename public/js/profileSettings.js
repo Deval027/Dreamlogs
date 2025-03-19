@@ -241,7 +241,7 @@ fetch('/api/userId')
         console.error('Error fetching user data:', error);
       });
 
-
+var form = document.getElementsByClassName("form-container")
 var SettingsVisual = document.getElementsByClassName("accountSetting")
 var Setbutton = document.getElementById("80")
 
