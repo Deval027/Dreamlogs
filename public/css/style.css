@@ -4,7 +4,6 @@
   --Text: #010101;
   --gray: #7f7f7f;
   --pinkish: #cd79f5;
-  
   --arrow-bg: rgba(0, 0, 0, 0);
   --arrow-icon: url('https://upload.wikimedia.org/wikipedia/commons/9/9a/Caret_down_font_awesome.svg');
   --option-bg: rgb(0, 0, 0);
@@ -106,7 +105,7 @@ a {
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: 300px; /* Fixed height for each box */
+  height: 300px; 
   width: 500px;
   border: 2px solid #312450;
   border-radius: 10px;
@@ -116,13 +115,13 @@ a {
   transition: .5s;
 }
 .box span {
-  margin: 8px 0; /* Add vertical spacing between each span */
+  margin: 8px 0; 
 }
 .date,
 .name,
 .typo,
 .clarity {
-    margin: 5px 0; /* Adjust spacing between spans */
+    margin: 5px 0; 
 }
 .adition{
   text-align: center;
