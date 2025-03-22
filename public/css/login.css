@@ -111,3 +111,12 @@ input:-moz-autofill {
 .register{
   color: var(--Text);
 }
+
+.Version{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 10px;
+  font-size: 18px;
+  color: #010101;
+}

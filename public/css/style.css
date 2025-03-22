@@ -282,6 +282,9 @@ textarea{
   border: none;
   font-family: 'Azaret';
   color: var(--gray);
+  width: 100%;
+  text-align: center;
+  
 }
 .NameInput{
   background-color: var(--background);
@@ -506,5 +509,11 @@ option {
 
 .delete-button:hover {
   background-color: var(--pinkish); 
-
+}
+.Version{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 10px;
+  font-size: 18px;
 }
