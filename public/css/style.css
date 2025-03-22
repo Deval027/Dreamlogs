@@ -446,8 +446,8 @@ option {
 }
 
 .definition {
-  width: 100%; /* Ensure it fits inside .reader */
-  max-width: 100%; /* Prevents overflow */
+  width: 100%; 
+  max-width: 100%; 
   max-height: 400px;
   overflow-y: auto;
   padding: 15px;
@@ -456,17 +456,17 @@ option {
   border-radius: 8px;
   text-align: left;
   white-space: normal;
-  box-sizing: border-box; /* Ensures padding doesn’t make it overflow */
+  box-sizing: border-box; 
 }
 .content{
   display: block;
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
-  max-width: 100%; /* Prevents the text from overflowing */
+  max-width: 100%; 
 }
 .delete-button{
-  background-color: var(--pinkish); /* A nice red */
+  background-color: var(--pinkish); 
   color: white;
   border: none;
   padding: 8px 12px;
@@ -480,6 +480,6 @@ option {
 }
 
 .delete-button:hover {
-  background-color: var(--pinkish); /* Darker red on hover */
+  background-color: var(--pinkish); 
 
 }
