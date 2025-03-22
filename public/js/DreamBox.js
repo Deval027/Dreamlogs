@@ -28,11 +28,6 @@ fetch('/api/dreams')
       typeSpan.textContent = dream.type_of_dream;
       button.appendChild(typeSpan);
 
-      const claritySpan = document.createElement('span');
-      claritySpan.className = 'clarity';
-      claritySpan.textContent = dream.clarity;
-      button.appendChild(claritySpan);
-
       mainDiv.appendChild(button);
 
       // **Click event for opening dream reader**

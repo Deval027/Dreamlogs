@@ -98,13 +98,15 @@ a {
   left: -200px;
   bottom: -100px;
 }
-.box{
+.box {
   color: var(--Text);
   background-color: var(--boxes);
   position: relative;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  text-align: left;
   height: 300px; 
   width: 500px;
   border: 2px solid #312450;
@@ -113,16 +115,39 @@ a {
   cursor: pointer;
   font-size: 19px;
   transition: .5s;
+  padding: 20px;
 }
-.box span {
-  margin: 8px 0; 
+
+.date {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 14px;
 }
-.date,
-.name,
-.typo,
+
+.name {
+  position: absolute;
+  top: 40px; 
+  left: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.typo {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+}
+
 .clarity {
-    margin: 5px 0; 
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 16px;
 }
+
 .adition{
   text-align: center;
   border: none;
@@ -217,7 +242,7 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-bottom: 3%;
   display: none;
   position: fixed;
-  top: 48%; /* Adjust this value to move the element higher */
+  top: 48%; 
   left: 52%;
   transform: translate(-50%, -50%);
   width: 70%;
