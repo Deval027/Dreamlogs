@@ -116,3 +116,12 @@ function showForm(formUrl) {
           console.error('Error fetching form:', error);
       });
 }
+
+
+form.addEventListener('submit', function(event) {
+  const jsonData = JSON.stringify({
+    username: username,
+    password: password,
+    email: email,
+  });
+})
