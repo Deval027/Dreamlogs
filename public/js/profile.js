@@ -119,9 +119,14 @@ function showForm(formUrl) {
 
 
 form.addEventListener('submit', function(event) {
-  const jsonData = JSON.stringify({
+  const userData = JSON.stringify({
     username: username,
-    password: password,
-    email: email,
   });
+  fetch('/CUsername', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: jsonData,
+  })
 })
