@@ -314,7 +314,7 @@ app.get('/CUsername', (req, res) => {
   res.send(`
       <div id="form-container">
           <h2>Change Username</h2>
-          <form id="submitForm" action="/submit-username" method="post">
+          <form id="submitForm" action="/submitUsername" method="post">
               <label for="new-username">New Username:</label>
               <input type="text" class="newUser" id="new-username" name="username" required><br><br>
               <button class="sub" type="change username">Submit</button>
@@ -343,16 +343,33 @@ app.get('/deleteAccount', (req, res) => {
           <form id="submitForm" action="/submit-delete-account" method="post">
               <label for="confirm">Your account will be permanently deleted, are you sure?</label>
               <a class='delete' href='submit-delete-account'>Delete</a>
-          </form>
-      </div>
+
   `);
 });
 
 // Routes to handle form submissions
-app.post('/submit-username', (req, res) => {
-  const username = req.body.username;
-  console.log(`New Username: ${username}`);
-  res.send(`Username updated to: ${username}`);
+app.post('/submitUsername', (req, res) => {
+  const { oldUsername, newUsername } = req.body; // Expecting oldUsername and newUsername
+
+  if (!oldUsername || !newUsername) {
+    return res.status(400).send("Both old and new usernames are required.");
+  }
+
+  const query = "UPDATE users SET username = ? WHERE username = ?";
+  
+  db.query(query, [newUsername, oldUsername], (err, result) => {
+    if (err) {
+      console.error("Error updating username:", err);
+      return res.status(500).send("Database update failed.");
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).send("User not found or username unchanged.");
+    }
+
+    console.log(`Username updated: ${oldUsername} -> ${newUsername}`);
+    res.send(`Username updated successfully to: ${newUsername}`);
+  });
 });
 
 app.post('/submit-password', (req, res) => {

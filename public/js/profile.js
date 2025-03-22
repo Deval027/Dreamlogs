@@ -118,15 +118,23 @@ function showForm(formUrl) {
 }
 
 
-form.addEventListener('submit', function(event) {
-  const userData = JSON.stringify({
-    username: username,
-  });
-  fetch('/CUsername', {
+document.getElementById('submitForm').addEventListener('submit', function(event) {
+  event.preventDefault(); 
+
+  const username = document.getElementById('usernameInput').value; 
+
+  fetch('/submitUsername', { 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: userData,
+    body: JSON.stringify({ username: username }),
   })
-})
+  .then(response => response.text())
+  .then(data => {
+    console.log(data); 
+    alert(data); 
+  })
+  .catch(error => console.error('Error:', error));
+});
+
