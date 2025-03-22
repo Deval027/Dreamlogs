@@ -4,7 +4,7 @@ fetch('/api/userId')
         if (data.error) {
           document.getElementById('40').innerText = 'Error: ' + data.error;
         } else {
-          document.getElementById('40').innerText = "Username:" + data.username;
+          document.getElementById('40').innerText = "Username: " + data.username;
         }
       })
       .catch(error => {
@@ -17,7 +17,7 @@ fetch('/api/userId')
         if (data.error) {
           document.getElementById('60').innerText = 'Error: ' + data.error;
         } else {
-          document.getElementById('60').innerText = 'Logs: ' + data.postCount;
+          document.getElementById('60').innerText = 'Dreams: ' + data.postCount;
         }
       })
       .catch(error => {
