@@ -346,7 +346,7 @@ app.get('/deleteAccount', (req, res) => {
 
   `);
 });
-
+//hi
 // Routes to handle form submissions
 app.post('/submitUsername', (req, res) => {
   const { oldUsername, newUsername } = req.body; // Expecting oldUsername and newUsername
