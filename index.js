@@ -47,6 +47,7 @@ app.use(session({
   cookie: { secure: false },
   store: new MySQLStore(options)
 }));
+
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
@@ -346,18 +347,19 @@ app.get('/deleteAccount', (req, res) => {
 
   `);
 });
-//hi
-// Routes to handle form submissions
-app.post('/submitUsername', (req, res) => {
-  const { oldUsername, newUsername } = req.body; // Expecting oldUsername and newUsername
 
-  if (!oldUsername || !newUsername) {
-    return res.status(400).send("Both old and new usernames are required.");
+
+app.post('/submitUsername', (req, res) => {
+  const { newUsername } = req.body; 
+  const userId = req.session.userId; 
+  console.log(userId, newUsername)
+  if (!userId || !newUsername) {
+    return res.status(400).send("User ID and new username are required.");
   }
 
-  const query = "UPDATE users SET username = ? WHERE username = ?";
-  
-  db.query(query, [newUsername, oldUsername], (err, result) => {
+  const query = "UPDATE users SET username = ? WHERE userId = ?";
+
+  db.query(query, [newUsername, userId], (err, result) => {
     if (err) {
       console.error("Error updating username:", err);
       return res.status(500).send("Database update failed.");
@@ -367,10 +369,11 @@ app.post('/submitUsername', (req, res) => {
       return res.status(404).send("User not found or username unchanged.");
     }
 
-    console.log(`Username updated: ${oldUsername} -> ${newUsername}`);
+    console.log(`User ID ${userId}: Username updated to ${newUsername}`);
     res.send(`Username updated successfully to: ${newUsername}`);
   });
 });
+
 
 app.post('/submit-password', (req, res) => {
   const password = req.body.password;

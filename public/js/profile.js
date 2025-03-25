@@ -118,23 +118,28 @@ function showForm(formUrl) {
 }
 
 
-document.getElementById('submitForm').addEventListener('submit', function(event) {
-  event.preventDefault(); 
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('submitForm');
 
-  const username = document.getElementById('usernameInput').value; 
+  if (form) {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
 
-  fetch('/submitUsername', { 
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ username: username }),
-  })
-  .then(response => response.text())
-  .then(data => {
-    console.log(data); 
-    alert(data); 
-  })
-  .catch(error => console.error('Error:', error));
+      const newUsername = document.getElementById('new-username').value; // Get new username
+      console.log("HI",newUsername)
+      fetch('/submitUsername', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newUsername }),
+      })
+      .then(response => response.text())
+      .then(data => {
+        console.log(data);
+        alert(data);
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  } else {
+    console.error("Form not found!");
+  }
 });
-
