@@ -312,6 +312,7 @@ app.get('/userLogs', (req, res) => {
   });
 });
 
+//Server sends html form so the client can handle only one form at a time
 app.get('/CUsername', (req, res) => {
   res.send(`
       <div id="form-container">
@@ -349,7 +350,7 @@ app.get('/deleteAccount', (req, res) => {
   `);
 });
 
-
+//This section handles the settings module
 app.post('/submitUsername', (req, res) => {
   const { newUsername } = req.body; 
   const userId = req.session.userId; 
@@ -455,4 +456,4 @@ app.get('/submit-delete-account', (req, res) => {
         });
       });
     });
-});
+});//End of settings module
