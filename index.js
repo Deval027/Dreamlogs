@@ -385,14 +385,17 @@ app.post('/submit-password', (req, res) => {
   }
 
   console.log(`New Password: ${newPassword}`);
-
-  const query = "UPDATE users SET password = ? WHERE Id = ?";
-  db.query(query, [newPassword, userId], (err, result) => {
+  bcrypt.hash(newPassword, saltRounds, (err, hashedPassword) => {
     if (err) {
-      console.error("Error updating password:", err);
-      return res.status(500).send("Database update failed.");
+      console.error(err);
+      res.json({ success: false });
+    } else {
+      const query = "UPDATE users SET password = ? WHERE Id = ?";
+      db.query(query, [hashedPassword, userId], (err, result) => {
+      if (err) {
+        console.error("Error updating password:", err);
+        return res.status(500).send("Database update failed.");
     }
-
     if (result.affectedRows === 0) {
       return res.status(404).send("User not found or password unchanged.");
     }
@@ -400,6 +403,8 @@ app.post('/submit-password', (req, res) => {
     console.log(`User ID ${userId}: Password updated.`);
     res.send("Password updated successfully.");
   });
+    }
+  })
 });
 
 
