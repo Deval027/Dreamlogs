@@ -28,6 +28,27 @@ wss.on('connection', (ws) => {
     });
 });
 
+//basic config
+//user session for testing and devlopment remove when finished
+const MySQLStore = require('connect-mysql')(session);
+const options = {
+  config: {
+    user: 'root',
+    password: 'admin',
+    database: 'dreamlogs',
+    ssl: false
+  }
+};
+
+
+app.use(session({
+  secret: 'session_secret_key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false },
+  store: new MySQLStore(options)
+}));
+
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
