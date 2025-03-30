@@ -422,7 +422,7 @@ app.get('/submit-delete-account', (req, res) => {
           return;
         }
 
-        // Now, delete the user
+        //delete the user
         const deleteUserQuery = 'DELETE FROM users WHERE id = ?';
         db.query(deleteUserQuery, [userId], (userError, userResults) => {
           if (userError) {
@@ -443,7 +443,7 @@ app.get('/submit-delete-account', (req, res) => {
                 });
               } else {
                 console.log('Account deleted');
-                res.redirect('/');
+                res.redirect('/logout');
               } 
             });
           }
