@@ -145,3 +145,31 @@ const formloader = new MutationObserver(() => {
 });
 
 formloader.observe(document.body, { childList: true, subtree: true });
+
+const formloader2 = new MutationObserver(() => {
+  const form = document.getElementById('submitForm');
+  
+  if (form) {
+    formloader2.disconnect(); // Stop observing once the form is found
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const newPassword = document.getElementById('new-password').value;
+      console.log("HI", newPassword);
+
+      fetch('/submit-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newPassword }),
+      })
+      .then(response => response.text())
+      .then(data => {
+        console.log(data);
+        alert(data);
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  }
+});
+
+formloader2.observe(document.body, { childList: true, subtree: true });

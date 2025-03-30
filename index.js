@@ -109,6 +109,7 @@ app.get('/getFormData', (req, res) => {
 });
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.post('/register', (req, res) => {
 const username = req.body.username;
@@ -376,10 +377,31 @@ app.post('/submitUsername', (req, res) => {
 
 
 app.post('/submit-password', (req, res) => {
-  const password = req.body.password;
-  console.log(`New Password: ${password}`);
-  res.send(`Password updated successfully.`);
+  const { newPassword } = req.body; 
+  const userId = req.session.userId; 
+
+  if (!newPassword || !userId) {
+    return res.status(400).send("");
+  }
+
+  console.log(`New Password: ${newPassword}`);
+
+  const query = "UPDATE users SET password = ? WHERE Id = ?";
+  db.query(query, [newPassword, userId], (err, result) => {
+    if (err) {
+      console.error("Error updating password:", err);
+      return res.status(500).send("Database update failed.");
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).send("User not found or password unchanged.");
+    }
+
+    console.log(`User ID ${userId}: Password updated.`);
+    res.send("Password updated successfully.");
+  });
 });
+
 
 app.get('/submit-delete-account', (req, res) => {
     const userId = req.session.userId;
