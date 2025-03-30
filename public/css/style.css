@@ -33,6 +33,7 @@
   position: relative;
   z-index: 1;
   float: right;
+  flex-wrap: wrap;
   margin-right: 20%;
   display: flex;
   justify-content: start;
@@ -48,6 +49,7 @@
   color: var(--background);
   font-size: 40px;
   position: fixed;
+  top: 1%;
 }
 .sidebar{
   z-index: -1;
@@ -56,6 +58,7 @@
   height: 100vh;
   background: var(--boxes);
   font-size: 0.65em;
+  border-radius: 10px;
 }
 .nav {
   position: relative;

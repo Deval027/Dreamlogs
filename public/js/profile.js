@@ -72,7 +72,7 @@ const observer = new MutationObserver(function(mutationsList) {
           if (form) {
               console.log('formSettings has been added to the DOM');
               Setbutton.addEventListener("click", OpenWindow);
-              observer.disconnect(); // Stop observing once we've bound the event
+              observer.disconnect();
           }
       }
   }
@@ -122,7 +122,7 @@ const formloader = new MutationObserver(() => {
   const form = document.getElementById('submitForm');
   
   if (form) {
-    formloader.disconnect(); // Stop observing once the form is found
+    formloader.disconnect(); 
     form.addEventListener('submit', function (event) {
       event.preventDefault();
 
@@ -150,7 +150,7 @@ const formloader2 = new MutationObserver(() => {
   const form = document.getElementById('submitForm');
   
   if (form) {
-    formloader2.disconnect(); // Stop observing once the form is found
+    formloader2.disconnect(); 
     form.addEventListener('submit', function (event) {
       event.preventDefault();
 
