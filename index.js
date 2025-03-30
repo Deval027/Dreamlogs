@@ -16,6 +16,7 @@ app.use(cookieParser());
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'views')));
 const WebSocket = require('ws');
+
 //websockets
 
 const wss = new WebSocket.Server({ port: 8080 });
@@ -26,27 +27,6 @@ wss.on('connection', (ws) => {
         clients.delete(ws); 
     });
 });
-
-//basic config
-//user session for testing and devlopment remove when finished
-const MySQLStore = require('connect-mysql')(session);
-const options = {
-  config: {
-    user: 'root',
-    password: 'admin',
-    database: 'dreamlogs',
-    ssl: false
-  }
-};
-
-
-app.use(session({
-  secret: 'session_secret_key',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false },
-  store: new MySQLStore(options)
-}));
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
