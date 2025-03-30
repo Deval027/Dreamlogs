@@ -354,10 +354,10 @@ app.post('/submitUsername', (req, res) => {
   const userId = req.session.userId; 
   console.log(userId, newUsername)
   if (!userId || !newUsername) {
-    return res.status(400).send("User ID and new username are required.");
+    return res.status(400).send("");
   }
 
-  const query = "UPDATE users SET username = ? WHERE userId = ?";
+  const query = "UPDATE users SET username = ? WHERE Id = ?";
 
   db.query(query, [newUsername, userId], (err, result) => {
     if (err) {
@@ -390,7 +390,6 @@ app.get('/submit-delete-account', (req, res) => {
         return;
       }
 
-      // First, delete related records from the dreams table
       const deleteDreamsQuery = 'DELETE FROM dreams WHERE userid = ?';
       db.query(deleteDreamsQuery, [userId], (dreamsError, dreamsResults) => {
         if (dreamsError) {

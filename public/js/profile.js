@@ -118,15 +118,17 @@ function showForm(formUrl) {
 }
 
 
-document.addEventListener('DOMContentLoaded', function () {
+const formloader = new MutationObserver(() => {
   const form = document.getElementById('submitForm');
-
+  
   if (form) {
+    formloader.disconnect(); // Stop observing once the form is found
     form.addEventListener('submit', function (event) {
       event.preventDefault();
 
-      const newUsername = document.getElementById('new-username').value; // Get new username
-      console.log("HI",newUsername)
+      const newUsername = document.getElementById('new-username').value;
+      console.log("HI", newUsername);
+
       fetch('/submitUsername', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -139,9 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .catch(error => console.error('Error:', error));
     });
-  } else {
-    console.error("Form not found!");
   }
 });
-///depr to the core
-//no work today???welcome again
+
+formloader.observe(document.body, { childList: true, subtree: true });
