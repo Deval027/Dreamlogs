@@ -124,3 +124,18 @@ input:-moz-autofill {
   font-size: 18px;
   color: #010101;
 }
+
+
+.Title{
+  display: flex;
+  z-index: 1;
+  padding-top: 25px;
+  margin: 0;
+  color: var(--boxes);
+  font-size: 50px;
+}
+
+
+
+
+
