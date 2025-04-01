@@ -108,3 +108,26 @@ button:hover{
 #chk:checked ~ .signup label{
 	transform: scale(.6);
 }
+.Title{
+	font-size: 80px;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 100%; 
+    z-index: 1; 
+}
+
+
+.Version{
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	padding: 10px;
+	font-size: 18px;
+	color: #ffffff;
+  }
+  

@@ -25,7 +25,7 @@
   
   body {
     font-family: 'Azaret';
-    height: 100%;
+    min-height: 100vh;
     background: linear-gradient(to bottom, #fdf8ff, #b9b3ff, var(--boxes));
   }
 
@@ -52,7 +52,7 @@
   top: 1%;
 }
 .sidebar{
-  z-index: -1;
+  z-index: 0;
   position: fixed;
   width: 15%;
   height: 100vh;
@@ -519,4 +519,5 @@ option {
   bottom: 0;
   padding: 10px;
   font-size: 18px;
+  color: #ffffff;
 }
