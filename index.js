@@ -331,8 +331,10 @@ app.get('/CPassword', (req, res) => {
   res.send(`
       <div id="form-container">
           <h2>Change Password</h2>
-          <form id="submitForm" action="/submit-password" method="post">
-              <label for="new-password">New Password:</label>
+          <form id="submitPsw" action="/submit-password" method="post">
+              <label for="Currentpsw">Current password:</label><br>
+              <input type="password" id="password" class="newPass" name="password" required=""><br>
+              <label for="new-password">New password:</label>
               <input class="newPass" type="password" id="new-password" name="password" required><br><br>
               <button class="sub" type="submit">Change password</button>
           </form>
@@ -379,35 +381,62 @@ app.post('/submitUsername', (req, res) => {
 
 
 app.post('/submit-password', (req, res) => {
-  const { newPassword } = req.body; 
-  const userId = req.session.userId; 
-
-  if (!newPassword || !userId) {
-    return res.status(400).send("");
+  const { newPassword, currentPassword } = req.body;
+  const userId = req.session.userId;
+  console.log(userId, newPassword, currentPassword)
+  if (!newPassword || !userId || !currentPassword) {
+    return res.status(400).send("Missing required fields.", newPassword);
   }
 
-  console.log(`New Password: ${newPassword}`);
-  bcrypt.hash(newPassword, saltRounds, (err, hashedPassword) => {
-    if (err) {
-      console.error(err);
-      res.json({ success: false });
-    } else {
-      const query = "UPDATE users SET password = ? WHERE Id = ?";
-      db.query(query, [hashedPassword, userId], (err, result) => {
-      if (err) {
-        console.error("Error updating password:", err);
-        return res.status(500).send("Database update failed.");
-    }
-    if (result.affectedRows === 0) {
-      return res.status(404).send("User not found or password unchanged.");
-    }
+  const sql = 'SELECT * FROM users WHERE userId = ?';
 
-    console.log(`User ID ${userId}: Password updated.`);
-    res.send("Password updated successfully.");
-  });
+  db.query(sql, [userId], (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ success: false, error: 'Server error' });
     }
-  })
+    
+    if (results.length === 0) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+    
+    const user = results[0];
+    console.log('User found:', user);
+
+    bcrypt.compare(currentPassword, user.password, (err, match) => {
+      if (err) {
+        console.error('Bcrypt error:', err);
+        return res.status(500).json({ success: false, error: 'Server error' });
+      }
+
+      if (!match) {
+        return res.status(401).json({ success: false, error: 'Incorrect current password' });
+      }
+
+      bcrypt.hash(newPassword, saltRounds, (err, hashedPassword) => {
+        if (err) {
+          console.error('Hashing error:', err);
+          return res.status(500).json({ success: false, error: 'Error hashing password' });
+        }
+
+        const updateQuery = 'UPDATE users SET password = ? WHERE userId = ?';
+        db.query(updateQuery, [hashedPassword, userId], (err, result) => {
+          if (err) {
+            console.error('Error updating password:', err);
+            return res.status(500).json({ success: false, error: 'Database update failed' });
+          }
+          
+          if (result.affectedRows === 0) {
+            return res.status(404).json({ success: false, error: 'User not found or password unchanged' });
+          }
+
+          res.json({ success: true, message: 'Password updated successfully' });
+        });
+      });
+    });
+  });
 });
+
 
 
 app.get('/submit-delete-account', (req, res) => {

@@ -122,7 +122,10 @@ const formloader = new MutationObserver(() => {
   const form = document.getElementById('submitForm');
   
   if (form) {
+    // Disconnect observer after attaching event listener
     formloader.disconnect(); 
+    
+    // Attach the event listener to the form
     form.addEventListener('submit', function (event) {
       event.preventDefault();
 
@@ -147,19 +150,21 @@ const formloader = new MutationObserver(() => {
 formloader.observe(document.body, { childList: true, subtree: true });
 
 const formloader2 = new MutationObserver(() => {
-  const form = document.getElementById('submitForm');
+  const form = document.getElementById('submitPsw');
   
   if (form) {
     formloader2.disconnect(); 
     form.addEventListener('submit', function (event) {
       event.preventDefault();
-
+      const currentPassword = document.getElementById('password').value;
       const newPassword = document.getElementById('new-password').value;
-      console.log("HI", newPassword);
+      console.log("currentpassword", currentPassword)
+      console.log("passwordformat", newPassword);
 
       fetch('/submit-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPassword }),
         body: JSON.stringify({ newPassword }),
       })
       .then(response => response.text())
