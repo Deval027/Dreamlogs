@@ -487,4 +487,3 @@ app.get('/submit-delete-account', (req, res) => {
       });
     });
 });//End of settings module
-//wop
