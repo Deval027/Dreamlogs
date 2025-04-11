@@ -195,7 +195,6 @@ function sendReloadMessage() {
   });
 }
 
-//logout route
 app.get('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) {
