@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //currently on development
 
 Dreamlogs is a website that allows users to write and save their dreams

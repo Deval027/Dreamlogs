@@ -1,13 +1,10 @@
 let user
 
 function getCurrentUsername() {
-  // Get the div element by its ID
   const div = document.getElementById('40');
   
-  // Get the text inside the div
   const text = div.textContent;
   
-  // Print the text to the console
   user = text.replace('Username:','').trim();
  
 }
@@ -117,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
           } 
           if (errorMessage !== '') {
             console.log("Error")
-            return; // If there's an error, stop here and don't make the fetch call
+            return; 
           }
           const jsonData = JSON.stringify({
             oldPassword: oldPassword,
@@ -134,16 +131,16 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert(data.message); // Show an alert with the success message
+                alert(data.message); 
                 setTimeout(() => {
                     if (data.redirect) {
-                        window.location.href = data.redirect; // Redirect to the new URL
+                        window.location.href = data.redirect; 
                     } else {
-                        window.location.reload(true); // Force reload the page to ensure changes are reflected
+                        window.location.reload(true); 
                     }
-                }, 10); // Delay to allow the alert to be displayed
+                }, 10); 
             } else {
-                alert(data.message); // Show an alert with the error message
+                alert(data.message);
             }
         })
         .catch(error => {

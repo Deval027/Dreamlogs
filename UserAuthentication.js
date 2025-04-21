@@ -12,7 +12,6 @@ router.post('/register', (req, res) => {
             res.json({ usernameExists: true });
             console.log('Username already exists');
           } else {
-            // Convert data to JSON and write to a file
             const data = JSON.stringify(req.body, null, 2);
             fs.writeFile('user.json', data, (err) => {
               if (err) {
@@ -21,7 +20,6 @@ router.post('/register', (req, res) => {
               } else {
                 console.log('Data written to file');
                 
-                // Insert data into database
                 const sql = 'INSERT INTO users (username, password, email) VALUES (?, ?, ?)';
                 db.query(sql, [req.body.username, req.body.password, req.body.email], (err, result) => {
                   if (err) {

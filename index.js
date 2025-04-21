@@ -28,8 +28,8 @@ wss.on('connection', (ws) => {
     });
 });
 
-//basic config
-//user session for testing and devlopment remove when finished
+//database conn
+
 const MySQLStore = require('connect-mysql')(session);
 const options = {
   config: {
@@ -48,7 +48,7 @@ app.use(session({
   cookie: { secure: false },
   store: new MySQLStore(options)
 }));
-
+//start server port
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
