@@ -149,30 +149,40 @@ const formloader = new MutationObserver(() => {
 
 formloader.observe(document.body, { childList: true, subtree: true });
 
+let formListenerAttached = false;
+
 const formloader2 = new MutationObserver(() => {
   const form = document.getElementById('submitPsw');
-  
-  if (form) {
+
+  if (form && !formListenerAttached) {
     formloader2.disconnect(); 
+    formListenerAttached = true;
+
     form.addEventListener('submit', function (event) {
       event.preventDefault();
+
       const currentPassword = document.getElementById('password').value;
       const newPassword = document.getElementById('new-password').value;
-      console.log("currentpassword", currentPassword)
-      console.log("passwordformat", newPassword);
+
+      const jsonData = JSON.stringify({
+        newPassword: newPassword,
+        currentPassword: currentPassword
+      });
 
       fetch('/submit-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ currentPassword }),
-        body: JSON.stringify({ newPassword }),
+        body: jsonData
       })
       .then(response => response.text())
       .then(data => {
         console.log(data);
-        alert(data);
+        window.location.href = "/profile"; 
       })
-      .catch(error => console.error('Error:', error));
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Current password is incorrect.');
+      });
     });
   }
 });

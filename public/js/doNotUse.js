@@ -1,3 +1,7 @@
+//idk what this does
+
+
+
 let user
 
 function getCurrentUsername() {
@@ -85,23 +89,23 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('91').addEventListener('click', function() {
       const formContainer = `
           <div id="form-container">
-              <h2>Change Password</h2>
-              <form id="submitForm" action="/submit-password" method="post">
-                  <label for="new-password">Current password:</label>
-                  <input type="password" id="oldPassword" name="oldPassword" required><br><br>
-                  <label for="new-password">New password:</label>
-                  <input type="password" id="newPassword" name="password" required><br><br>
-                  <button type="submit">Change password</button>
-              </form>
-          </div>
+          <h2>Change Password</h2>
+          <form id="submitPsw" action="/submit-password" method="post">
+              <label for="Currentpsw">Current password:</label><br>
+              <input type="password" id="password" class="newPass" name="password" required=""><br>
+              <label for="new-password">New password:</label>
+              <input class="newPass" type="password" id="new-password" name="password" required><br><br>
+              <button class="sub" type="submit">Change password</button>
+          </form>
+      </div>
       `;
       document.getElementById('95').innerHTML = formContainer;
        // Add form submit event listener
-       document.getElementById('submitForm').addEventListener('submit', function(event) {
+       document.getElementById('submitPsw').addEventListener('submit', function(event) {
         event.preventDefault();
         console.log('lowkey good at this point');
-        const newPassword = document.getElementById('newPassword').value;
-        const oldPassword = document.getElementById('oldPassword').value;
+        const newPassword = document.getElementById('password').value;
+        const oldPassword = document.getElementById('new-Password').value;
         console.log(newPassword)
         const oldErrorMessage = document.getElementById('errorMessage');
         if (oldErrorMessage) {
@@ -120,7 +124,6 @@ document.addEventListener('DOMContentLoaded', function() {
             oldPassword: oldPassword,
             password: newPassword,
         });
-        
         fetch('/submit-password', {
             method: 'POST',
             headers: {
@@ -150,6 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
               });
   });
+  console.log("DAta",jsonData)
 });
 
 document.addEventListener('DOMContentLoaded', function() {

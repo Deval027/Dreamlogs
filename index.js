@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'views')));
 const WebSocket = require('ws');
-
+//todo fix bug that happens when username already exist server crashes
 //websockets
 
 const wss = new WebSocket.Server({ port: 8080 });
@@ -331,7 +331,7 @@ app.get('/CPassword', (req, res) => {
   res.send(`
       <div id="form-container">
           <h2>Change Password</h2>
-          <form id="submitPsw" action="/submit-password" method="post">
+          <form id="submitPsw">
               <label for="Currentpsw">Current password:</label><br>
               <input type="password" id="password" class="newPass" name="password" required=""><br>
               <label for="new-password">New password:</label>
@@ -349,7 +349,7 @@ app.get('/deleteAccount', (req, res) => {
           <form id="submitForm" action="/submit-delete-account" method="post">
               <label for="confirm">Your account will be permanently deleted, are you sure?</label>
               <a class='delete' href='submit-delete-account'>Delete</a>
-
+      </div>
   `);
 });
 
@@ -385,10 +385,10 @@ app.post('/submit-password', (req, res) => {
   const userId = req.session.userId;
   console.log(userId, newPassword, currentPassword)
   if (!newPassword || !userId || !currentPassword) {
-    return res.status(400).send("Missing required fields.", newPassword);
+    return res.status(400).send("Missing required fields.");
   }
 
-  const sql = 'SELECT * FROM users WHERE userId = ?';
+  const sql = 'SELECT * FROM users WHERE id = ?';
 
   db.query(sql, [userId], (err, results) => {
     if (err) {
@@ -419,7 +419,7 @@ app.post('/submit-password', (req, res) => {
           return res.status(500).json({ success: false, error: 'Error hashing password' });
         }
 
-        const updateQuery = 'UPDATE users SET password = ? WHERE userId = ?';
+        const updateQuery = 'UPDATE users SET password = ? WHERE id = ?';
         db.query(updateQuery, [hashedPassword, userId], (err, result) => {
           if (err) {
             console.error('Error updating password:', err);
@@ -430,7 +430,6 @@ app.post('/submit-password', (req, res) => {
             return res.status(404).json({ success: false, error: 'User not found or password unchanged' });
           }
 
-          res.json({ success: true, message: 'Password updated successfully' });
         });
       });
     });
