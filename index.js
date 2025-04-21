@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const fs = require('fs');
 const app = express();
 const port = 3000;
@@ -33,8 +34,8 @@ wss.on('connection', (ws) => {
 const MySQLStore = require('connect-mysql')(session);
 const options = {
   config: {
-    user: 'root',
-    password: 'admin',
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
     database: 'dreamlogs',
     ssl: false
   }
