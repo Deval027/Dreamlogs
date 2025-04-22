@@ -13,7 +13,7 @@ form.addEventListener('submit', function(event) {
     oldErrorMessage.remove();
   }
 
-  // Validate form values
+  //Set error message in case of bad input
   let errorMessage = '';
   if (username === '' || password === '') {
     errorMessage = 'Username and password are required';
@@ -22,42 +22,25 @@ form.addEventListener('submit', function(event) {
   } else if (password.length < 8) {
     errorMessage = 'Password must be at least 8 characters long';
   }
-
-  if (errorMessage !== '') {
-    // Create new error message
-    const errorElement = document.createElement('span');
-    errorElement.id = 'errorMessage';
-    errorElement.style.position = 'absolute';
-    errorElement.style.top = '0';
-    errorElement.style.left = '50%';
-    errorElement.style.transform = 'translateX(-50%)';
-    errorElement.style.color = 'red';
-    errorElement.style.fontSize = '12px';
-    errorElement.style.marginTop = '5px';
-    errorElement.textContent = errorMessage;
-    
-    const loginDiv = document.getElementsByClassName('signup')[0];
-    const form = loginDiv.querySelector('form');
-    
-    if (loginDiv && form) {
-      loginDiv.insertBefore(errorElement, form);
-    }
-    
-    return; // If there's an error, stop here and don't make the fetch call
-  }
-
+  //Email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     // Show error message
-    const errorElement = document.createElement('span');
-    errorElement.style.color = 'red';
-    errorElement.textContent = 'Invalid email format';
+    errorMessage = 'Invalid email'
+  }
 
-    // Append error message to form
-    form.appendChild(errorElement);
-
-    // Prevent form submission
-    return; // If there's an error, stop here and don't make the fetch call
+  //in case there is a bad input display error and stop the code
+  if (errorMessage !== '') {
+    const existingBox = document.getElementById('errorBox');
+    if (existingBox) existingBox.remove();
+      const box = document.createElement('div');
+      box.id = 'errorBox';
+      box.textContent = errorMessage;
+      document.body.appendChild(box);
+      setTimeout(() => {
+        box.remove();
+      }, 5000);
+      return;
   }
 
   const jsonData = JSON.stringify({
@@ -66,7 +49,6 @@ form.addEventListener('submit', function(event) {
     email: email,
   });
 
-  // Send data to server
   fetch('/register', {
     method: 'POST',
     headers: {

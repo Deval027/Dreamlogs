@@ -65,15 +65,7 @@ input[type="email"], input[type="password"], input[type=username], input[type='t
     border: none;
     font-family: 'Azaret';
 }
-span{
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  color: red;
-  font-size: 12px;
-  margin-top: 5px;
-}
+
 textarea{
     resize: none;
     background-color: var(--background);
