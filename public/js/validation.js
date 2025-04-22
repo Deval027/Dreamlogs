@@ -27,11 +27,22 @@ form.addEventListener('submit', function(event) {
     // Create new error message
     const errorElement = document.createElement('span');
     errorElement.id = 'errorMessage';
+    errorElement.style.position = 'absolute';
+    errorElement.style.top = '0';
+    errorElement.style.left = '50%';
+    errorElement.style.transform = 'translateX(-50%)';
     errorElement.style.color = 'red';
+    errorElement.style.fontSize = '12px';
+    errorElement.style.marginTop = '5px';
     errorElement.textContent = errorMessage;
-
-    // Append error message to form
-    form.appendChild(errorElement);
+    
+    const loginDiv = document.getElementsByClassName('signup')[0];
+    const form = loginDiv.querySelector('form');
+    
+    if (loginDiv && form) {
+      loginDiv.insertBefore(errorElement, form);
+    }
+    
     return; // If there's an error, stop here and don't make the fetch call
   }
 
@@ -68,11 +79,9 @@ form.addEventListener('submit', function(event) {
     if (data.usernameExists) {
       alert('Username already exists');
     } else if (data.success) {
-      // Registration was successful
       alert('Registration successful');
       location.reload(false);
     } else {
-      // Registration failed
       alert('Registration failed');
     }
   })
@@ -82,13 +91,10 @@ form.addEventListener('submit', function(event) {
 });
 
 document.getElementById('loginForm').addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent the form from submitting the traditional way
-
-  // Get the values from the input fields
+  event.preventDefault(); 
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
 
-  // Prepare the payload for the request
   const loginData = {
       username: username,
       password: password

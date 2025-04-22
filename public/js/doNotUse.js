@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
       `;
 
       document.getElementById('95').innerHTML = formContainer;
-       // Add form submit event listener
        document.getElementById('submitForm').addEventListener('submit', function(event) {
         event.preventDefault();
         console.log('lowkey good at this point');
@@ -66,16 +65,16 @@ document.addEventListener('DOMContentLoaded', function() {
   .then(response => response.json())
           .then(data => {
               if (data.success) {
-                  alert(data.message); // Show an alert with the success message
+                  alert(data.message); 
                   setTimeout(() => {
                       if (data.redirect) {
-                          window.location.href = data.redirect; // Redirect to the new URL
+                          window.location.href = data.redirect;
                       } else {
-                          window.location.reload(true); // Force reload the page to ensure changes are reflected
+                          window.location.reload(true); 
                       }
-                  }, 10); // Delay to allow the alert to be displayed
+                  }, 10); 
               } else {
-                  alert(data.message); // Show an alert with the error message
+                  alert(data.message); 
               }
           })
           .catch(error => {
@@ -100,7 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
       `;
       document.getElementById('95').innerHTML = formContainer;
-       // Add form submit event listener
        document.getElementById('submitPsw').addEventListener('submit', function(event) {
         event.preventDefault();
         console.log('lowkey good at this point');
