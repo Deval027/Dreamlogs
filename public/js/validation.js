@@ -37,9 +37,17 @@ form.addEventListener('submit', function(event) {
       box.id = 'errorBox';
       box.textContent = errorMessage;
       document.body.appendChild(box);
-      setTimeout(() => {
+      const progress = document.createElement('div');
+      progress.id = 'errorProgress';
+
+      // Append progress to box
+      box.appendChild(progress);
+      document.body.appendChild(box);
+
+      // Remove the box when animation ends
+      progress.addEventListener('animationend', () => {
         box.remove();
-      }, 5000);
+      });
       return;
   }
 
