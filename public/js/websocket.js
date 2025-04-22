@@ -1,3 +1,24 @@
+function alertMessage(message){
+    const existingBox = document.getElementById('errorBox');
+      if (existingBox) existingBox.remove();
+        const box = document.createElement('div');
+        box.id = 'errorBox';
+        box.textContent = errorMessage;
+        document.body.appendChild(box);
+        const progress = document.createElement('div');
+        progress.id = 'errorProgress';
+  
+        // Append progress to box
+        box.appendChild(progress);
+        document.body.appendChild(box);
+  
+        // Remove the box when animation ends
+        progress.addEventListener('animationend', () => {
+          box.remove();
+        });
+  }
+
+let errorMessage = ''
 const socket = new WebSocket('ws://localhost:8080');
 
 socket.onmessage = (event) => {
@@ -31,7 +52,8 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
     if (result.success) {
         window.location.href = result.redirect; 
     } else {
-        alert('Invalid credentials');
-        location.reload(); 
+        errorMessage = 'Password does not match the user'
+        alertMessage(errorMessage)
+       // location.reload(); 
     }
 });
