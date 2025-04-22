@@ -52,7 +52,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
     if (result.success) {
         window.location.href = result.redirect; 
     } else {
-        errorMessage = 'Password does not match the user'
+        errorMessage = 'Username or password invalid'
         alertMessage(errorMessage)
        // location.reload(); 
     }
