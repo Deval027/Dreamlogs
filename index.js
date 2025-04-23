@@ -333,10 +333,10 @@ app.get('/CPassword', (req, res) => {
           <h2>Change Password</h2>
           <form id="submitPsw">
               <label for="Currentpsw">Current password:</label><br>
-              <input type="password" id="password" class="newPass" name="password" required=""><br>
+              <input type="password" id="password" class="newPass" name="password" required><br>
               <label for="new-password">New password:</label>
               <input class="newPass" type="password" id="new-password" name="password" required><br><br>
-              <button class="sub" type="submit">Change password</button>
+              <button type="submit" class="sub">Change password</button>
           </form>
       </div>
   `);
@@ -401,7 +401,7 @@ app.post('/submit-password', (req, res) => {
     }
     
     const user = results[0];
-    console.log('User found:', user);
+    console.log('User found:');
 
     bcrypt.compare(currentPassword, user.password, (err, match) => {
       if (err) {
@@ -425,11 +425,12 @@ app.post('/submit-password', (req, res) => {
             console.error('Error updating password:', err);
             return res.status(500).json({ success: false, error: 'Database update failed' });
           }
-          
           if (result.affectedRows === 0) {
             return res.status(404).json({ success: false, error: 'User not found or password unchanged' });
+          } else {
+            console.log("Password updated to: ", newPassword);
+            return res.status(200).json({ success: true, message: 'Password updated successfully!' });
           }
-
         });
       });
     });

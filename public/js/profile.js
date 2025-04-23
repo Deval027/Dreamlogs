@@ -81,40 +81,51 @@ const observer = new MutationObserver(function(mutationsList) {
 // Start observing the document body for child elements being added
 observer.observe(document.body, { childList: true, subtree: true });
 Setbutton.addEventListener("click", OpenWindow);
-
+//handle form susbmit and view
 function showForm(formUrl) {
   fetch(formUrl)
-      .then(response => response.text())
-      .then(html => {
-          const container = document.getElementById('95');
-          container.innerHTML = html;
+    .then(response => response.text())
+    .then(html => {
+      const container = document.getElementById('95');
+      container.innerHTML = html;
 
-          const form = container.querySelector('form');
-          if (form) {
-              form.addEventListener('submit', function(event) {
-                  event.preventDefault();
-
-                  const formData = new FormData(form);
-                  fetch(form.action, {
-                      method: 'POST',
-                      body: formData
-                  })
-                  .then(response => response.text())
-                  .then(result => {
-                      console.log('Form submitted successfully:', result);
-                      container.innerHTML = result;
-                  })
-                  .catch(error => {
-                      console.error('Error submitting form:', error);
-                  });
-              });
-          } else {
-              console.error('Form not found');
-          }
-      })
-      .catch(error => {
-          console.error('Error fetching form:', error);
-      });
+      const form = container.querySelector('form');
+      if (form) {
+        form.addEventListener('submit', function(event) {
+          event.preventDefault();
+        
+          const currentPassword = document.getElementById('password').value;
+          const newPassword = document.getElementById('new-password').value;
+        
+          const jsonData = JSON.stringify({
+            currentPassword: currentPassword,
+            newPassword: newPassword
+          });
+        
+          fetch('/submit-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: jsonData
+          })
+          .then(async (response) => {
+            const data = await response.json();
+            
+            if (!response.ok) {
+              alert(data.error || 'Failed to update password');
+            } else {
+              alert(data.message || 'Password updated successfully!');
+              console.log('Password updated successfully:', data);
+              // You can add more success logic here
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        });
+      } else {
+        console.error('Form not found');
+      }
+    })
 }
 
 
@@ -149,42 +160,3 @@ const formloader = new MutationObserver(() => {
 
 formloader.observe(document.body, { childList: true, subtree: true });
 
-let formListenerAttached = false;
-
-const formloader2 = new MutationObserver(() => {
-  const form = document.getElementById('submitPsw');
-
-  if (form && !formListenerAttached) {
-    formloader2.disconnect(); 
-    formListenerAttached = true;
-
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-
-      const currentPassword = document.getElementById('password').value;
-      const newPassword = document.getElementById('new-password').value;
-
-      const jsonData = JSON.stringify({
-        newPassword: newPassword,
-        currentPassword: currentPassword
-      });
-
-      fetch('/submit-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: jsonData
-      })
-      .then(response => response.text())
-      .then(data => {
-        console.log(data);
-        window.location.href = "/profile"; 
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Current password is incorrect.');
-      });
-    });
-  }
-});
-
-formloader2.observe(document.body, { childList: true, subtree: true });
