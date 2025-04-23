@@ -17,7 +17,7 @@ function alertMessage(message){
         box.remove();
       });
 }
-export {alertMessage}
+
 let errorMessage = '';
 const form = document.getElementById('registrationForm');
 form.addEventListener('submit', function(event) {
