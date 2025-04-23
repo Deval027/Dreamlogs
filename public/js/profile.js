@@ -86,82 +86,86 @@ function showForm(formUrl) {
     .then(response => response.text())
     .then(html => {
       const container = document.getElementById('95');
+      if (!container) {
+        console.error('Container with ID "95" not found.');
+        return;
+      }
+
       container.innerHTML = html;
 
       const form = container.querySelector('form');
-      if (form) {
-        form.addEventListener('submit', function(event) {
-          event.preventDefault();
-        
-          const currentPassword = document.getElementById('password').value;
-          const newPassword = document.getElementById('new-password').value;
-          
-          if (newPassword.length < 8){
-            alertMessage('Password must be at least 8 characters long')
-            return
-          }
-          if (newPassword == currentPassword){
-            alertMessage("New Password can't be the same as the current one")
-            return
-          }
+      if (!form) {
+        console.error('Form not found in the loaded HTML.');
+        return;
+      }
 
-          const jsonData = JSON.stringify({
-            currentPassword: currentPassword,
-            newPassword: newPassword
-          });
-        
-          fetch('/submit-password', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: jsonData
-          })
-          .then(async (response) => {
-            const data = await response.json();
-            
-            if (!response.ok) {
-              alertMessage(data)
-            } else {
-              alertMessage(data);
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
-        });
-      } else {
-        console.error('Form not found');
+
+      switch (form.id) {
+        case 'submitPsw':
+          form.addEventListener('submit', handlePasswordSubmit);
+          break;
+        case 'submitForm':
+          form.addEventListener('submit', handleUsernameSubmit);
+          break;
+        default:
+          console.warn('No handler for form with ID:', form.id);
       }
     })
+    .catch(error => {
+      console.error('Failed to load form:', error);
+    });
+}
+function handlePasswordSubmit(event) {
+  event.preventDefault();
+
+  const currentPassword = document.getElementById('password').value;
+  const newPassword = document.getElementById('new-password').value;
+
+  if (newPassword.length < 8) {
+    alertMessage('Password must be at least 8 characters long');
+    return;
+  }
+  if (newPassword === currentPassword) {
+    alertMessage("New Password can't be the same as the current one");
+    return;
+  }
+
+  const jsonData = JSON.stringify({
+    currentPassword,
+    newPassword
+  });
+
+  fetch('/submit-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: jsonData
+  })
+  .then(async response => {
+    const data = await response.json();
+    alertMessage(data.message);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 }
 
+function handleUsernameSubmit(event) {
+  event.preventDefault();
 
-const formloader = new MutationObserver(() => {
-  const form = document.getElementById('submitForm');
-  
-  if (form) {
-    // Disconnect observer after attaching event listener
-    formloader.disconnect(); 
-    
-    // Attach the event listener to the form
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
+  const newUsername = document.getElementById('new-username').value;
 
-      const newUsername = document.getElementById('new-username').value;
-      console.log("HI", newUsername);
-
-      fetch('/submitUsername', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ newUsername }),
-      })
-      .then(response => response.text())
-      .then(data => {
-        alertMessage(data)
-      })
-      .catch(error => console.error('Error:', error));
-    });
-  }
-});
-
-formloader.observe(document.body, { childList: true, subtree: true });
-
+  fetch('/submitUsername', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ newUsername }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    alertMessage(data.message);
+    console.log(data)
+    if (data.message === 'Username already exist') {
+      showForm('/CUsername'); 
+    }
+  })
+  .catch(error => console.error('Error:', error));
+}

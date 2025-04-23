@@ -356,13 +356,21 @@ app.get('/deleteAccount', (req, res) => {
 //This section handles the settings module
 app.post('/submitUsername', (req, res) => {
   const { newUsername } = req.body; 
-  const userId = req.session.userId; 
+  const userId = req.session.userId;
+  const selectQuery = 'SELECT * FROM users WHERE username = ?';
   console.log(userId, newUsername)
   if (!userId || !newUsername) {
     return res.status(400).send("");
   }
-
-  const query = "UPDATE users SET username = ? WHERE Id = ?";
+  db.query(selectQuery, [newUsername], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send();
+    } else if (results.length > 0) {
+      console.log('Username already exists');
+      return res.status(200).json({ success: true, message: 'Username already exist' });
+    }else{
+      const query = "UPDATE users SET username = ? WHERE Id = ?";
 
   db.query(query, [newUsername, userId], (err, result) => {
     if (err) {
@@ -375,8 +383,10 @@ app.post('/submitUsername', (req, res) => {
     }
 
     console.log(`User ID ${userId}: Username updated to ${newUsername}`);
-    res.send(`Username updated successfully to: ${newUsername}`);
+    return res.status(200).json({ success: true, message: 'Username updated succesfully!' });
   });
+    }
+  })
 });
 
 
@@ -410,7 +420,7 @@ app.post('/submit-password', (req, res) => {
       }
 
       if (!match) {
-        return res.status(401).json({ success: false, error: 'Incorrect current password' });
+        return res.status(401).json({ success: false, message: 'Current password is incorrect' });
       }
 
       bcrypt.hash(newPassword, saltRounds, (err, hashedPassword) => {
