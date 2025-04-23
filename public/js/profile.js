@@ -24,7 +24,6 @@ fetch('/api/userId')
         console.error('Error fetching user data:', error);
       });
 
-
 var SettingsVisual = document.getElementsByClassName("accountSetting")
 var Setbutton = document.getElementById("80")
 var form = document.getElementById("form-container")
@@ -96,7 +95,16 @@ function showForm(formUrl) {
         
           const currentPassword = document.getElementById('password').value;
           const newPassword = document.getElementById('new-password').value;
-        
+          
+          if (newPassword.length < 8){
+            alertMessage('Password must be at least 8 characters long')
+            return
+          }
+          if (newPassword == currentPassword){
+            alertMessage("New Password can't be the same as the current one")
+            return
+          }
+
           const jsonData = JSON.stringify({
             currentPassword: currentPassword,
             newPassword: newPassword
@@ -111,11 +119,9 @@ function showForm(formUrl) {
             const data = await response.json();
             
             if (!response.ok) {
-              alert(data.error || 'Failed to update password');
+              alertMessage(data)
             } else {
-              alert(data.message || 'Password updated successfully!');
-              console.log('Password updated successfully:', data);
-              // You can add more success logic here
+              alertMessage(data);
             }
           })
           .catch(error => {
@@ -150,8 +156,7 @@ const formloader = new MutationObserver(() => {
       })
       .then(response => response.text())
       .then(data => {
-        console.log(data);
-        alert(data);
+        alertMessage(data)
       })
       .catch(error => console.error('Error:', error));
     });
