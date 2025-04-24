@@ -36,9 +36,17 @@
                 <div class="accountSetting" id="91"><a href="#" onclick="showForm('/CPassword')" class="setting" >Change password</a></div>
                 <div class="accountSetting" id="92"><a href="#" onclick="showForm('/deleteAccount')" class="setting" >Delete account</a></div>
             </div>
-            <div class="item" id="95"></div>
+            <div class="item" id="95">
+            </div>
         </div>
         </div>
+        <div id="passwordModal" style="display: none;">
+            <div style="background: white; padding: 20px; border: 1px solid #ccc;">
+              <p>Please confirm your password to delete your account:</p>
+              <input type="password" id="passwordInput" placeholder="Enter your password" />
+              <button id="confirmDelete">Confirm Delete</button>
+              <button id="cancelDelete">Cancel</button>
+            </div>
         <Div class="Version">
             Version: 0.7.2
         </Div>

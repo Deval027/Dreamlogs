@@ -318,10 +318,9 @@ app.get('/CUsername', (req, res) => {
   res.send(`
       <div id="form-container">
           <h2>Change Username</h2>
-          <form id="submitForm" action="/submitUsername" method="post">
-              <label for="new-username">New Username:</label>
-              <input type="text" class="newUser" id="new-username" name="username" required><br><br>
-              <button class="sub" type="change username">Submit</button>
+          <form id="submitForm" method="post" action="/submit-delete-account">
+            <label for="confirm">Your account will be permanently deleted. Are you sure?</label>
+            <button type="button" class="delete" id="deleteBtn">Delete</button>
           </form>
       </div>
   `);
@@ -344,11 +343,12 @@ app.get('/CPassword', (req, res) => {
 
 app.get('/deleteAccount', (req, res) => {
   res.send(`
-      <div id="form-container">
-          <h2>Delete Account</h2>
-          <form id="submitForm" action="/submit-delete-account" method="post">
-              <label for="confirm">Your account will be permanently deleted, are you sure?</label>
-              <a class='delete' href='submit-delete-account'>Delete</a>
+      <div id="formContainer">
+        <h2>Delete Account</h2>
+        <form id="deleteForm" method="post" action="/submit-delete-account">
+          <label for="confirm">Your account will be permanently deleted. Are you sure?</label>
+          <button type="button" class="delete" id="deleteBtn">Delete</button>
+        </form>
       </div>
   `);
 });

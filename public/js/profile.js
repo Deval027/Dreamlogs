@@ -87,7 +87,6 @@ function showForm(formUrl) {
     .then(html => {
       const container = document.getElementById('95');
       if (!container) {
-        console.error('Container with ID "95" not found.');
         return;
       }
 
@@ -106,6 +105,12 @@ function showForm(formUrl) {
           break;
         case 'submitForm':
           form.addEventListener('submit', handleUsernameSubmit);
+          break;
+        case 'deleteForm':
+          const deleteBtn = document.getElementById('deleteBtn');
+          if (deleteBtn) {
+            deleteBtn.addEventListener('click', injectPasswordModal);
+          }
           break;
         default:
           console.warn('No handler for form with ID:', form.id);
@@ -169,3 +174,62 @@ function handleUsernameSubmit(event) {
   })
   .catch(error => console.error('Error:', error));
 }
+
+
+
+function injectPasswordModal() {
+  const modal = document.createElement('div');
+  modal.id = 'passwordModal';
+  modal.style.position = 'fixed';
+  modal.style.top = '0';
+  modal.style.left = '0';
+  modal.style.width = '100%';
+  modal.style.height = '100%';
+  modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+  modal.style.display = 'flex';
+  modal.style.alignItems = 'center';
+  modal.style.justifyContent = 'center';
+  modal.style.zIndex = '9999';
+
+  modal.innerHTML = `
+    <div style="background: white; padding: 20px; border-radius: 8px; max-width: 300px; text-align: center;" id='container'>
+      <p>Please confirm your password to delete your account:</p>
+      <input type="password" id="passwordInput" placeholder="Enter your password" style="width: 100%; margin-bottom: 10px; padding: 8px;" />
+      <div style="display: flex; justify-content: space-between;">
+        <button id="confirmDelete" style="padding: 8px 12px;">Confirm</button>
+        <button id="cancelDelete" style="padding: 8px 12px;">Cancel</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const removeButton = document.getElementById('cancelDelete')
+  const popup = document.getElementById('container')
+  console.log(removeButton)
+  console.log(popup)
+  removeButton.addEventListener('click', () => {
+    console.log('Cancel clicked');
+    popup.remove();
+  });
+  
+  document.getElementById('confirmDelete').addEventListener('click', () => {
+    const password = document.getElementById('passwordInput').value;
+    fetch('/submit-delete-account', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password })
+    }).then(res => {
+      modal.remove();
+      if (res.ok) {
+        alert('Account deleted.');
+        window.location.href = '/goodbye';
+      } else {
+        alert('Incorrect password.');
+      }
+    }).catch(err => {
+      console.error(err);
+      alert('Something went wrong.');
+    });
+  });
+}
+
