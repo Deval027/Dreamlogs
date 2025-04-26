@@ -1,4 +1,3 @@
-//TODO clear form after registration
 const express = require('express');
 require('dotenv').config();
 const fs = require('fs');
@@ -24,7 +23,6 @@ db.beginTransaction = util.promisify(db.beginTransaction);
 db.commit = util.promisify(db.commit);
 db.rollback = util.promisify(db.rollback);
 
-//todo fix bug that happens when username already exist server crashes
 //websockets
 
 const wss = new WebSocket.Server({ port: 8080 });
@@ -130,7 +128,6 @@ db.query(selectQuery, [username], (err, results) => {
   } else if (results.length > 0) {
     res.json({ usernameExists: true });
     console.log('Username already exists');
-    res.redirect('/login');
   } else {
     bcrypt.hash(req.body.password, saltRounds, (err, hashedPassword) => {
       if (err) {

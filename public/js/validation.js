@@ -52,8 +52,10 @@ form.addEventListener('submit', function(event) {
   .then(data => {
     if (data.usernameExists) {
       alert('Username already exists');
+      form.reset()
     } else if (data.success) {
       alertMessage('Sign up Succesfull')
+      form.reset()
     } else {
       alertMessage('Registration was not succesfull, please try again')
     }
