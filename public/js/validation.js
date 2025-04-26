@@ -18,6 +18,8 @@ form.addEventListener('submit', function(event) {
     errorMessage = 'Username and password are required';
   } else if (password !== confirmPassword) {
     errorMessage = 'Passwords do not match';
+    document.getElementById('registerPassword').value = '';
+    document.getElementById('confirmPassword').value = '';
   } else if (password.length < 8) {
     errorMessage = 'Password must be at least 8 characters long';
   }
@@ -32,6 +34,8 @@ form.addEventListener('submit', function(event) {
   if (errorMessage !== '') {
     console.log(errorMessage)
     alertMessage(errorMessage)
+    console.log(password)
+    console.log(confirmPassword)
     return
   }
 
@@ -51,13 +55,13 @@ form.addEventListener('submit', function(event) {
   .then(response => response.json())
   .then(data => {
     if (data.usernameExists) {
-      alert('Username already exists');
-      form.reset()
+      alertMessage('Username already exists')
     } else if (data.success) {
       alertMessage('Sign up Succesfull')
       form.reset()
     } else {
       alertMessage('Registration was not succesfull, please try again')
+      form.reset()
     }
   })
   .catch((error) => {
