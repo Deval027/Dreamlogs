@@ -8,7 +8,16 @@
     <title>Dreamlogs</title>
 </head>
 <body>
-    <div class="overlay" id="overlay"></div>
+    <div id="modalOverlay" style="display: none;">
+        <div id="passwordModal">
+          <p>Please confirm your password to delete your account:</p>
+          <input type="password" id="passwordInput" placeholder="Enter your password"/>
+          <div style="display: flex; justify-content: space-between;">
+            <button id="confirmDelete" style="padding: 8px 12px;">Confirm</button>
+            <button id="cancelDelete" style="padding: 8px 12px;">Cancel</button>
+          </div>
+        </div>
+      </div>
     <header class="head">
         <div class="container">
         <div class=""><h1 class="Title">Dreamlogs</h1></div>
@@ -37,22 +46,6 @@
                 <div class="accountSetting" id="92"><a href="#" onclick="showForm('/deleteAccount')" class="setting" >Delete account</a></div>
             </div>
             <div class="item" id="95">
-            </div>
-        </div>
-        </div>
-        <div id="passwordModal" style="display: none;">
-            <div style="background: white; padding: 20px; border: 1px solid #ccc;">
-              <p>Please confirm your password to delete your account:</p>
-              <input type="password" id="passwordInput" placeholder="Enter your password" />
-              <button id="confirmDelete">Confirm Delete</button>
-              <button id="cancelDelete">Cancel</button>
-            </div>
-        <div style="background: white; padding: 20px; border-radius: 8px; max-width: 300px; text-align: center;" id='container'>
-            <p>Please confirm your password to delete your account:</p>
-            <input type="password" id="passwordInput" placeholder="Enter your password" style="width: 100%; margin-bottom: 10px; padding: 8px;" />
-            <div style="display: flex; justify-content: space-between;">
-                <button id="confirmDelete" style="padding: 8px 12px;">Confirm</button>
-                <button id="cancelDelete" style="padding: 8px 12px;">Cancel</button>
             </div>
         </div>
         <Div class="Version">

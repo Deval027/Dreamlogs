@@ -1,6 +1,7 @@
 
-let popup = document.getElementById('passwordModal')
+let popup = document.getElementById('modalOverlay')
 let cancelDelete = document.getElementById('cancelDelete')
+let submitdelete = document.getElementById('confirmDelete')
 fetch('/api/userId')
       .then(response => response.json())
       .then(data => {
@@ -101,21 +102,27 @@ function showForm(formUrl) {
         return;
       }
 
-
+      //dinamic view depending on form selected switch for each of three settings
       switch (form.id) {
         case 'submitPsw':
           form.addEventListener('submit', handlePasswordSubmit);
           break;
+
         case 'submitForm':
           form.addEventListener('submit', handleUsernameSubmit);
           break;
+
         case 'deleteForm':
-          const deleteBtn = document.getElementById('deleteBtn');
             deleteBtn.addEventListener('click', () => {
               showModal()
             });
             cancelDelete.addEventListener('click',() => {
               closeModal()
+            })
+            submitdelete.addEventListener('click', () =>{
+              let password = document.getElementById('passwordInput').value;
+              console.log('hi')
+              handleDeleteSubmit(password)
             })
           break;
         default:
@@ -183,63 +190,21 @@ function handleUsernameSubmit(event) {
 
 
 
-function injectPasswordModal() {
-  const modal = document.createElement('div');
-  modal.id = 'passwordModal';
-  modal.style.position = 'fixed';
-  modal.style.top = '0';
-  modal.style.left = '0';
-  modal.style.width = '100%';
-  modal.style.height = '100%';
-  modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-  modal.style.display = 'flex';
-  modal.style.alignItems = 'center';
-  modal.style.justifyContent = 'center';
-  modal.style.zIndex = '9999';
-  
-  modal.innerHTML = `
-    <div style="background: white; padding: 20px; border-radius: 8px; max-width: 300px; text-align: center;" id='container'>
-      <p>Please confirm your password to delete your account:</p>
-      <input type="password" id="passwordInput" placeholder="Enter your password" style="width: 100%; margin-bottom: 10px; padding: 8px;" />
-      <div style="display: flex; justify-content: space-between;">
-        <button id="confirmDelete" style="padding: 8px 12px;">Confirm</button>
-        <button id="cancelDelete" style="padding: 8px 12px;">Cancel</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  const removeButton = document.getElementById('cancelDelete')
-  const popup = document.getElementById('container')
-  popup.style.pointerEvents = 'auto';
-
-  console.log(removeButton) 
-  console.log(popup) 
-  popup.style.pointerEvents = 'auto';
-
-  removeButton.addEventListener('click', (e) => {
-    console.log('Cancel clicked',e.target); 
-    popup.remove();
-  });
-  
-  document.getElementById('confirmDelete').addEventListener('click', () => {
-    const password = document.getElementById('passwordInput').value;
-    fetch('/submit-delete-account', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password })
-    }).then(res => {
-      modal.remove();
-      if (res.ok) {
-        alert('Account deleted.');
-        window.location.href = '/goodbye';
-      } else {
-        alert('Incorrect password.');
-      }
-    }).catch(err => {
-      console.error(err);
-      alert('Something went wrong.');
-    });
+function handleDeleteSubmit(passwordIn) {
+  fetch('/submit-delete-account', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: passwordIn })
+  }).then(res => {
+    if (res.ok) {
+      alert('Account deleted.');
+      window.location.href = '/goodbye';
+    } else {
+      alert('Incorrect password.');
+    }
+  }).catch(err => {
+    console.error(err);
+    alert('Something went wrong.');
   });
 }
 
@@ -248,8 +213,6 @@ function showModal(){
   popup.style.display = 'block'
 }
 
-
 function closeModal(){
-  console.log("ayuda")
   popup.style.display = 'none'
 }

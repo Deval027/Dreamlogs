@@ -1,3 +1,4 @@
+//TODO clear form after registration
 const express = require('express');
 require('dotenv').config();
 const fs = require('fs');
@@ -17,6 +18,12 @@ app.use(cookieParser());
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'views')));
 const WebSocket = require('ws');
+const util = require('util');
+db.query = util.promisify(db.query);
+db.beginTransaction = util.promisify(db.beginTransaction);
+db.commit = util.promisify(db.commit);
+db.rollback = util.promisify(db.rollback);
+
 //todo fix bug that happens when username already exist server crashes
 //websockets
 
@@ -450,51 +457,48 @@ app.post('/submit-password', (req, res) => {
 
 
 
-app.get('/submit-delete-account', (req, res) => {
-    const userId = req.session.userId;
-    db.beginTransaction((transactionError) => {
-      if (transactionError) {
-        console.error('Transaction error:', transactionError);
-        res.status(500).send('An error occurred while starting the transaction.');
-        return;
-      }
+app.post('/submit-delete-account', async (req, res) => {
+  const userId = req.session.userId;
+  const { password } = req.body;
 
-      const deleteDreamsQuery = 'DELETE FROM dreams WHERE userid = ?';
-      db.query(deleteDreamsQuery, [userId], (dreamsError, dreamsResults) => {
-        if (dreamsError) {
-          db.rollback(() => {
-            console.error('Error deleting related dreams:', dreamsError);
-            res.status(500).send('An error occurred while deleting related dreams.');
-          });
-          return;
-        }
+  try {
+    const results = await db.query('SELECT * FROM users WHERE id = ?', [userId]);
 
-        //delete the user
-        const deleteUserQuery = 'DELETE FROM users WHERE id = ?';
-        db.query(deleteUserQuery, [userId], (userError, userResults) => {
-          if (userError) {
-            dbrollback(() => {
-              console.error('Error deleting account:', userError);
-              res.status(500).send('An error occurred while deleting the account.');
-            });
-          } else if (userResults.affectedRows === 0) {
-            db.rollback(() => {
-              res.status(404).send('Account not found.');
-            });
-          } else {
-            db.commit((commitError) => {
-              if (commitError) {
-                db.rollback(() => {
-                  console.error('Commit error:', commitError);
-                  res.status(500).send('An error occurred while committing the transaction.');
-                });
-              } else {
-                console.log('Account deleted');
-                res.redirect('/logout');
-              } 
-            });
-          }
-        });
-      });
-    });
-});//End of settings module
+    if (results.length === 0) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
+    const user = results[0];
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      return res.status(401).json({ success: false, message: 'Current password is incorrect' });
+    }
+
+    // Password correct: start transaction
+    await db.beginTransaction();
+
+    await db.query('DELETE FROM dreams WHERE userid = ?', [userId]);
+    const deleteUserResult = await db.query('DELETE FROM users WHERE id = ?', [userId]);
+
+    if (deleteUserResult.affectedRows === 0) {
+      await db.rollback();
+      return res.status(404).send('Account not found.');
+    }
+
+    await db.commit();
+    console.log('Account deleted successfully');
+    res.redirect('/logout');
+
+  } catch (err) {
+    console.error('Error:', err);
+    try {
+      await db.rollback();
+    } catch (rollbackErr) {
+      console.error('Rollback error:', rollbackErr);
+    }
+    res.status(500).send('An error occurred while deleting the account.');
+  }
+});
+
+//End of settings module
