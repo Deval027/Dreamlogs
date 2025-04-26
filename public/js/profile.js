@@ -1,3 +1,6 @@
+
+let popup = document.getElementById('passwordModal')
+let cancelDelete = document.getElementById('cancelDelete')
 fetch('/api/userId')
       .then(response => response.json())
       .then(data => {
@@ -108,13 +111,12 @@ function showForm(formUrl) {
           break;
         case 'deleteForm':
           const deleteBtn = document.getElementById('deleteBtn');
-          if (deleteBtn) {
-            deleteBtn.addEventListener('click', injectPasswordModal);
-            const removeButton = document.getElementById('cancelDelete')
-            removeButton.addEventListener('click', () => {
-              popup.remove();
+            deleteBtn.addEventListener('click', () => {
+              showModal()
             });
-          }
+            cancelDelete.addEventListener('click',() => {
+              closeModal()
+            })
           break;
         default:
           console.warn('No handler for form with ID:', form.id);
@@ -241,3 +243,13 @@ function injectPasswordModal() {
   });
 }
 
+function showModal(){
+  const children = popup.children;
+  popup.style.display = 'block'
+}
+
+
+function closeModal(){
+  console.log("ayuda")
+  popup.style.display = 'none'
+}

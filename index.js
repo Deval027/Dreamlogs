@@ -318,9 +318,10 @@ app.get('/CUsername', (req, res) => {
   res.send(`
       <div id="form-container">
           <h2>Change Username</h2>
-          <form id="submitForm" method="post" action="/submit-delete-account">
-            <label for="confirm">Your account will be permanently deleted. Are you sure?</label>
-            <button type="button" class="delete" id="deleteBtn">Delete</button>
+          <form id="submitForm" action="/submitUsername" method="post">
+              <label for="new-username">New Username:</label>
+              <input type="text" class="newUser" id="new-username" name="username" required><br><br>
+              <button class="sub" type="change username">Submit</button>
           </form>
       </div>
   `);

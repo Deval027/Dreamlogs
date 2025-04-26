@@ -561,3 +561,6 @@ option {
     z-index: 3;
   }
   
+#container {
+  display: none;
+}
