@@ -53,10 +53,10 @@ form.addEventListener('submit', function(event) {
     if (data.usernameExists) {
       alert('Username already exists');
     } else if (data.success) {
-      alert('Registration successful');
+      alertMessage('Sign up Succesfull')
       location.reload(false);
     } else {
-      alert('Registration failed');
+      alertMessage('Registration was not succesfull, please try again')
     }
   })
   .catch((error) => {

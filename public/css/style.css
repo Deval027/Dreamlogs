@@ -555,3 +555,9 @@ option {
 	  width: 100%;
 	}
   }
+
+
+  #cancelDelete {
+    z-index: 3;
+  }
+  

@@ -137,7 +137,7 @@ db.query(selectQuery, [username], (err, results) => {
             res.json({ success: false });
           } else {
             console.log('Data inserted into database');
-            res.json({ success: true });
+            res.json({ success: true});
           }
         });
       }

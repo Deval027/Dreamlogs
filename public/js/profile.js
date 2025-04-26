@@ -110,6 +110,10 @@ function showForm(formUrl) {
           const deleteBtn = document.getElementById('deleteBtn');
           if (deleteBtn) {
             deleteBtn.addEventListener('click', injectPasswordModal);
+            const removeButton = document.getElementById('cancelDelete')
+            removeButton.addEventListener('click', () => {
+              popup.remove();
+            });
           }
           break;
         default:
@@ -190,7 +194,7 @@ function injectPasswordModal() {
   modal.style.alignItems = 'center';
   modal.style.justifyContent = 'center';
   modal.style.zIndex = '9999';
-
+  
   modal.innerHTML = `
     <div style="background: white; padding: 20px; border-radius: 8px; max-width: 300px; text-align: center;" id='container'>
       <p>Please confirm your password to delete your account:</p>
@@ -205,10 +209,14 @@ function injectPasswordModal() {
 
   const removeButton = document.getElementById('cancelDelete')
   const popup = document.getElementById('container')
-  console.log(removeButton)
-  console.log(popup)
-  removeButton.addEventListener('click', () => {
-    console.log('Cancel clicked');
+  popup.style.pointerEvents = 'auto';
+
+  console.log(removeButton) 
+  console.log(popup) 
+  popup.style.pointerEvents = 'auto';
+
+  removeButton.addEventListener('click', (e) => {
+    console.log('Cancel clicked',e.target); 
     popup.remove();
   });
   
