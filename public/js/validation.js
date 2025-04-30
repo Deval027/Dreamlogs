@@ -36,6 +36,7 @@ form.addEventListener('submit', function(event) {
     alertMessage(errorMessage)
     console.log(password)
     console.log(confirmPassword)
+    errorMessage = ''
     return
   }
 
