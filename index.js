@@ -70,7 +70,7 @@ app.get('/', (req, res) => {
   if (req.session.userId) {
     res.redirect('/home');
   } else {
-    fs.readFile('views/login2.html', 'utf8', (err, data) => {
+    fs.readFile('views/login.html', 'utf8', (err, data) => {
       if (err) {
         console.error(err);
         res.status(500).send('Error reading file');
