@@ -10,7 +10,6 @@ for (let i = 0; i < deleteButtons.length; i++) {
     const box = this.parentElement; 
     let dreamId = document.getElementById('id');
     deleteDream(box.id); 
-    console.log('dreamId:', dreamId);
   });
 }
 function OpenWindow() {
@@ -68,7 +67,6 @@ function closeLogEntryAnimation() {
 
   function openLogEntryAnimation() {
     const log = document.querySelector('.LogEntry');
-    console.log(log)
     log.style.display = 'block';
     log.animate(
       [

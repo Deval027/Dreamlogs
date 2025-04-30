@@ -32,10 +32,7 @@ form.addEventListener('submit', function(event) {
 
   //in case there is a bad input display error and stop the code
   if (errorMessage !== '') {
-    console.log(errorMessage)
     alertMessage(errorMessage)
-    console.log(password)
-    console.log(confirmPassword)
     errorMessage = ''
     return
   }
@@ -93,5 +90,3 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 })
 
 });
-
-//

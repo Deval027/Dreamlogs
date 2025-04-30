@@ -30,9 +30,8 @@ fetch('/api/dreams')
 
       mainDiv.appendChild(button);
 
-      // **Click event for opening dream reader**
+      // Click event for opening dream reader
       button.addEventListener('click', function() {
-        console.log("Open")
         openReader()
         const descriptionElement = document.querySelector('.definition .content');
         const readerbutton = document.getElementsByClassName('reader')[0];
@@ -54,19 +53,14 @@ fetch('/api/dreams')
         deleteButton.textContent = 'Delete';
         deleteButton.dataset.dreamId = dream.dreamid;
 
-        // **Click event for deleting the dream**
+        // Click event for deleting the dream
         deleteButton.addEventListener('click', function() {
           const dreamIdToDelete = deleteButton.dataset.dreamId;
           
           fetch(`/api/deleteDream/${dreamIdToDelete}`, { method: 'DELETE' })
             .then(response => {
               if (response.ok) {
-                console.log(`Deleted dream with ID: ${dreamIdToDelete}`);
-                
-                // Hide reader box
                 readerbutton.style.display = 'none';
-
-                // Remove dream box from main container
                 const dreamBox = document.getElementById(dreamIdToDelete);
                 if (dreamBox) {
                   dreamBox.remove();

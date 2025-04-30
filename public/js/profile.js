@@ -31,7 +31,6 @@ fetch('/api/userId')
 var SettingsVisual = document.getElementsByClassName("accountSetting")
 var Setbutton = document.getElementById("80")
 var form = document.getElementById("form-container")
-console.log(form)
 function OpenWindow() {
 
   for (var i = 0; i < SettingsVisual.length; i++) {
@@ -55,25 +54,18 @@ function OpenWindow() {
       } else {
           form.style.display = 'block';
       }
-  } else {
-      console.log(''); 
-  }
+  } 
 }
 
 if (form) {
-  console.log('formSettings found in the DOM on page load');
   Setbutton.addEventListener("click", OpenWindow);
-} else {
-  console.log('formSettings not found, waiting for it to be added');
 }
 
 const observer = new MutationObserver(function(mutationsList) {
   for (const mutation of mutationsList) {
       if (mutation.type === 'childList') {
-          console.log('Mutation detected. Checking if formSettings is added...');
           form = document.getElementById("95");
           if (form) {
-              console.log('formSettings has been added to the DOM');
               Setbutton.addEventListener("click", OpenWindow);
               observer.disconnect();
           }
@@ -121,7 +113,6 @@ function showForm(formUrl) {
             })
             submitdelete.addEventListener('click', () =>{
               let password = document.getElementById('passwordInput').value;
-              console.log('hi')
               handleDeleteSubmit(password)
             })
           break;
@@ -180,7 +171,6 @@ function handleUsernameSubmit(event) {
   .then(response => response.json())
   .then(data => {
     alertMessage(data.message);
-    console.log(data)
     if (data.message === 'Username already exist') {
       showForm('/CUsername'); 
     }
@@ -200,7 +190,7 @@ function handleDeleteSubmit(passwordIn) {
       alert('Account deleted.');
       window.location.href = '/goodbye';
     } else {
-      alert('Incorrect password.');
+      alertMessage('Incorrect password.');
     }
   }).catch(err => {
     console.error(err);
