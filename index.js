@@ -280,11 +280,36 @@ app.delete('/api/deleteDream/:dreamId', (req, res) => {
       if (err) {
           console.error(err);
           res.status(500).send();
+          console.log('Dream deleted with id:',dreamId)
       } else {
           res.status(200).send();
       }
   });
 });
+
+app.put('/api/updateDream/:dreamid', (req, res) => {
+  const dreamId = req.params.dreamid;
+  const { description } = req.body;
+
+  if (!description) {
+    return res.status(400).json({ error: 'Description is required.' });
+  }
+
+  const query = 'UPDATE dreams SET description = ? WHERE dreamid = ?';
+  db.query(query, [description, dreamId], (err, result) => {
+    if (err) {
+      console.error('Error updating dream:', err);
+      return res.status(500).json({ error: 'Failed to update dream.' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Dream not found.' });
+    }
+
+    res.json({ message: 'Dream updated successfully.' });
+  });
+});
+
 app.get('/userLogs', (req, res) => {
   const userId = req.session.userId;
 

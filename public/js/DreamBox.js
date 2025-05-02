@@ -41,18 +41,29 @@ fetch('/api/dreams')
         readerbutton.dataset.dreamId = dream.dreamid;
         descriptionElement.textContent = dream.description;
 
-        // Remove existing delete button (if any)
-        let existingDeleteButton = readerbutton.querySelector('.delete-button');
-        if (existingDeleteButton) {
-          existingDeleteButton.remove();
-        }
-
         // Create delete button
         const deleteButton = document.createElement('button');
         deleteButton.className = 'delete-button';
         deleteButton.textContent = 'Delete';
         deleteButton.dataset.dreamId = dream.dreamid;
 
+        const editButton = document.createElement('button');
+        editButton.className = 'editButton';
+        editButton.textContent = 'Edit';
+        editButton.dataset.dreamId = dream.dreamid;
+
+         // Remove existing delete button (if any)
+         let existingDeleteButton = readerbutton.querySelector('.delete-button');
+         if (existingDeleteButton) {
+           existingDeleteButton.remove();
+         }
+ 
+ 
+         let existingEditButton = readerbutton.querySelector('.editButton');
+         if (existingEditButton) {
+           existingEditButton.remove();
+         }
+         
         // Click event for deleting the dream
         deleteButton.addEventListener('click', function() {
           const dreamIdToDelete = deleteButton.dataset.dreamId;
@@ -72,7 +83,97 @@ fetch('/api/dreams')
             })
             .catch(error => console.error('Error:', error));
         });
+        //edit listener
+        editButton.addEventListener('click', function () {
+          // Step 1: Replace span with textarea
+          const descriptionElement = readerbutton.querySelector('.content');
+          const currentDescription = descriptionElement.textContent;
+
+          const textarea = document.createElement('textarea');
+          textarea.value = currentDescription;
+          textarea.className = 'editor';
+          textarea.value = currentDescription;
+          textarea.className = 'editor';
+          textarea.rows = 10; 
+          textarea.style.width = '100%'; // makes it full width
+          descriptionElement.replaceWith(textarea);
+        
+          // Step 2: Remove existing buttons
+          deleteButton.remove();
+          editButton.remove();
+
+        
+          // Step 3: Create Save button
+          const saveButton = document.createElement('button');
+          saveButton.textContent = 'Save';
+          saveButton.className = 'save-button';
+        
+          // Step 4: Create Cancel button
+          const cancelButton = document.createElement('button');
+          cancelButton.textContent = 'Cancel';
+          cancelButton.className = 'cancel-button';
+        
+          // Step 5: Save handler
+          saveButton.addEventListener('click', function () {
+            const updatedDescription = textarea.value;
+        
+            fetch(`/api/updateDream/${dream.dreamid}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ description: updatedDescription }),
+            })
+              .then(response => {
+                if (response.ok) {
+                  // Replace textarea with updated span
+                  const newSpan = document.createElement('span');
+                  newSpan.className = 'content';
+                  newSpan.textContent = updatedDescription;
+                  textarea.replaceWith(newSpan);
+        
+                  // Re-append Edit and Delete buttons
+                  readerbutton.appendChild(deleteButton);
+                  readerbutton.appendChild(editButton);
+                } else {
+                  console.error('Failed to update dream.');
+                }
+              })
+              .catch(error => console.error('Error:', error));
+          });
+        
+          // Step 6: Cancel handler
+          cancelButton.addEventListener('click', function () {
+            // Restore original span
+            const originalSpan = document.createElement('span');
+            originalSpan.className = 'content';
+            originalSpan.textContent = currentDescription;
+            textarea.replaceWith(originalSpan);
+        
+            // Re-append Edit and Delete buttons
+            readerbutton.appendChild(deleteButton);
+            readerbutton.appendChild(editButton);
+            saveButton.remove()
+            cancelButton.remove()
+          });
+          CloseTab2[0].addEventListener('click', function () {
+            // Restore original span
+            const originalSpan = document.createElement('span');
+            originalSpan.className = 'content';
+            originalSpan.textContent = currentDescription;
+            textarea.replaceWith(originalSpan);
+        
+            // Re-append Edit and Delete buttons
+            saveButton.remove()
+            cancelButton.remove()
+          });
+          
+        
+          // Step 7: Append Save and Cancel buttons
+          readerbutton.appendChild(saveButton);
+          readerbutton.appendChild(cancelButton);
+        });
+        
         readerbutton.appendChild(deleteButton);
+        readerbutton.appendChild(editButton)
         readerbutton.style.display = 'flex';
       });
     });
