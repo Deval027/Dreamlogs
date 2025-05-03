@@ -22,6 +22,8 @@ db.query = util.promisify(db.query);
 db.beginTransaction = util.promisify(db.beginTransaction);
 db.commit = util.promisify(db.commit);
 db.rollback = util.promisify(db.rollback);
+const recoveryRoutes = require('./mailService.js'); 
+
 
 //websockets
 
@@ -54,6 +56,7 @@ app.use(session({
   cookie: { secure: false },
   store: new MySQLStore(options)
 }));
+
 //start server port
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
@@ -117,6 +120,9 @@ app.get('/getFormData', (req, res) => {
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use('/api',recoveryRoutes)
+
 
 app.post('/register', (req, res) => {
 const username = req.body.username;
@@ -524,3 +530,4 @@ app.post('/submit-delete-account', async (req, res) => {
 });
 
 //End of settings module
+
