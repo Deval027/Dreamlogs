@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const db = require('./database'); // Your MySQL connection
+const db = require('./database');
 const crypto = require('crypto');
 const express = require('express');
 const router = express.Router();
@@ -12,15 +12,12 @@ router.post('/querymail', (req, res) => {
   const { email } = req.body;
 
   if (!email) return res.status(400).json({ message: 'Email is required' });
-
-  // Check if the email exists in the users table
   const query = 'SELECT * FROM users WHERE email = ?';
   db.query(query, [email], (err, results) => {
     if (err) {
       console.error('DB error:', err);
       return res.status(500).json({ message: 'Database error' });
     }
-
     if (results.length === 0) {
       return res.status(404).json({ message: 'No user with that email' });
     }
@@ -29,8 +26,6 @@ router.post('/querymail', (req, res) => {
 
     // Create a unique token (optional: store it in DB with expiry)
     const token = crypto.randomBytes(32).toString('hex');
-
-    // Set the expiration time (30 minutes from now)
     const expirationTime = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
 
     // Store the token and expiration in the password_resets table
@@ -41,12 +36,11 @@ router.post('/querymail', (req, res) => {
         return res.status(500).json({ message: 'Failed to store reset token' });
       }
 
-      // Setup Nodemailer transporter
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: process.env.EMAIL_USER,     // Your Gmail
-          pass: process.env.EMAIL_PASS      // Your Gmail App Password
+          user: process.env.EMAIL_USER,    
+          pass: process.env.EMAIL_PASS     
         }
       });
 
@@ -87,7 +81,7 @@ router.get('/recover', (req, res) => {
   if (!token) {
     return res.status(400).json({ message: 'Token is required' });
   }
-  // Check if token exists in the database and has not expired
+  // Check if before doing any change
   const query = 'SELECT * FROM password_resets WHERE reset_token = ? AND reset_token_expires > NOW()';
   db.query(query, [token], (err, results) => {
     if (err) {
@@ -99,7 +93,6 @@ router.get('/recover', (req, res) => {
       return res.status(400).json({ message: 'Invalid or expired token' });
     }
     
-    // If token is valid, allow user to reset password
     const user = results[0];
     fs.readFile('views/ChangePassword.html', 'utf8', (err, data) => {
       if (err) {
@@ -121,7 +114,7 @@ router.post('/resetpassword', (req, res) => {
     return res.status(400).json({ message: 'Token and new password are required' });
   }
 
-  // Check if token exists and has not expired
+  // validate token
   const query = 'SELECT * FROM password_resets WHERE reset_token = ? AND reset_token_expires > NOW()';
   db.query(query, [token], (err, results) => {
     if (err) {
@@ -133,9 +126,8 @@ router.post('/resetpassword', (req, res) => {
       return res.status(400).json({ message: 'Invalid or expired token' });
     }
 
-    // If token is valid, reset the password
     const userId = results[0].user_id;
-    // Hash the new password before storing (optional, but recommended)
+
     bcrypt.hash(newPassword, saltRounds, (err, hashedPassword) => {
       if (err) {
         console.error('Hashing error:', err);
