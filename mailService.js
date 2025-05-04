@@ -4,6 +4,8 @@ const crypto = require('crypto');
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 
 router.post('/querymail', (req, res) => {
@@ -61,7 +63,7 @@ router.post('/querymail', (req, res) => {
           <a href="${recoveryLink}">${recoveryLink}</a>
           <p>If you didn’t request this, just ignore it.</p>
         `
-      };
+      }; 
 
       transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
@@ -70,6 +72,7 @@ router.post('/querymail', (req, res) => {
         }
 
         res.status(200).json({ message: 'Recovery email sent successfully' });
+        console.log(recoveryLink)
       });
     });
   });
@@ -113,7 +116,7 @@ router.get('/recover', (req, res) => {
 
 router.post('/resetpassword', (req, res) => {
   const { token, newPassword } = req.body;
-
+  console.log(token, newPassword)
   if (!token || !newPassword) {
     return res.status(400).json({ message: 'Token and new password are required' });
   }
@@ -131,28 +134,31 @@ router.post('/resetpassword', (req, res) => {
     }
 
     // If token is valid, reset the password
-    const user = results[0];
-
+    const userId = results[0].user_id;
     // Hash the new password before storing (optional, but recommended)
-    const hashedPassword = crypto.createHash('sha256').update(newPassword).digest('hex');
-
-    // Update password in the database
-    const updateQuery = 'UPDATE users SET password = ? WHERE id = ?';
-    db.query(updateQuery, [hashedPassword, user.id], (err) => {
+    bcrypt.hash(newPassword, saltRounds, (err, hashedPassword) => {
       if (err) {
-        console.error('Failed to update password:', err);
-        return res.status(500).json({ message: 'Failed to update password' });
+        console.error('Hashing error:', err);
+        return res.status(500).json({ message: 'Error hashing password' });
       }
-
-      // Optionally, delete the reset token after it's used
-      const deleteTokenQuery = 'DELETE FROM password_resets WHERE reset_token = ?';
-      db.query(deleteTokenQuery, [token], (err) => {
+    
+      const updateQuery = 'UPDATE users SET password = ? WHERE id = ?';
+      db.query(updateQuery, [hashedPassword, userId], (err) => {
         if (err) {
-          console.error('Failed to delete token:', err);
+          console.error('Failed to update password:', err);
+          return res.status(500).json({ message: 'Failed to update password' });
         }
+    
+        // Delete the reset token
+        const deleteTokenQuery = 'DELETE FROM password_resets WHERE reset_token = ?';
+        db.query(deleteTokenQuery, [token], (err) => {
+          if (err) {
+            console.error('Failed to delete token:', err);
+          }
+        });
+    
+        res.status(200).json({ message: 'Password reset successfully' });
       });
-
-      res.status(200).json({ message: 'Password reset successfully' });
     });
   });
 });
