@@ -1,22 +1,24 @@
-//currently on development
+# Dreamlogs 🌙
 
-Dreamlogs is a website that allows users to write and save their dreams
+**Dreamlogs** is a web application designed to help users record and reflect on their dreams. It features user login functionality and a system to write and save dream entries securely.
 
+> ⚠️ This project is currently under active development and is not ready for local deployment or production use.
 
-the page cons of many layers and functions
+## 🛠 Tech Stack
 
--Log in features with user authentication
+- **Backend**: Node.js, Express
+- **Database**: MySQL
+- **Frontend**: HTML, CSS, JavaScript (vanilla)
 
--Data handling with SQL Database
+## ✨ Features
 
--Post and Edit dreams 
+- Full user registration and session handling
+- Create and save dream journal entries
+- Simple, clean interface for writing dreams
 
--View your posts in diary page
+## 🚧 Development Status
 
--user stats
+Future updates will include:
 
--configure profile(password, name, account delete)
-
-
-
-
+- Search/filter by date or tags
+- UI improvements

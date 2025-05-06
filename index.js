@@ -125,36 +125,49 @@ app.use(userSettings)
 
 
 app.post('/register', (req, res) => {
-const username = req.body.username;
-const selectQuery = 'SELECT * FROM users WHERE username = ?';
-db.query(selectQuery, [username], (err, results) => {
-  if (err) {
-    console.error(err);
-    res.status(500).send();
-  } else if (results.length > 0) {
-    res.json({ usernameExists: true });
-    console.log('Username already exists');
-  } else {
-    bcrypt.hash(req.body.password, saltRounds, (err, hashedPassword) => {
+  const username = req.body.username;
+  const email = req.body.email;
+  const password = req.body.password;
+  const selectUsernameQuery = 'SELECT * FROM users WHERE username = ?';
+  const selectEmailQuery = 'SELECT * FROM users WHERE email = ?';
+
+  db.query(selectUsernameQuery, [username], (err, usernameResults) => {
+    if (err) {
+      console.error('Error checking username:', err);
+      return res.status(500).send();
+    }
+    if (usernameResults.length > 0) {
+      console.log('Username already exists');
+      return res.json({ usernameExists: true });
+    }
+    db.query(selectEmailQuery, [email], (err, emailResults) => {
       if (err) {
-        console.error(err);
-        res.json({ success: false });
-      } else {
-        const sql = 'INSERT INTO users (username, password, email) VALUES (?, ?, ?)';
-        db.query(sql, [req.body.username, hashedPassword, req.body.email], (err, result) => {
-          if (err) {
-            console.error(err);
-            res.json({ success: false });
-          } else {
-            console.log('Data inserted into database');
-            res.json({ success: true});
-          }
-        });
+        console.error('Error checking email:', err);
+        return res.status(500).send();
       }
+      if (emailResults.length > 0) {
+        console.log('Email already in use');
+        return res.json({ emailExists: true });
+      }
+      bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+        if (err) {
+          console.error('Error hashing password:', err);
+          return res.json({ success: false });
+        }
+        const insertQuery = 'INSERT INTO users (username, password, email) VALUES (?, ?, ?)';
+        db.query(insertQuery, [username, hashedPassword, email], (err, result) => {
+          if (err) {
+            console.error('Error inserting user:', err);
+            return res.json({ success: false });
+          }
+          console.log('User registered successfully');
+          return res.json({ success: true });
+        });
+      });
     });
-  };
+  });
 });
-});
+
 
 app.post('/login', (req, res) => {
   const username = req.body.username;
@@ -197,14 +210,6 @@ app.post('/login', (req, res) => {
       }
   });
 });
-
-function sendReloadMessage() {
-  clients.forEach((ws) => {
-      if (ws.readyState === WebSocket.OPEN) {
-          ws.send(JSON.stringify({ action: 'reload', message: 'Invalid login! Page will reload.' }));
-      }
-  });
-}
 
 app.get('/logout', (req, res) => {
   req.session.destroy(err => {

@@ -122,7 +122,14 @@ button:hover{
     z-index: 1; 
 }
 
-
+#resign {
+	display: block;
+	text-align: center;
+	margin: 20px auto;
+	width: fit-content;
+	text-decoration: none;
+	right: 8.5vh;
+  }
 .Version{
 	position: absolute;
 	right: 0;

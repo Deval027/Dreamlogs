@@ -85,7 +85,6 @@ fetch('/api/dreams')
         });
         //edit listener
         editButton.addEventListener('click', function () {
-          // Step 1: Replace span with textarea
           const descriptionElement = readerbutton.querySelector('.content');
           const currentDescription = descriptionElement.textContent;
 
@@ -93,27 +92,22 @@ fetch('/api/dreams')
           textarea.value = currentDescription;
           textarea.className = 'editor';
           textarea.value = currentDescription;
+          textarea.rows = 40;
           textarea.className = 'editor';
-          textarea.rows = 10; 
-          textarea.style.width = '100%'; // makes it full width
           descriptionElement.replaceWith(textarea);
         
-          // Step 2: Remove existing buttons
           deleteButton.remove();
           editButton.remove();
 
         
-          // Step 3: Create Save button
           const saveButton = document.createElement('button');
           saveButton.textContent = 'Save';
           saveButton.className = 'save-button';
-        
-          // Step 4: Create Cancel button
+
           const cancelButton = document.createElement('button');
           cancelButton.textContent = 'Cancel';
           cancelButton.className = 'cancel-button';
-        
-          // Step 5: Save handler
+
           saveButton.addEventListener('click', function () {
             const updatedDescription = textarea.value;
         
@@ -124,13 +118,11 @@ fetch('/api/dreams')
             })
               .then(response => {
                 if (response.ok) {
-                  // Replace textarea with updated span
                   const newSpan = document.createElement('span');
                   newSpan.className = 'content';
                   newSpan.textContent = updatedDescription;
                   textarea.replaceWith(newSpan);
-        
-                  // Re-append Edit and Delete buttons
+      
                   readerbutton.appendChild(deleteButton);
                   readerbutton.appendChild(editButton);
                 } else {
@@ -140,34 +132,27 @@ fetch('/api/dreams')
               .catch(error => console.error('Error:', error));
           });
         
-          // Step 6: Cancel handler
           cancelButton.addEventListener('click', function () {
-            // Restore original span
             const originalSpan = document.createElement('span');
             originalSpan.className = 'content';
             originalSpan.textContent = currentDescription;
             textarea.replaceWith(originalSpan);
         
-            // Re-append Edit and Delete buttons
             readerbutton.appendChild(deleteButton);
             readerbutton.appendChild(editButton);
             saveButton.remove()
             cancelButton.remove()
           });
           CloseTab2[0].addEventListener('click', function () {
-            // Restore original span
             const originalSpan = document.createElement('span');
             originalSpan.className = 'content';
             originalSpan.textContent = currentDescription;
             textarea.replaceWith(originalSpan);
         
-            // Re-append Edit and Delete buttons
             saveButton.remove()
             cancelButton.remove()
           });
           
-        
-          // Step 7: Append Save and Cancel buttons
           readerbutton.appendChild(saveButton);
           readerbutton.appendChild(cancelButton);
         });

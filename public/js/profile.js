@@ -8,7 +8,7 @@ fetch('/api/userId')
         if (data.error) {
           document.getElementById('40').innerText = 'Error: ' + data.error;
         } else {
-          document.getElementById('40').innerText = "Welcome back: " + data.username;
+          document.getElementById('40').innerText = "Hello: " + data.username;
         }
       })
       .catch(error => {

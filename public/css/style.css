@@ -550,9 +550,10 @@ option {
 }
 
 .editor{
+  color: var(--gray);
+  resize: none;
   font-size: 1rem;
   padding: 0.5rem;
-  resize: vertical; /* allows user to resize vertically */
   width: 100%;
   box-sizing: border-box;
   border-radius: 8px;

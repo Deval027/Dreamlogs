@@ -101,19 +101,19 @@
     color: #e0e0e0 ;
     border: none;
     font-family: 'Azaret';
-    text-align: center; /* Center the text horizontally */
-    padding: 15px 20px; /* Add padding for better visual appearance */
+    text-align: center; 
+    padding: 15px 20px; 
 }   
 
 .settings { 
             color: #ffffff;
             display: grid;
             grid-template-columns: 1fr;
-            gap: 10px; /* Adjust the gap as needed */
+            gap: 10px; 
             width: 100%;
-            max-width: 600px; /* Adjust the max-width as needed */
-            margin: 0 auto; /* Center the container horizontally */
-            text-align: left; /* Center the text inside each grid item */
+            max-width: 600px;
+            margin: 0 auto; 
+            text-align: left;
         }
 .accountSetting {
     
@@ -219,7 +219,7 @@
   border-radius: 0.25em;
 }
 
-.sub{
+.sub, .delete{
     padding: 1rem 4rem 1rem 1rem;
     width: 20rem;
     border: none;
@@ -242,7 +242,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* dark background */
+  background: rgba(0, 0, 0, 0.5); 
   display: flex;
   align-items: center;
   justify-content: center;

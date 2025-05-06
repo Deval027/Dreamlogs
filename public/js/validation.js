@@ -23,14 +23,12 @@ form.addEventListener('submit', function(event) {
   } else if (password.length < 8) {
     errorMessage = 'Password must be at least 8 characters long';
   }
-  //Email validation
+  //Email check
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    // Show error message
     errorMessage = 'Invalid email'
   }
 
-  //in case there is a bad input display error and stop the code
   if (errorMessage !== '') {
     alertMessage(errorMessage)
     errorMessage = ''
@@ -54,6 +52,8 @@ form.addEventListener('submit', function(event) {
   .then(data => {
     if (data.usernameExists) {
       alertMessage('Username already exists')
+    } else if(data.emailExists){
+      alertMessage('email is already in use')
     } else if (data.success) {
       alertMessage('Sign up Succesfull')
       form.reset()
