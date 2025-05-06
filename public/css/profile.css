@@ -12,24 +12,8 @@
   }
 
 
-.settings {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px; 
-    width: 100%;
-    max-width: 600px; 
-    margin: 0 auto; 
-    text-align: left; 
-}
-.accountSetting {
-    display: none;
-    padding: 10px;
-}
 .Main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 10px;
+    display: flex ;
     position: relative;
     float: right;
     width: 1000px;
@@ -79,6 +63,9 @@
 }
 
 .Logs {
+    position: absolute;
+    top: 20px;
+    right: 30px;
     flex: 1;
     text-align: right;
 
@@ -105,28 +92,28 @@
     padding: 15px 20px; 
 }   
 
-.settings { 
-            color: #ffffff;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px; 
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto; 
-            text-align: left;
-        }
-.accountSetting {
-    
-    display: none;
-    padding: 10px;
-    color: rgb(255, 255, 255);
-    line-height: 5em;
+.settings {
+    top: 150px;
+    position: absolute; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 40px; 
+  }
+  
+  .accountSettingContainer {
+    display: flex;
+    gap: 130px; /* Space between options */
+    margin-top: 10px; /* Space below the "Settings" label */
+  }
+  
+  .setting {
     text-transform: uppercase;
+    letter-spacing: 3px;
     text-decoration: none;
-    letter-spacing: 0.4em;
-    font-size: 15px;
-    cursor: pointer;
-}
+    color: white; /* Adjust as needed */
+  }
+  
 
 .image {
     position: absolute;
@@ -195,9 +182,19 @@
 }
 
 .item{
-    color: var(--background)
+    color: var(--background);
 }
 
+.label{
+    color: var(--background);
+}
+
+.itemset{
+    color: var(--background);
+    bottom: 150px;
+    position: absolute; 
+    display: flex;
+}
 .newUser{
     background-color: var(--background);
   padding: 1rem 4rem 1rem 1rem;

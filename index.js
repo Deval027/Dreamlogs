@@ -359,7 +359,7 @@ app.get('/CUsername', (req, res) => {
       <div id="form-container">
           <h2>Change Username</h2>
           <form id="submitForm" action="/submitUsername" method="post">
-              <label for="new-username">New Username:</label>
+              <label for="new-username">New Username:</label><br>
               <input type="text" class="newUser" id="new-username" name="username" required><br><br>
               <button class="sub" type="change username">Submit</button>
           </form>
@@ -374,7 +374,7 @@ app.get('/CPassword', (req, res) => {
           <form id="submitPsw">
               <label for="Currentpsw">Current password:</label><br>
               <input type="password" id="password" class="newPass" name="password" required><br>
-              <label for="new-password">New password:</label>
+              <label for="new-password">New password:</label><br>
               <input class="newPass" type="password" id="new-password" name="password" required><br><br>
               <button type="submit" class="sub">Change password</button>
           </form>
