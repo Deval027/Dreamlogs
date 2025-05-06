@@ -21,4 +21,5 @@
 Future updates will include:
 
 - Search/filter by date or tags
+- Desktop version
 - UI improvements
