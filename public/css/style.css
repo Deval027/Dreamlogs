@@ -102,7 +102,7 @@ a {
   bottom: -100px;
 }
 .box {
-  color: var(--Text);
+  color: var(--background);
   background-color: var(--boxes);
   position: relative;
   display: flex;
@@ -112,7 +112,7 @@ a {
   text-align: left;
   height: 300px; 
   width: 500px;
-  border: 2px solid #312450;
+  border: 2px solid var(--pinkish);
   border-radius: 10px;
   text-decoration: none;
   cursor: pointer;
@@ -577,9 +577,9 @@ option {
 	top: 20px;
 	left: 20px;
 	background-color: #ffdddd;
-	color: #a00;
+	color: var(--pinkish);
 	padding: 12px 20px;
-	border: 1px solid #a00;
+	border: 1px solid var(--pinkish);
 	border-radius: 8px;
 	font-family: sans-serif;
 	font-size: 14px;
@@ -592,7 +592,7 @@ option {
 	bottom: 0;
 	left: 0;
 	height: 4px;
-	background-color: #a00;
+	background-color: var(--pinkish);
 	animation: progressBarAnim 5s linear forwards;
   }
   
