@@ -29,44 +29,13 @@ fetch('/api/userId')
       });
 
 var SettingsVisual = document.getElementsByClassName("accountSetting")
-var Setbutton = document.getElementById("80")
 var form = document.getElementById("form-container")
-function OpenWindow() {
-
-  for (var i = 0; i < SettingsVisual.length; i++) {
-      if (SettingsVisual[i].style.display === 'block') {
-          SettingsVisual[i].style.display = 'none';
-      } else {
-          SettingsVisual[i].style.display = 'block';
-      }
-  }
-
-  for (var i = 0; i < form.length; i++) {
-      if (form[i].style.display === 'block') {
-          form[i].style.display = 'none';
-      } else {
-          form[i].style.display = 'block';
-      }
-  }
-  if (form) {
-      if (form.style.display === 'block') {
-          form.style.display = 'none';
-      } else {
-          form.style.display = 'block';
-      }
-  } 
-}
-
-if (form) {
-  Setbutton.addEventListener("click", OpenWindow);
-}
 
 const observer = new MutationObserver(function(mutationsList) {
   for (const mutation of mutationsList) {
       if (mutation.type === 'childList') {
           form = document.getElementById("95");
           if (form) {
-              Setbutton.addEventListener("click", OpenWindow);
               observer.disconnect();
           }
       }
@@ -75,7 +44,6 @@ const observer = new MutationObserver(function(mutationsList) {
 
 // Start observing the document body for child elements being added
 observer.observe(document.body, { childList: true, subtree: true });
-Setbutton.addEventListener("click", OpenWindow);
 //handle form susbmit and view
 function showForm(formUrl) {
   fetch(formUrl)
