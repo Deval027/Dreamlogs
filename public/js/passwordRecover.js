@@ -10,9 +10,9 @@ document.getElementById('recoverPass').addEventListener('submit', async function
       });
 
       const data = await res.json();
-      document.getElementById('status-message').textContent = data.message || 'Request sent.';
+      alertMessage(data.message)
     } catch (err) {
       console.error(err);
-      document.getElementById('status-message').textContent = 'Something went wrong. Try again.';
+      alertMessage('Something went wrong try again')
     }
   });

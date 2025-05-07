@@ -1,20 +1,47 @@
+:root {
+    --boxes: #7734e7;
+    --background: #fffeff;
+    --Text: #010101;
+    --gray: #7f7f7f;
+    --pinkish: #cd79f5;
+    --arrow-bg: rgba(0, 0, 0, 0);
+    --arrow-icon: url('https://upload.wikimedia.org/wikipedia/commons/9/9a/Caret_down_font_awesome.svg');
+    --option-bg: rgb(0, 0, 0);
+    --select-bg: rgba(255, 255, 255, 0);
+  }
+  
+@font-face {
+    font-family: 'Azaret';
+    src: url('../fonts/AzeretMono-VariableFont_wght.ttf') format('truetype');
+  }
+
 #recoverPass {
+    color: var(--background);
     top: 44400px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding: 20px;
-    background: white;
+    background: var(--boxes);
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transform: translateY(-130px); /* moves form up */
+    transform: translateY(-150px); /* moves form up */
   }
 
   input, button {
+    color: var(--gray);
     padding: 10px;
     font-size: 1rem;
   }
-
+button{
+    color: var(--background);
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    background: #573b8a;
+    border-color: #573b8a;
+}
   label {
     font-size: 1rem;
   }
@@ -22,7 +49,7 @@
 
   body {
     margin: 0;
-    
+    font-family: 'Azaret';
     display: flex;
     justify-content: center; /* center horizontally */
     align-items: center;     /* center vertically */

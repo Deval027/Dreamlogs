@@ -16,10 +16,10 @@ router.post('/querymail', (req, res) => {
   db.query(query, [email], (err, results) => {
     if (err) {
       console.error('DB error:', err);
-      return res.status(500).json({ message: 'Database error' });
+      return res.status(500).json({ message: 'Internal error' });
     }
     if (results.length === 0) {
-      return res.status(404).json({ message: 'No user with that email' });
+      return res.status(404).json({ message: 'Sorry, we were unable to find an email address that matched your search.' });
     }
 
     const user = results[0];
@@ -65,7 +65,7 @@ router.post('/querymail', (req, res) => {
           return res.status(500).json({ message: 'Email failed to send' });
         }
 
-        res.status(200).json({ message: 'Recovery email sent successfully' });
+        res.status(200).json({ message: 'A recover link has been send to your email' });
         console.log(recoveryLink)
       });
     });
