@@ -2,7 +2,7 @@
 
 **Dreamlogs** is a web application designed to help users record and reflect on their dreams. It features user login functionality and a system to write and save dream entries securely.
 
-> ⚠️ This project is currently under active development and is not ready for local deployment or production use.
+> ⚠️ Project is finished a web page will come soon
 
 ## 🛠 Tech Stack
 
@@ -15,6 +15,8 @@
 - Full user registration and session handling
 - Create and save dream journal entries
 - Simple, clean interface for writing dreams
+- Manage your profile (Change name, password, delete account)
+- Recover password
 
 ## 🚧 Development Status
 
@@ -23,3 +25,6 @@ Future updates will include:
 - Search/filter by date or tags
 - Desktop version
 - UI improvements
+- Improvements to the mail service
+- update to email 
+- email validation
