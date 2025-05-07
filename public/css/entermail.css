@@ -15,7 +15,7 @@
     src: url('../fonts/AzeretMono-VariableFont_wght.ttf') format('truetype');
   }
 
-#recoverPass {
+#recoverPass, #reset-password-form {
     color: var(--background);
     top: 44400px;
     display: flex;

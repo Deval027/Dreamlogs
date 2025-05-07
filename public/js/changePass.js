@@ -3,10 +3,32 @@ const token = urlParams.get('token');
 
 document.getElementById('reset-password-form').addEventListener('submit', function (e) {
   e.preventDefault();
-
+  let errorMessage = ''
   const newPassword = document.getElementById('new-password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
 
-  // Send request to backend to reset password
+  // Remove old error message
+  const oldErrorMessage = document.getElementById('errorMessage');
+  if (oldErrorMessage) {
+    oldErrorMessage.remove();
+  }
+
+  //Set error message in case of bad input
+  if (newPassword !== confirmPassword) {
+    errorMessage = 'Passwords do not match';
+    document.getElementById('new-password').value = '';
+    document.getElementById('confirmPassword').value = '';
+  } else if (password.length < 8) {
+    errorMessage = 'Password must be at least 8 characters long';
+  }else if (newPassword == '1234678') {
+    errorMessage = 'You can not use that password';
+  }
+  if (errorMessage !== '') {
+    alertMessage(errorMessage)
+    errorMessage = ''
+    return
+  }
+
   fetch('/api/resetpassword', {
     method: 'POST',
     headers: {
@@ -16,9 +38,11 @@ document.getElementById('reset-password-form').addEventListener('submit', functi
   })
   .then(response => response.json())
   .then(data => {
-    alert(data.message);
+    alertMessage(data.message);
     if (data.message === 'Password reset successfully') {
-      window.location.href = '/'; // Redirect to login page
+      setTimeout(() => {
+        window.location.href = '/'; // Redirect after 5 seconds
+      }, 5000); 
     }
   })
   .catch(err => {
