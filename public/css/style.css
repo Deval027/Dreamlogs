@@ -42,6 +42,21 @@
   width: 65%;
 }
 
+
+.TitleT{
+  color: var(--boxes);
+	font-size: 80px;
+	display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  width: 100%; 
+  z-index: 1; 
+}
+
 .Title{
   z-index: 1;
   padding-top: 25px;
@@ -452,7 +467,7 @@ option {
 }
 
 .reader {
-  border: solid 2px rgb(58, 38, 124);
+  border: solid 2px var(--pinkish);
   position: fixed;
   display: none;
   flex-direction: column;
@@ -465,7 +480,7 @@ option {
   max-width: 80%;
   min-width: 500px;
   z-index: 10;
-  background-color: #312450;
+  background-color: var(--boxes);
   color: rgb(151, 136, 200);
   text-align: center;
   padding: 20px;

@@ -393,5 +393,3 @@ app.get('/deleteAccount', (req, res) => {
       </div>
   `);
 });
-
-
